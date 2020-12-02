@@ -1,0 +1,21 @@
+Symlinking /home/vscode/fav/catkin_ws/devel/share/depth_controller/cmake/depth_controllerConfig.cmake
+Symlinking /home/vscode/fav/catkin_ws/devel/share/depth_controller/cmake/depth_controller-msg-paths.cmake
+Symlinking /home/vscode/fav/catkin_ws/devel/share/depth_controller/cmake/depth_controllerConfig-version.cmake
+Symlinking /home/vscode/fav/catkin_ws/devel/share/depth_controller/cmake/depth_controller-msg-extras.cmake
+Symlinking /home/vscode/fav/catkin_ws/devel/share/roseus/ros/depth_controller/manifest.l
+Symlinking /home/vscode/fav/catkin_ws/devel/share/roseus/ros/depth_controller/msg/ActuatorCommands.l
+Symlinking /home/vscode/fav/catkin_ws/devel/share/gennodejs/ros/depth_controller/_index.js
+Symlinking /home/vscode/fav/catkin_ws/devel/share/gennodejs/ros/depth_controller/msg/_index.js
+Symlinking /home/vscode/fav/catkin_ws/devel/share/gennodejs/ros/depth_controller/msg/ActuatorCommands.js
+Symlinking /home/vscode/fav/catkin_ws/devel/share/common-lisp/ros/depth_controller/msg/depth_controller-msg.asd
+Symlinking /home/vscode/fav/catkin_ws/devel/share/common-lisp/ros/depth_controller/msg/ActuatorCommands.lisp
+Symlinking /home/vscode/fav/catkin_ws/devel/share/common-lisp/ros/depth_controller/msg/_package.lisp
+Symlinking /home/vscode/fav/catkin_ws/devel/share/common-lisp/ros/depth_controller/msg/_package_ActuatorCommands.lisp
+Warning: Cannot symlink from /home/vscode/fav/catkin_ws/devel/.private/depth_controller/lib/libgazebo_pressure_plugin.so to existing file /home/vscode/fav/catkin_ws/devel/lib/libgazebo_pressure_plugin.so
+Warning: Source hash: ae666dae9202f85372d8bfb61314ad1b
+Warning: Dest hash: 3a213d2225358f4d593d9abab84f1e70
+Symlinking /home/vscode/fav/catkin_ws/devel/lib/python2.7/dist-packages/depth_controller/__init__.py
+Symlinking /home/vscode/fav/catkin_ws/devel/lib/python2.7/dist-packages/depth_controller/msg/_ActuatorCommands.py
+Symlinking /home/vscode/fav/catkin_ws/devel/lib/python2.7/dist-packages/depth_controller/msg/__init__.py
+Symlinking /home/vscode/fav/catkin_ws/devel/lib/pkgconfig/depth_controller.pc
+Symlinking /home/vscode/fav/catkin_ws/devel/include/depth_controller/ActuatorCommands.h

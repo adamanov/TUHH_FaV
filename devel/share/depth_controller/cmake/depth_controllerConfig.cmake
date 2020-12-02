@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/depth_controller/share/depth_controller/cmake/depth_controllerConfig.cmake

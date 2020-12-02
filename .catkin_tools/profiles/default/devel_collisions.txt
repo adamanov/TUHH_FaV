@@ -1,0 +1,3 @@
+/home/vscode/fav/catkin_ws/devel/lib/libgazebo_pressure_plugin.so 29
+/home/vscode/fav/catkin_ws/devel/./cmake.lock 274
+/home/adamanov/fav/catkin_ws/devel/./cmake.lock 97

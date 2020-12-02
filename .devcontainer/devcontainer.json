@@ -1,0 +1,43 @@
+{
+    "name": "fav_catkin",
+    "context": "..",
+    "dockerFile": "Dockerfile",
+    // Use 'settings' to set *default* container specific settings.json values on container create.
+    // You can edit these settings after create using File > Preferences > Settings > Remote.
+    "settings": {
+            "terminal.integrated.shell.linux": "/bin/bash",
+            "terminal.integrated.shellArgs.linux": [
+                    "-l",
+                    "-i"
+            ]
+    },
+    //"appPort": [
+    //        8999
+    //],
+    "postCreateCommand": "bash .devcontainer/entrypoint.sh",
+    "workspaceMount": "source=${localWorkspaceFolder}/..,target=/home/vscode/fav,type=bind",
+    "workspaceFolder": "/home/vscode/fav/catkin_ws",
+    "runArgs": [
+        "--network=host",
+            "-e",
+            "DISPLAY=${env:DISPLAY}",
+            "-e",
+            "QT_X11_NO_MITSHM=1",
+            "-v",
+            "/tmp/.X11-unix:/tmp/.X11-unix",
+            "--gpus",
+            "all",
+            "--privileged"
+    ],
+    // Comment out next line to run as root
+    "remoteUser": "vscode",
+    // Add the IDs of extensions you want installed when the container is created in the array below.
+    "extensions": [
+		"redhat.vscode-xml",
+		"ms-vscode.cpptools",
+		"ms-python.python",
+		"ms-iot.vscode-ros",
+		"redhat.vscode-yaml",
+		"ms-python.vscode-pylance"
+	]
+}
