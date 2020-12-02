@@ -3,4 +3,7 @@
 /src/bluerov_sim
 /src/mavlink
 /src/mavros
+.catkin_tools
+.devcontainer
+.vscode
 
