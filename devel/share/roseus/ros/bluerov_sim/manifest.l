@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/bluerov_sim/share/roseus/ros/bluerov_sim/manifest.l

@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/localization/share/roseus/ros/localization/msg/newMsg.l

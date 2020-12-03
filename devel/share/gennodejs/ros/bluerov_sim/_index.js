@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/bluerov_sim/share/gennodejs/ros/bluerov_sim/_index.js
