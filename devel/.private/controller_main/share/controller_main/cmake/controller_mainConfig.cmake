@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(controller_main_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/vscode/fav/catkin_ws/devel/.private/controller_main/include;/home/vscode/fav/catkin_ws/src/controller_main/include " STREQUAL " ")
+if(NOT "/home/vscode/fav/catkin_ws/devel/.private/controller_main/include " STREQUAL " ")
   set(controller_main_INCLUDE_DIRS "")
-  set(_include_dirs "/home/vscode/fav/catkin_ws/devel/.private/controller_main/include;/home/vscode/fav/catkin_ws/src/controller_main/include")
+  set(_include_dirs "/home/vscode/fav/catkin_ws/devel/.private/controller_main/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -185,7 +185,7 @@ foreach(t ${controller_main_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "message_runtime;roscpp;gazebo_ros")
+set(depends "message_runtime;roscpp;gazebo_ros;rospy")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

@@ -1,0 +1,5 @@
+The dependencies of the message/service 'controller_main/Num' have changed. Please rerun cmake.
+make[2]: *** [CMakeFiles/_controller_main_generate_messages_check_deps_Num] Error 1
+make[1]: *** [CMakeFiles/_controller_main_generate_messages_check_deps_Num.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

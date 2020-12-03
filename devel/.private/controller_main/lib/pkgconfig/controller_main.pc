@@ -3,6 +3,6 @@ prefix=/home/vscode/fav/catkin_ws/devel/.private/controller_main
 Name: controller_main
 Description: Description of controller_main
 Version: 0.0.0
-Cflags: -I/home/vscode/fav/catkin_ws/devel/.private/controller_main/include -I/home/vscode/fav/catkin_ws/src/controller_main/include
+Cflags: -I/home/vscode/fav/catkin_ws/devel/.private/controller_main/include
 Libs: -L${prefix}/lib 
-Requires: message_runtime roscpp gazebo_ros
+Requires: message_runtime roscpp gazebo_ros rospy

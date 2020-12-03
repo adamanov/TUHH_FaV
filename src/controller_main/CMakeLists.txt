@@ -4,8 +4,6 @@ add_compile_options(-std=c++14)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
-link_directories(${GAZEBO_LIBRARY_DIRS})
-
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -16,9 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
   gazebo_plugins
   roscpp
+  rospy
   std_msgs
   message_generation
-  rospy
 )
 find_package(gazebo REQUIRED)
 ## System dependencies are found with CMake's conventions
@@ -63,7 +61,7 @@ find_package(gazebo REQUIRED)
 
 add_message_files(
     FILES
-    currentPose.msg
+    Num.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -81,16 +79,12 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
-generate_messages(
-    DEPENDENCIES
-    std_msgs
-)
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+ )
 
-
+ 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -122,12 +116,15 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 
 catkin_package(
-  INCLUDE_DIRS include
-  
-  DEPENDS roscpp gazebo_ros
-      
-  CATKIN_DEPENDS  message_runtime
+#  INCLUDE_DIRS include
+  DEPENDS 
+      roscpp 
+      gazebo_ros
+      rospy
+  CATKIN_DEPENDS 
+      message_runtime
 )
+
 
 ###########
 ## Build ##
@@ -135,6 +132,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+link_directories(${GAZEBO_LIBRARY_DIRS})
 include_directories(include 
                             ${catkin_INCLUDE_DIRS}
                             ${GAZEBO_INCLUDE_DIRS}

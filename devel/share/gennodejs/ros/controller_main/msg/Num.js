@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/controller_main/share/gennodejs/ros/controller_main/msg/Num.js

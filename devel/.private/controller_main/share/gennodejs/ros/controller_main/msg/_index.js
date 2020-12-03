@@ -1,8 +1,8 @@
 
 "use strict";
 
-let newMsg = require('./newMsg.js');
+let Num = require('./Num.js');
 
 module.exports = {
-  newMsg: newMsg,
+  Num: Num,
 };
