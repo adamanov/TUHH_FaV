@@ -6,4 +6,5 @@
 .catkin_tools
 .devcontainer
 .vscode
-
+/logs
+/devel

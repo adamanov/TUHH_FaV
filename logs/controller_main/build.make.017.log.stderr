@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py", line 54, in <module>
-    spec = load_msg_from_file(msg_context, msg_file, full_type_name)
-  File "/opt/ros/melodic/lib/python2.7/dist-packages/genmsg/msg_loader.py", line 289, in load_msg_from_file
-    raise InvalidMsgSpec('%s: %s'%(file_path, e))
-genmsg.base.InvalidMsgSpec: /home/vscode/fav/catkin_ws/src/controller_main/msg/Num.msg: Invalid declaration: std_msgs/header 
-make[2]: *** [CMakeFiles/_controller_main_generate_messages_check_deps_Num] Error 1
-make[1]: *** [CMakeFiles/_controller_main_generate_messages_check_deps_Num.dir/all] Error 2
-make: *** [all] Error 2

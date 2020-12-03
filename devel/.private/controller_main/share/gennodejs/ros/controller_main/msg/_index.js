@@ -1,8 +1,8 @@
 
 "use strict";
 
-let Num = require('./Num.js');
+let currentPose = require('./currentPose.js');
 
 module.exports = {
-  Num: Num,
+  currentPose: currentPose,
 };

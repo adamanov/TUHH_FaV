@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/controller_main/share/common-lisp/ros/controller_main/msg/newMsg.lisp
