@@ -7,4 +7,6 @@
   :components ((:file "_package")
     (:file "ActuatorCommands" :depends-on ("_package_ActuatorCommands"))
     (:file "_package_ActuatorCommands" :depends-on ("_package"))
+    (:file "Orientation" :depends-on ("_package_Orientation"))
+    (:file "_package_Orientation" :depends-on ("_package"))
   ))

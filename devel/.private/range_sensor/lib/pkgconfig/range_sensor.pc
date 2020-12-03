@@ -1,0 +1,8 @@
+prefix=/home/vscode/fav/catkin_ws/devel/.private/range_sensor
+
+Name: range_sensor
+Description: Description of range_sensor
+Version: 0.0.0
+Cflags: -I/home/vscode/fav/catkin_ws/devel/.private/range_sensor/include
+Libs: -L${prefix}/lib 
+Requires: 

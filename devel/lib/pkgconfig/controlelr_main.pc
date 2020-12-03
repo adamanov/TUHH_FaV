@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/controlelr_main/lib/pkgconfig/controlelr_main.pc

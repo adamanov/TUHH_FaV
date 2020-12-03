@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/controller/share/gennodejs/ros/controller/_index.js

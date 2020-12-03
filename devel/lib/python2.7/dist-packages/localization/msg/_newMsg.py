@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/localization/lib/python2.7/dist-packages/localization/msg/_newMsg.py

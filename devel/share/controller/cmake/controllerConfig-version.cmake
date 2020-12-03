@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/controller/share/controller/cmake/controllerConfig-version.cmake

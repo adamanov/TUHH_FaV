@@ -3,5 +3,7 @@
   (:export
    "<ACTUATORCOMMANDS>"
    "ACTUATORCOMMANDS"
+   "<ORIENTATION>"
+   "ORIENTATION"
   ))
 

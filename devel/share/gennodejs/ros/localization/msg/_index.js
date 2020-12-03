@@ -1,0 +1,1 @@
+/home/vscode/fav/catkin_ws/devel/.private/localization/share/gennodejs/ros/localization/msg/_index.js

@@ -1,0 +1,6 @@
+[31m[1mCMake Error[0m at /home/vscode/fav/catkin_ws/src/controller/CMakeLists.txt:148:
+  Parse error.  Expected a command name, got unquoted argument with text
+  "${{CMAKE_CURRENT_SOURCE_DIR}}/node/".
+
+
+make: *** [cmake_check_build_system] Error 1
