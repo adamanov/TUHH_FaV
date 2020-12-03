@@ -61,7 +61,7 @@ find_package(gazebo REQUIRED)
 
 add_message_files(
     FILES
-    Num.msg
+    currentPose.msg
 )
 
 ## Generate services in the 'srv' folder
