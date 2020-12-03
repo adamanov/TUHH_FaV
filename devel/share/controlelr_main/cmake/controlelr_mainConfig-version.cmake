@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/controlelr_main/share/controlelr_main/cmake/controlelr_mainConfig-version.cmake

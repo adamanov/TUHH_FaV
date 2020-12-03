@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/vscode/fav/catkin_ws/devel/.private/controller_main/setup.sh

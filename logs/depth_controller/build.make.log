@@ -4,16 +4,16 @@
 [  0%] Built target bond_generate_messages_py
 [  0%] Built target bond_generate_messages_lisp
 [  0%] Built target bond_generate_messages_eus
-[  0%] Built target std_srvs_generate_messages_nodejs
 [  0%] Built target std_srvs_generate_messages_py
+[  0%] Built target std_srvs_generate_messages_nodejs
 [  0%] Built target nodelet_generate_messages_cpp
 [  0%] Built target geometry_msgs_generate_messages_py
 [  0%] Built target nav_msgs_generate_messages_cpp
+[  0%] Built target sensor_msgs_generate_messages_lisp
 [  0%] Built target geometry_msgs_generate_messages_lisp
 [  0%] Built target actionlib_generate_messages_lisp
-[  0%] Built target sensor_msgs_generate_messages_lisp
-[  0%] Built target std_msgs_generate_messages_nodejs
 [  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_nodejs
 [  0%] Built target tf_generate_messages_nodejs
 [  0%] Built target std_msgs_generate_messages_cpp
 [  0%] Built target actionlib_msgs_generate_messages_nodejs
@@ -29,72 +29,65 @@
 [  0%] Built target roscpp_generate_messages_lisp
 [  0%] Built target gazebo_msgs_generate_messages_lisp
 [  0%] Built target geometry_msgs_generate_messages_nodejs
-[  0%] Built target sensor_msgs_generate_messages_nodejs
 [  0%] Built target roscpp_generate_messages_cpp
+[  0%] Built target sensor_msgs_generate_messages_nodejs
 [  0%] Built target actionlib_generate_messages_cpp
-[  0%] Built target std_srvs_generate_messages_cpp
 [  0%] Built target rosgraph_msgs_generate_messages_cpp
 [  0%] Built target tf_generate_messages_eus
-[  0%] Built target actionlib_msgs_generate_messages_cpp
 [  0%] Built target gazebo_msgs_generate_messages_nodejs
-[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[  0%] Built target std_srvs_generate_messages_cpp
 [  0%] Built target rosgraph_msgs_generate_messages_eus
-[  0%] Built target dynamic_reconfigure_generate_messages_cpp
 [  0%] Built target tf_generate_messages_py
-[  0%] Built target nodelet_generate_messages_py
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target dynamic_reconfigure_generate_messages_cpp
 [  0%] Built target sensor_msgs_generate_messages_py
+[  0%] Built target nodelet_generate_messages_py
 [  0%] Built target std_msgs_generate_messages_eus
 [  0%] Built target gazebo_msgs_generate_messages_py
 [  0%] Built target trajectory_msgs_generate_messages_py
 [  0%] Built target gazebo_plugins_gencfg
-[  0%] Built target sensor_msgs_generate_messages_cpp
 [  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[  0%] Built target sensor_msgs_generate_messages_cpp
 [  0%] Built target sensor_msgs_generate_messages_eus
 [  0%] Built target std_srvs_generate_messages_lisp
 [  0%] Built target _catkin_empty_exported_target
-[  0%] Built target actionlib_generate_messages_eus
 [  0%] Built target tf_generate_messages_cpp
+[  0%] Built target actionlib_generate_messages_eus
 [  0%] Built target actionlib_generate_messages_nodejs
 [  0%] Built target roscpp_generate_messages_eus
 [  0%] Built target rosgraph_msgs_generate_messages_py
 [  0%] Built target actionlib_msgs_generate_messages_eus
-[  0%] Built target actionlib_msgs_generate_messages_py
 [  0%] Built target actionlib_msgs_generate_messages_lisp
 [  0%] Built target nodelet_generate_messages_lisp
-[  0%] Built target nav_msgs_generate_messages_eus
+[  0%] Built target actionlib_msgs_generate_messages_py
 [  0%] Built target tf2_msgs_generate_messages_cpp
+[  0%] Built target nav_msgs_generate_messages_eus
 [  0%] Built target tf2_msgs_generate_messages_eus
 [  0%] Built target actionlib_generate_messages_py
 [  0%] Built target tf2_msgs_generate_messages_py
-[  0%] Built target tf2_msgs_generate_messages_nodejs
 [  0%] Built target dynamic_reconfigure_generate_messages_eus
+[  0%] Built target tf2_msgs_generate_messages_nodejs
 [  0%] Built target gazebo_msgs_generate_messages_cpp
-[  0%] Built target dynamic_reconfigure_generate_messages_lisp
 [  0%] Built target dynamic_reconfigure_generate_messages_nodejs
+[  0%] Built target dynamic_reconfigure_generate_messages_lisp
 [  0%] Built target dynamic_reconfigure_generate_messages_py
 [  0%] Built target nav_msgs_generate_messages_py
 [  0%] Built target tf2_msgs_generate_messages_lisp
-[  0%] Built target trajectory_msgs_generate_messages_cpp
-[  0%] Built target gazebo_msgs_generate_messages_eus
 [  0%] Built target dynamic_reconfigure_gencfg
-[  0%] Built target bond_generate_messages_nodejs
+[  0%] Built target gazebo_msgs_generate_messages_eus
+[  0%] Built target trajectory_msgs_generate_messages_cpp
 [  0%] Built target bond_generate_messages_cpp
 [  0%] Built target trajectory_msgs_generate_messages_lisp
-[  0%] Built target nodelet_generate_messages_eus
+[  0%] Built target bond_generate_messages_nodejs
 [  0%] Built target trajectory_msgs_generate_messages_nodejs
-[35m[1mScanning dependencies of target gazebo_pressure_plugin[0m
+[  0%] Built target nodelet_generate_messages_eus
 [  0%] Built target _depth_controller_generate_messages_check_deps_Orientation
-[  7%] [32mBuilding CXX object CMakeFiles/gazebo_pressure_plugin.dir/plugins/gazebo_pressure_plugin.cpp.o[0m
-[  7%] Built target _depth_controller_generate_messages_check_deps_ActuatorCommands
-[01m[K/home/vscode/fav/catkin_ws/src/depth_controller/plugins/gazebo_pressure_plugin.cpp:1:10:[m[K [01;31m[Kfatal error: [m[Kgazebo_pressure_plugin.h: No such file or directory
- #include [01;31m[K<gazebo_pressure_plugin.h>[m[K
-          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-CMakeFiles/gazebo_pressure_plugin.dir/build.make:62: recipe for target 'CMakeFiles/gazebo_pressure_plugin.dir/plugins/gazebo_pressure_plugin.cpp.o' failed
-make[2]: *** [CMakeFiles/gazebo_pressure_plugin.dir/plugins/gazebo_pressure_plugin.cpp.o] Error 1
-CMakeFiles/Makefile2:150: recipe for target 'CMakeFiles/gazebo_pressure_plugin.dir/all' failed
-make[1]: *** [CMakeFiles/gazebo_pressure_plugin.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
-[ 28%] Built target depth_controller_generate_messages_py
-Makefile:140: recipe for target 'all' failed
-make: *** [all] Error 2
+[  0%] Built target _depth_controller_generate_messages_check_deps_ActuatorCommands
+[ 14%] Built target gazebo_pressure_plugin
+[ 35%] Built target depth_controller_generate_messages_py
+[ 50%] Built target depth_controller_generate_messages_nodejs
+[ 64%] Built target depth_controller_generate_messages_lisp
+[ 78%] Built target depth_controller_generate_messages_cpp
+[100%] Built target depth_controller_generate_messages_eus
+[100%] Built target depth_controller_generate_messages

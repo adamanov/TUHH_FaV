@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/controller/lib/python2.7/dist-packages/controller/__init__.py

@@ -125,7 +125,7 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 [36m--[0m Checking for module 'libzip'
 [36m--[0m   Found libzip, version 1.1.2
 [36m--[0m Found ZIP: TRUE
-[36m--[0m depth_controller: 1 messages, 0 services
+[36m--[0m depth_controller: 2 messages, 0 services
 [36m--[0m Configuring done
 [36m--[0m Generating done
 [36m--[0m Build files have been written to: /home/vscode/fav/catkin_ws/build/depth_controller

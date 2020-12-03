@@ -7,6 +7,7 @@
 ;;
 (ros::load-ros-package "actionlib")
 (ros::load-ros-package "actionlib_msgs")
+(ros::load-ros-package "apriltag_ros")
 (ros::load-ros-package "bond")
 (ros::load-ros-package "diagnostic_msgs")
 (ros::load-ros-package "dynamic_reconfigure")
@@ -15,6 +16,7 @@
 (ros::load-ros-package "nav_msgs")
 (ros::load-ros-package "nodelet")
 (ros::load-ros-package "polled_camera")
+(ros::load-ros-package "range_sensor")
 (ros::load-ros-package "roscpp")
 (ros::load-ros-package "rosgraph_msgs")
 (ros::load-ros-package "sensor_msgs")

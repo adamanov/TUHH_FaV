@@ -1,8 +1,0 @@
-prefix=/home/vscode/fav/catkin_ws/devel/.private/controlelr_main
-
-Name: controlelr_main
-Description: Description of controlelr_main
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

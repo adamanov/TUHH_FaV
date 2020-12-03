@@ -125,18 +125,7 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 [36m--[0m Checking for module 'libzip'
 [36m--[0m   Found libzip, version 1.1.2
 [36m--[0m Found ZIP: TRUE
-[31m[1mCMake Error[0m at /opt/ros/melodic/share/catkin/cmake/assert.cmake:20 (message):
-
-
-  Assertion failed: file
-  '/home/vscode/fav/catkin_ws/src/localization/msg/newMsg.msg' does not
-  exist.  Message: message file not found
-
-[36mCall Stack (most recent call first):[0m
-  /opt/ros/melodic/share/genmsg/cmake/genmsg-extras.cmake:113 (assert_file_exists)
-  CMakeLists.txt:21 (add_message_files)
-
-
-[36m--[0m Configuring incomplete, errors occurred!
-See also "/home/vscode/fav/catkin_ws/build/localization/CMakeFiles/CMakeOutput.log".
-See also "/home/vscode/fav/catkin_ws/build/localization/CMakeFiles/CMakeError.log".
+[36m--[0m localization: 1 messages, 0 services
+[36m--[0m Configuring done
+[36m--[0m Generating done
+[36m--[0m Build files have been written to: /home/vscode/fav/catkin_ws/build/localization

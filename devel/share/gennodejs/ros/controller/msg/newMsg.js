@@ -1,1 +1,0 @@
-/home/vscode/fav/catkin_ws/devel/.private/controller/share/gennodejs/ros/controller/msg/newMsg.js

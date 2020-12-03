@@ -1,1 +1,1 @@
-/home/vscode/fav/catkin_ws/devel/.private/controller/share/localization/cmake/localization-msg-paths.cmake
+/home/vscode/fav/catkin_ws/devel/.private/localization/share/localization/cmake/localization-msg-paths.cmake
