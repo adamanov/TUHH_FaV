@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/awesome_package/lib/pkgconfig/awesome_package.pc

@@ -1,8 +1,0 @@
-prefix=/home/epa/fav/catkin_ws/devel/.private/awesome_package
-
-Name: awesome_package
-Description: Description of awesome_package
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

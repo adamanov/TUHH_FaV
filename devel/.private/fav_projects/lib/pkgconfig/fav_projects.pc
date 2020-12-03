@@ -1,8 +1,0 @@
-prefix=/home/epa/fav/catkin_ws/devel/.private/fav_projects
-
-Name: fav_projects
-Description: Description of fav_projects
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

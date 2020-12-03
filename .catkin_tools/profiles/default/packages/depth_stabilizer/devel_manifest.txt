@@ -1,5 +1,0 @@
-depth_stabilizer
-/home/epa/fav/catkin_ws/devel/.private/depth_stabilizer/cmake.lock /home/epa/fav/catkin_ws/devel/./cmake.lock
-/home/epa/fav/catkin_ws/devel/.private/depth_stabilizer/share/depth_stabilizer/cmake/depth_stabilizerConfig-version.cmake /home/epa/fav/catkin_ws/devel/share/depth_stabilizer/cmake/depth_stabilizerConfig-version.cmake
-/home/epa/fav/catkin_ws/devel/.private/depth_stabilizer/share/depth_stabilizer/cmake/depth_stabilizerConfig.cmake /home/epa/fav/catkin_ws/devel/share/depth_stabilizer/cmake/depth_stabilizerConfig.cmake
-/home/epa/fav/catkin_ws/devel/.private/depth_stabilizer/lib/pkgconfig/depth_stabilizer.pc /home/epa/fav/catkin_ws/devel/lib/pkgconfig/depth_stabilizer.pc

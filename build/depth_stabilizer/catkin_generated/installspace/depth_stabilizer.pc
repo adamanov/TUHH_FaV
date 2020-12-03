@@ -1,8 +1,0 @@
-prefix=/home/epa/fav/catkin_ws/install
-
-Name: depth_stabilizer
-Description: Description of depth_stabilizer
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

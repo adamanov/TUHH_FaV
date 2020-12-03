@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/depth_controller/share/gennodejs/ros/depth_controller/_index.js

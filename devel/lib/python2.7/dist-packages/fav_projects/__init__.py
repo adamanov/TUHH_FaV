@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/fav_projects/lib/python2.7/dist-packages/fav_projects/__init__.py

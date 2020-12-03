@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/bluerov_sim/share/gennodejs/ros/bluerov_sim/msg/_index.js

@@ -1,8 +1,0 @@
-prefix=/home/epa/fav/catkin_ws/devel/.private/bluerov_sim
-
-Name: bluerov_sim
-Description: Description of bluerov_sim
-Version: 0.0.0
-Cflags: -I/home/epa/fav/catkin_ws/devel/.private/bluerov_sim/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime roscpp gazebo_ros

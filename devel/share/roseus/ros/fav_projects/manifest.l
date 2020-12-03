@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/fav_projects/share/roseus/ros/fav_projects/manifest.l

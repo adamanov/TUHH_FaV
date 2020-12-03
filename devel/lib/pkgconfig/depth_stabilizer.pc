@@ -1,1 +1,0 @@
-/home/epa/fav/catkin_ws/devel/.private/depth_stabilizer/lib/pkgconfig/depth_stabilizer.pc
