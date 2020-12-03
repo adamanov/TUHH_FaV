@@ -1,0 +1,8 @@
+prefix=/home/epa/fav/catkin_ws/install
+
+Name: depth_controller
+Description: Description of depth_controller
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime roscpp gazebo_ros

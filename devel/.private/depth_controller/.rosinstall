@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/epa/fav/catkin_ws/devel/.private/depth_controller/setup.sh

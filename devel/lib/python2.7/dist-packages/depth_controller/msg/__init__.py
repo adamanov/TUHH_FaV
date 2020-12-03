@@ -1,0 +1,1 @@
+/home/epa/fav/catkin_ws/devel/.private/depth_controller/lib/python2.7/dist-packages/depth_controller/msg/__init__.py

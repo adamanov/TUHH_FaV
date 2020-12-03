@@ -1,0 +1,1 @@
+/home/epa/fav/catkin_ws/devel/.private/dynamic_tutorials/lib/pkgconfig/dynamic_tutorials.pc
