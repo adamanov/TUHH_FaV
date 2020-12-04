@@ -22,112 +22,118 @@
     </include>
 
 
-    <!-- Launch the Nodes -->
+
+    
+
+    <!-- Launch the Nodes of Controller Main Pkg -->
+    <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" />
+
+    <node name="multiSetpointGenerator" pkg="controller_main" type="multiSetpoint_generator.py" output="screen" />
+
+    <param name="setpointPoseX" value="1" />
+    <param name="setpointPoseY" value="1" />
+    <param name="setpointPoseZ" value="-0.5" />
+
+
+    <!-- Launch the Nodes of the Depth Controller? Do we need to launch them? -->
+
     <node name="mixer" pkg="depth_controller" type="mixer.py" output="screen" />
 
     <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" />
 
     <node name="controller" pkg="depth_controller" type="controller.py" output="screen" />
 
-    <node name="controller_x" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-
-    <node name="controller_y" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-    <node name="controller_z" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-    <node name="controller_yaw" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-    <node name="controller_roll" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-    <node name="controller_pitch" pkg="pid" type="controller" ns="depth" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
-    </node>
-
-
     <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
+
+    <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
 
     <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" />
 
-    <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
+   
+    <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
+                                                                        thrust/state-->
+    <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen" >
+        <param name="Kp_t" value="7.5" />
+        <param name="Ki_t" value="0.0012" />
+        <param name="Kd_t" value="0.013" />
+        <param name="upper_limit_t" value="10" />
+        <param name="lower_limit_t" value="-10" />
+        <param name="windup_limit_t" value="10" />
+        <param name="max_loop_frequency_t" value="100.0" />
+        <param name="min_loop_frequency_t" value="100.0" />
+    </node>
+
+    <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
+                                                                                 vertical_thrust/state-->
+    <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen" >
+        <param name="Kp_vt" value="7.5" />
+        <param name="Ki_vt" value="0.0012" />
+        <param name="Kd_vt" value="0.013" />
+        <param name="upper_limit_vt" value="10" />
+        <param name="lower_limit_vt" value="-10" />
+        <param name="windup_limit_vt" value="10" />
+        <param name="max_loop_frequency_vt" value="100.0" />
+        <param name="min_loop_frequency_vt" value="100.0" />
+    </node>
+    <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
+                                                                                lateral_thrust/state-->
+    <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen" >
+        <param name="Kp_lt" value="7.5" />
+        <param name="Ki_lt" value="0.0012" />
+        <param name="Kd_lt" value="0.013" />
+        <param name="upper_limit_lt" value="10" />
+        <param name="lower_limit_lt" value="-10" />
+        <param name="windup_limit_lt" value="10" />
+        <param name="max_loop_frequency_lt" value="100.0" />
+        <param name="min_loop_frequency_lt" value="100.0" />
+    </node>
+
+   <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
+                                                                                yaw/state-->
+    <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen" >
+        <param name="Kp_y" value="7.5" />
+        <param name="Ki_y" value="0.0012" />
+        <param name="Kd_y" value="0.013" />
+        <param name="upper_limit_y" value="10" />
+        <param name="lower_limit_y" value="-10" />
+        <param name="windup_limit_y" value="10" />
+        <param name="max_loop_frequency_y" value="100.0" />
+        <param name="min_loop_frequency_y" value="100.0" />
+    </node>
+
+   <!-- PID Controller for pitch required to define a input topic as  pitch/setpoint
+                                                                      pitch/state-->
+        <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen" >
+        <param name="Kp_p" value="7.5" />
+        <param name="Ki_p" value="0.0012" />
+        <param name="Kd_p" value="0.013" />
+        <param name="upper_limit_p" value="10" />
+        <param name="lower_limit_p" value="-10" />
+        <param name="windup_limit_p" value="10" />
+        <param name="max_loop_frequency_p" value="100.0" />
+        <param name="min_loop_frequency_p" value="100.0" />
+    </node>
+       <!-- PID Controller for roll required to define a input topic as  roll/setpoint
+                                                                      roll/state-->
+        <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen" >
+        <param name="Kp_r" value="7.5" />
+        <param name="Ki_r" value="0.0012" />
+        <param name="Kd_r" value="0.013" />
+        <param name="upper_limit_r" value="10" />
+        <param name="lower_limit_r" value="-10" />
+        <param name="windup_limit_r" value="10" />
+        <param name="max_loop_frequency_r" value="100.0" />
+        <param name="min_loop_frequency_r" value="100.0" />
+    </node>
+
+
 
     <!-- Launch the Plots here -->
     <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state" />
 
     <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
 
-    <!-- Uni task -->
 
-    <arg name="sinusoidal" default="False" />
-    <arg name="setpoint_1" default="-0.3" />
-    <arg name="setpoint_2" default="-0.6" />
-    <arg name="duration" default="30.0" />
-    <arg name="amplitude" default="0.2" />
-    <arg name="period" default="15.0" />
-    <arg name="offset" default="-0.45" />
-
-    <node name="depth_setpoints_task" pkg="depth_controller" type="depth_setpoint_task.py" output="screen">
-        <param name="sinusoidal" type="bool" value="$(arg sinusoidal)" />
-        <param name="setpoint_1" type="double" value="$(arg setpoint_1)" />
-        <param name="setpoint_2" type="double" value="$(arg setpoint_2)" />
-        <param name="duration" type="double" value="$(arg duration)" />
-        <param name="amplitude" type="double" value="$(arg amplitude)" />
-        <param name="period" type="double" value="$(arg period)" />
-        <param name="offset" type="double" value="$(arg offset)" />
-    </node>
     <!-- <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="depth/setpoint /depth/state"/> -->
 
     <!--  <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
