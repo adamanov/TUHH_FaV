@@ -96,7 +96,16 @@
         <param name="min_loop_frequency" value="100.0" />
         <!-- <remap from="setpoint" to="/depth/setpoint" /> -->
     </node>
-
+    
+        <!-- Setpoints in XYZ und Pose in yaw, roll, pitch /> -->
+    <node name="SetpointNode" pkg="main_controller" type="setpoint.py" output="screen" >
+        <param name="x" value="0.5" />
+        <param name="y" value="0.5" />
+        <param name="z" value="0.5" />
+        <param name="yaw" value="0" />
+        <param name="roll" value="0" />
+        <param name="pitch" value="0" />
+    </node>
 
     <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
 

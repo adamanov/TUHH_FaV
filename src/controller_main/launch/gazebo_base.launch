@@ -16,14 +16,14 @@
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="Kp_t" value="7.5" />
+        <param name="Ki_t" value="0.0012" />
+        <param name="Kd_t" value="0.013" />
+        <param name="upper_limit_t" value="10" />
+        <param name="lower_limit_t" value="-10" />
+        <param name="windup_limit_t" value="10" />
+        <param name="max_loop_frequency_t" value="100.0" />
+        <param name="min_loop_frequency_t" value="100.0" />
     </node>
 
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
@@ -32,66 +32,72 @@
         <param name="Kp_vt" value="7.5" />
         <param name="Ki_vt" value="0.0012" />
         <param name="Kd_vt" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="upper_limit_vt" value="10" />
+        <param name="lower_limit_vt" value="-10" />
+        <param name="windup_limit_vt" value="10" />
+        <param name="max_loop_frequency_vt" value="100.0" />
+        <param name="min_loop_frequency_vt" value="100.0" />
     </node>
     <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
                                                                                 lateral_thrust/state-->
     <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="Kp_lt" value="7.5" />
+        <param name="Ki_lt" value="0.0012" />
+        <param name="Kd_lt" value="0.013" />
+        <param name="upper_limit_lt" value="10" />
+        <param name="lower_limit_lt" value="-10" />
+        <param name="windup_limit_lt" value="10" />
+        <param name="max_loop_frequency_lt" value="100.0" />
+        <param name="min_loop_frequency_lt" value="100.0" />
     </node>
 
    <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                 yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="Kp_y" value="7.5" />
+        <param name="Ki_y" value="0.0012" />
+        <param name="Kd_y" value="0.013" />
+        <param name="upper_limit_y" value="10" />
+        <param name="lower_limit_y" value="-10" />
+        <param name="windup_limit_y" value="10" />
+        <param name="max_loop_frequency_y" value="100.0" />
+        <param name="min_loop_frequency_y" value="100.0" />
     </node>
 
    <!-- PID Controller for pitch required to define a input topic as  pitch/setpoint
                                                                       pitch/state-->
         <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="Kp_p" value="7.5" />
+        <param name="Ki_p" value="0.0012" />
+        <param name="Kd_p" value="0.013" />
+        <param name="upper_limit_p" value="10" />
+        <param name="lower_limit_p" value="-10" />
+        <param name="windup_limit_p" value="10" />
+        <param name="max_loop_frequency_p" value="100.0" />
+        <param name="min_loop_frequency_p" value="100.0" />
     </node>
        <!-- PID Controller for roll required to define a input topic as  roll/setpoint
                                                                       roll/state-->
         <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
+        <param name="Kp_r" value="7.5" />
+        <param name="Ki_r" value="0.0012" />
+        <param name="Kd_r" value="0.013" />
+        <param name="upper_limit_r" value="10" />
+        <param name="lower_limit_r" value="-10" />
+        <param name="windup_limit_r" value="10" />
+        <param name="max_loop_frequency_r" value="100.0" />
+        <param name="min_loop_frequency_r" value="100.0" />
+    </node>
+        <!-- Setpoints in XYZ und Pose in yaw, roll, pitch /> -->
+        <node name="SetpointNode" pkg="main_controller" type="setpoint.py" output="screen" >
+        <param name="x" value="0.5" />
+        <param name="y" value="0.5" />
+        <param name="z" value="0.5" />
+        <param name="yaw" value="0" />
+        <param name="roll" value="0" />
+        <param name="pitch" value="0" />
     </node>
 
 
 
-
 </launch>
-
-
