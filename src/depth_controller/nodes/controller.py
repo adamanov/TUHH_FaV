@@ -63,7 +63,7 @@ class Controller():
         safezone_upper = rospy.get_param('safezone_upper')
         safezone_lower = rospy.get_param('safezone_lower')
         #print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort))
-        isNotTimedout = rospy.get_param('depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
+        isNotTimedout = rospy.get_param('depth_timeout') > rospy.Time.now().nsecs - self.last_depth
         if (isNotTimedout and self.isStable()):
             if (self.depth < safezone_upper and self.depth > safezone_lower):
                 self.set_vertical_thrust(self.control_effort)
@@ -123,7 +123,7 @@ class Controller():
     #     self.thrust = max(-1, min(1, value))
 
     # def set_yaw_rate(self, value):
-    #     self.yaw_rate = max(-1, min(1, value))
+    self.yaw_rate = max(-1, min(1, value))
 
     def set_vertical_thrust(self, value):
         self.vertical_thrust = max(-1, min(1, value))
