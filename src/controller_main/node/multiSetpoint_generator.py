@@ -4,7 +4,7 @@ import numpy as np
 import time
 import math as m
 from nav_msgs.msg import Odometry
-from geometry_msgs import Point
+from geometry_msgs.msg import Point
 
 
 class setpointsGenerator:
@@ -58,19 +58,21 @@ class setpointsGenerator:
         while not rospy.is_shutdown():
 
             # Publish a desired position of robot
-            pose = Point()
+            self.pose = Point()
             self.calculate_setpoint()   # check if the depth setpoint is valid
-            pose.x = self.setpointPoseX
-            pose.y = self.setpointPoseY
-            pose.z = self.setpointPoseZ
-            self.setpointsPose_pub.publish(pose)
+            self.pose.x = self.setpointPoseX
+            self.pose.y = self.setpointPoseY
+            self.pose.z = self.setpointPoseZ
+            print("Setpoint Pose", "\n", self.pose)
+            self.setpointsPose_pub.publish(self.pose)
 
             # Publish a desired orientation of robot
-            angels = Point()
-            angles.x = self.setpointRoll
-            angles.y = self.setpointPitch
-            angels.z = self.setpointYaw
-            self.setpointOrientation_pub.publish(angels)
+            self.angels = Point()
+            self.angels.x = self.setpointRoll
+            self.angels.y = self.setpointPitch
+            self.angels.z = self.setpointYaw
+            print("Setpoint Angeles", "\n", self.angels)
+            self.setpointOrientation_pub.publish(self.angels)
 
             rate.sleep()
 

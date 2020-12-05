@@ -17,8 +17,6 @@ from tf.transformations import euler_from_quaternion, quaternion_from_euler
 class Controller():
     def __init__(self, name):
         rospy.init_node(name)
-
-    
         self.last_depth_time = 0
 
         rospy.set_param('depth_timeout', 1 * 10**9)
@@ -45,12 +43,20 @@ class Controller():
         self.pitch_setpoint = 0.0     # Desired is 0
         self.roll_setpoint = 0.0      # Desired is 0
 
+        self.thrust = 0.0
+        self.lateral_thrust = 0.0
+        self.vertical_thrust = 0.0
+        self.yaw_rate = 0.0
+        self.pitch_rate = 0.0
+        self.roll_rate = 0.0
+
         self.actuator_pub = rospy.Publisher("mixer/actuator_commands",
                                             ActuatorCommands,
                                             queue_size=1)
 
         # Need create a desired setpoints Publisher (like depth_setpoint.py for all poses
         #  desired orientation can be also Published)
+        print("before Subscriber")
         rospy.Subscriber("desired_pose/setpoint",
                          Point,
                          self.desired_Pose_setpoint_callback,
@@ -66,237 +72,41 @@ class Controller():
                          self.locationOrientation_callback, queue_size=1)
         rospy.Subscriber("localization/position_estimate",
                          Point, self.locationPose_callback, queue_size=1)
+        print("after Subscriber")
 
-        # Subscribe to topics of the controller output
-        rospy.Subscriber("thrust/control_effort",
-                         Float64,
-                         self.control_callback_thrust,
-                         queue_size=1)
-        rospy.Subscriber("vertical_thrust/control_effort",
-                         Float64,
-                         self.control_callback_vertical_thrust,
-                         queue_size=1)
-        rospy.Subscriber("lateral_thrust/control_effort",
-                         Float64,
-                         self.control_callback_lateral_thrust,
-                         queue_size=1)
-        rospy.Subscriber("yaw/control_effort",
-                         Float64,
-                         self.control_callback_yaw,
-                         queue_size=1)
-        rospy.Subscriber("pitch/control_effort",
-                         Float64,
-                         self.control_callback_pitch,
-                         queue_size=1)
-        rospy.Subscriber("roll/control_effort",
-                         Float64,
-                         self.control_callback_roll,
-                         queue_size=1)
-
-        rospy.Subscriber("orientation/euler", Orientation,
-                         self.orient_callback,
-                         queue_size=1)
-        
         # Publish current Pose to PID Controller
         self.thrust_pub = rospy.Publisher("thrust/state", Float64, queue_size=1)
-        self.vt_pub = rospy.Publisher("vertical_thrust/state", Float64, queue_size=1)
-        self.lt_pub = rospy.Publisher("lateral_thrust/state", Float64, queue_size=1)
+        self.vt_pub =     rospy.Publisher("vertical_thrust/state", Float64, queue_size=1)
+        self.lt_pub =     rospy.Publisher("lateral_thrust/state", Float64, queue_size=1)
 
-        self.roll_pub = rospy.Publisher("roll/state", Float64, queue_size=1)
+        self.roll_pub =  rospy.Publisher("roll/state", Float64, queue_size=1)
         self.pitch_pub = rospy.Publisher("pitch/state", Float64, queue_size=1)
-        self.yaw_pub = rospy.Publisher("yaw/state", Float64, queue_size=1)
+        self.yaw_pub =   rospy.Publisher("yaw/state", Float64, queue_size=1)
 
         ## Publish Desired  setpoints
         self.thrust_setpoint_pub = rospy.Publisher("thrust/setpoint", Float64, queue_size=1)
         self.vt_setpoint_pub = rospy.Publisher("vertical_thrust/setpoint", Float64, queue_size=1)
         self.lt_setpoint_pub = rospy.Publisher("lateral_thrust/setpoint", Float64, queue_size=1)
         
-        self.yaw_setpoint_pub = rospy.Publisher("yaw/setpoint", Float64, queue_size=1)
+        self.yaw_setpoint_pub =   rospy.Publisher("yaw/setpoint", Float64, queue_size=1)
         self.pitch_setpoint_pub = rospy.Publisher("pitch/setpoint", Float64, queue_size=1)
-        self.roll_setpoint_pub = rospy.Publisher("roll/setpoint", Float64, queue_size=1)
+        self.roll_setpoint_pub =  rospy.Publisher("roll/setpoint", Float64, queue_size=1)
 
 
-# ------------------------control_callback_vertical_thrust-------------------------------------------------------
-    def control_callback_vertical_thrust(self, msg):
-        self.control_effort_vertical_thrust = msg.data
-        safezone_upper = rospy.get_param('safezone_upper')
-        safezone_lower = rospy.get_param('safezone_lower')
-        # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort))
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            if (self.depth < safezone_upper and self.depth > safezone_lower):
-                # Congratulations You passed ALL CHECKS !!!
-                self.set_vertical_thrust(self.control_effort_vertical_thrust)
-            elif self.depth > safezone_upper:
-                self.set_vertical_thrust(
-                    min(self.control_effort_vertical_thrust, 0))
-                rospy.loginfo(
-                    "over safezone_upper!!   (No positive control_effort allowed)")
-            elif self.depth < safezone_lower:
-                self.set_vertical_thrust(max(self.control_effort, 0))
-                rospy.loginfo(
-                    "under safezone_lower!!   (No negative control_effort allowed)")
-            else:
-                self.set_vertical_thrust(0.0)
-                rospy.loginfo(
-                    "WARNING: Numerical Problems??? control_effort is 0!")
-        elif isNotTimedout:
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didn't recieved any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
+        # ----- Reading and storing the comming msg. e.g ground_truth (yaw,roll,pitch) , localization (x,y,z)
+        # ----- and desired setpoint positions of robot, and after that separate each state and send set into PID
+        # ----- controller as a state and setpoint
 
 
-# ------------------------control_callback_thrust-------------------------------------------------------
-
-    def control_callback_thrust(self, msg):
-        self.control_effort_thrust = msg.data
-        # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort_thrust))
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_thrust(self.control_effort_thrust)
-        elif isNotTimedout:
-            self.set_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-
-
-# --------------------control_callback_lateral_thrust--------------------------------------------------------------------
-
-    def control_callback_lateral_thrust(self, msg):
-        self.control_effort_lateral_thrust = msg.data
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_lateral_thrust(self.control_effort_lateral_thrust)
-        elif isNotTimedout:
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-
-
-# -------------------------control_callback_yaw--------------------------------------------------------
-
-    def control_callback_yaw(self, msg):
-        self.control_effort_yaw = msg.data
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_yaw_rate(self.control_effort_yaw)
-        elif isNotTimedout:
-            self.set_yaw_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_yaw_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_yaw_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-
-
-# ---------------------control_callback_pitch--------------------------------------------------------------
-
-    def control_callback_pitch(self, msg):
-        self.control_effort_pitch = msg.data
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_pitch_rate(self.control_effort_pitch)
-        elif isNotTimedout:
-            self.set_pitch_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_pitch_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_pitch_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-
-
-# -----------------------control_callback_rol---------------------------------------------------------------
-
-
-    def control_callback_roll(self, msg):
-        self.control_effort_roll = msg.data
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            self.set_roll_rate(self.control_effort_roll)
-            # rospy.loginfo("No limitations to control_effort_roll")
-        elif isNotTimedout:
-            self.set_roll_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_roll_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_roll_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-
-
-# ----- Reading and storing the comming msg. e.g ground_truth (yaw,roll,pitch) , localization (x,y,z)
-# ----- and desired setpoint positions of robot, and after that separate each state and send set into PID
-# ----- controller as a state and setpoint
-
-
-    def locationPose_callback(self, CurrentPose):
-        print(CurrentPose)
+    def locationPose_callback(self, msg):
+        print("In location Pose callback, current Pose: ")
+        print(msg)
         self.Pose = Point()
         self.Pose.header.stamp = rospy.Time.now()
         # I am not sure about order x y z to thrust / vertical thrust / later thrust
-        self.Pose.x = CurrentPose.x
-        self.Pose.y = CurrentPose.y
-        self.Pose.z = CurrentPose.z
+        self.Pose.x = msg.x
+        self.Pose.y = msg.y
+        self.Pose.z = msg.z
 
         # Each Pose has to be published individually in order to PID Controller could subscribe
 
@@ -316,18 +126,19 @@ class Controller():
         vt_msg.data = self.Pose.y
         self.lt_pub.publish(lt_msg)
 
-    def locationOrientation_callback(self, CurrentOrienttion):
-        print(CurrentOrienttion.pose.pose)
-        print(CurrentOrienttion.pose.pose.Orientation)
-        print(CurrentOrienttion.twist.twist.angular)
-        
+    def locationOrientation_callback(self, msg):
+        print("In location Orientation callback, current Pose: ")
+
+        print(msg.pose.pose)
+        print(msg.pose.pose.Quaternion)
+       
         # I am not sure about order angels
 
         # Quaternion 
-        x = CurrentOrienttion.pose.pose.orientation.x
-        y = CurrentOrienttion.pose.pose.orientation.y
-        z = CurrentOrienttion.pose.pose.orientation.z
-        w = CurrentOrienttion.pose.pose.orientation.w
+        x = msg.pose.pose.Quaternion.x
+        y = msg.pose.pose.Quaternion.y
+        z = msg.pose.pose.Quaternion.z
+        w = msg.pose.pose.Quaternion.w
         orientation_list = [x, y, z,w]
 
         # Convert Quaternion to Euler angels
@@ -351,11 +162,12 @@ class Controller():
 
        # Each Angle has to be published individually in order to PID Controller could subscribe
 
-    def desired_Pose_setpoint_callback(self, desiredPose):
-        print(desiredPose)
-        self.thrust_setpoint = desiredPose.x
-        self.lateral_thrust_setpoint = desiredPose.y
-        self.vertical_thrust_setpoint = desiredPose.z
+    def desired_Pose_setpoint_callback(self, msg):
+        print(" I am int the desired Pose Setpoint Callback")
+        print(msg)
+        self.thrust_setpoint = msg.x
+        self.lateral_thrust_setpoint = msg.y
+        self.vertical_thrust_setpoint = msg.z
 
         # Each Pose Setpoint has to be published individually in order to PID Controller could subscribe
 
@@ -373,29 +185,29 @@ class Controller():
         lt_msg = self.lateral_thrust_setpoint
         self.lt_setpoint_pub.publish(lt_msg)
 
-    def desired_Angle_setpoint_callback(self, desiredOrientation):
-        print(desiredOrientation)
-        self.yaw_setpoint= desiredOrientation.x
-        self.pitch_setpoint = desiredOrientation.y
-        self.roll_setpoint= desiredOrientation.z
+    def desired_Angle_setpoint_callback(self, msg):
+        print(msg)
+        self.yaw_setpoint= msg.x
+        self.pitch_setpoint = msg.y
+        self.roll_setpoint= msg.z
 
         # Publish setpoints Yaw Angle for a controller
         yaw_msg = Float64()
-        yaw_msg = self.yaw_rate
+        yaw_msg = self.yaw_setpoint
         self.yaw_setpoint_pub.publish(yaw_msg)
         # Publish setpoints Pitch Angle for a controller
 
         pitch_msg = Float64()
-        pitch_msg = self.pitch_rate
+        pitch_msg = self.pitch_setpoint
         self.pitch_setpoint_pub.publish(pitch_msg)
 
         # Publish setpoints Roll Angle for a controller
         roll_msg = Float64()
-        roll_msg = self.roll_rate
+        roll_msg = self.roll_setpoint
         self.roll_setpoint_pub.publish(roll_msg)
 
 
-# --- PID Controller required things are done
+        # --- PID Controller required things are done
 
 
     def orient_callback(self, msg):
@@ -416,6 +228,8 @@ class Controller():
         arm = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)
         arm(False)
 
+
+
     def set_thrust(self, value):
         self.thrust = max(-1, min(1, value))
 
@@ -435,6 +249,7 @@ class Controller():
         self.roll_rate = max(-1, min(1, value))
 
     def publish_message(self):
+        print ("publishing mesage from main controller")
         msg = ActuatorCommands()
         msg.header.stamp = rospy.Time.now()
         msg.thrust = self.thrust
@@ -453,8 +268,8 @@ class Controller():
 
 
 def main():
-    print(" we could")
-    node = controllerClass("main_controller")
+    print("ENTER TO THE CONTROLLER CLASS")
+    node = Controller("main_controller")
     node.run()
 
 

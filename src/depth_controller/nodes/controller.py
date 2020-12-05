@@ -129,7 +129,7 @@ class Controller():
     #     self.thrust = max(-1, min(1, value))
 
     # def set_yaw_rate(self, value):
-    self.yaw_rate = max(-1, min(1, value))
+    #     self.yaw_rate = max(-1, min(1, value))
 
     def set_vertical_thrust(self, value):
         self.vertical_thrust = max(-1, min(1, value))
