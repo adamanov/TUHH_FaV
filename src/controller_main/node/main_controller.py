@@ -1,21 +1,24 @@
 #!/usr/bin/env python
 import rospy
+import numpy as np
+import time
+import math as m
+
 from bluerov_sim.msg import ActuatorCommands
 from mavros_msgs.srv import CommandBool
 from std_msgs.msg import Float64, Float32
 from depth_controller.msg import Orientation
-from controller_main import currentPose
-import numpy as np
-import time
-import math as m
-from nav_msgs.msg import Odometry
-from geometry_msgs import Point
 
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point
+
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 class Controller():
     def __init__(self, name):
         rospy.init_node(name)
 
+    
         self.last_depth_time = 0
 
         rospy.set_param('depth_timeout', 1 * 10**9)
@@ -38,9 +41,9 @@ class Controller():
         # comming from desired/setpoint topic
         self.vertical_thrust_setpoint = 0.0
 
-        self.yaw_rate = 0.0       # Desired is 0
-        self.pitch_rate = 0.0     # Desired is 0
-        self.roll_rate = 0.0      # Desired is 0
+        self.yaw_setpoint = 0.0       # Desired is 0
+        self.pitch_setpoint = 0.0     # Desired is 0
+        self.roll_setpoint = 0.0      # Desired is 0
 
         self.actuator_pub = rospy.Publisher("mixer/actuator_commands",
                                             ActuatorCommands,
@@ -93,6 +96,25 @@ class Controller():
         rospy.Subscriber("orientation/euler", Orientation,
                          self.orient_callback,
                          queue_size=1)
+        
+        # Publish current Pose to PID Controller
+        self.thrust_pub = rospy.Publisher("thrust/state", Float64, queue_size=1)
+        self.vt_pub = rospy.Publisher("vertical_thrust/state", Float64, queue_size=1)
+        self.lt_pub = rospy.Publisher("lateral_thrust/state", Float64, queue_size=1)
+
+        self.roll_pub = rospy.Publisher("roll/state", Float64, queue_size=1)
+        self.pitch_pub = rospy.Publisher("pitch/state", Float64, queue_size=1)
+        self.yaw_pub = rospy.Publisher("yaw/state", Float64, queue_size=1)
+
+        ## Publish Desired  setpoints
+        self.thrust_setpoint_pub = rospy.Publisher("thrust/setpoint", Float64, queue_size=1)
+        self.vt_setpoint_pub = rospy.Publisher("vertical_thrust/setpoint", Float64, queue_size=1)
+        self.lt_setpoint_pub = rospy.Publisher("lateral_thrust/setpoint", Float64, queue_size=1)
+        
+        self.yaw_setpoint_pub = rospy.Publisher("yaw/setpoint", Float64, queue_size=1)
+        self.pitch_setpoint_pub = rospy.Publisher("pitch/setpoint", Float64, queue_size=1)
+        self.roll_setpoint_pub = rospy.Publisher("roll/setpoint", Float64, queue_size=1)
+
 
 # ------------------------control_callback_vertical_thrust-------------------------------------------------------
     def control_callback_vertical_thrust(self, msg):
@@ -269,8 +291,8 @@ class Controller():
 
     def locationPose_callback(self, CurrentPose):
         print(CurrentPose)
-        Pose = Point()
-        Pose.header.stamp = rospy.Time.now()
+        self.Pose = Point()
+        self.Pose.header.stamp = rospy.Time.now()
         # I am not sure about order x y z to thrust / vertical thrust / later thrust
         self.Pose.x = CurrentPose.x
         self.Pose.y = CurrentPose.y
@@ -279,55 +301,53 @@ class Controller():
         # Each Pose has to be published individually in order to PID Controller could subscribe
 
         # Publish current Thrust Position
-        thrust_pub = rospy.Publisher(
-            "thrust/state", Float64, queue_size=1)
         thrust_msg = Float64()
         thrust_msg.data = self.Pose.x
-        thrust_pub.publish(thrust_msg)
+        self.thrust_pub.publish(thrust_msg)
 
         # Publish current Vertical Thrust Position
-        vt_pub = rospy.Publisher(
-            "vertical_thrust/state", Float64, queue_size=1)
+
         vt_msg = Float64()
         vt_msg.data = self.Pose.z
-        vt_pub.publish(vt_msg)
+        self.vt_pub.publish(vt_msg)
 
         # Publish current Laterial Thrust Position
-        lt_pub = rospy.Publisher(
-            "lateral_thrust/state", Float64, queue_size=1)
         lt_msg = Float64()
         vt_msg.data = self.Pose.y
-        lt_pub.publish(lt_msg)
+        self.lt_pub.publish(lt_msg)
 
     def locationOrientation_callback(self, CurrentOrienttion):
         print(CurrentOrienttion.pose.pose)
         print(CurrentOrienttion.pose.pose.Orientation)
         print(CurrentOrienttion.twist.twist.angular)
-
+        
         # I am not sure about order angels
-        self.roll = CurrentOrienttion.twist.twist.angular.x
-        self.pitch = CurrentOrienttion.twist.twist.angular.y
-        self.yaw = CurrentOrienttion.twist.twist.angular.z
+
+        # Quaternion 
+        x = CurrentOrienttion.pose.pose.orientation.x
+        y = CurrentOrienttion.pose.pose.orientation.y
+        z = CurrentOrienttion.pose.pose.orientation.z
+        w = CurrentOrienttion.pose.pose.orientation.w
+        orientation_list = [x, y, z,w]
+
+        # Convert Quaternion to Euler angels
+        (self.roll ,self.pitch , self.yaw) = euler_from_quaternion(orientation_list)
 
         # Publish current Thrust Angle
-        roll_pub = rospy.Publisher(
-            "roll/state", Float64, queue_size=1)
+
         roll_msg = Float64()
         roll_msg.data = self.roll
-        roll_pub.publish(roll_msg)
+        self.roll_pub.publish(roll_msg)
 
         # Publish current Pitch Angle
-        pitch_pub = rospy.Publisher(
-            "roll/state", Float64, queue_size=1)
         pitch_msg = Float64()
         pitch_msg.data = self.pitch
-        pitch_pub.publish(pitch_msg)
+        self.pitch_pub.publish(pitch_msg)
 
         # Publish current Yaw Angle
-        yaw_pub = rospy.Publisher("yaw/state", Float64, queue_size=1)
         yaw_msg = Float64()
         yaw_msg = self.yaw
-        yaw_pub.publish(yaw_msg)
+        self.yaw_pub.publish(yaw_msg)
 
        # Each Angle has to be published individually in order to PID Controller could subscribe
 
@@ -340,50 +360,39 @@ class Controller():
         # Each Pose Setpoint has to be published individually in order to PID Controller could subscribe
 
         # Publish setpoints Thrust Position for a controller
-        thrust_setpoint_pub = rospy.Publisher(
-            "thrust/setpoint", Float64, queue_size=1)
         thrust_msg = Float64()
         thrust_msg.data = self.thrust_setpoint
-        thrust_setpoint_pub.publish(thrust_msg)
+        self.thrust_setpoint_pub.publish(thrust_msg)
 
         # Publish setpoints Vertical Thrust Position for a controller
-        vt_setpoint_pub = rospy.Publisher(
-            "vertical_thrust/setpoint", Float64, queue_size=1)
         vt_msg = Float64()
         vt_msg = self.vertical_thrust_setpoint
-        vt_setpoint_pub.publish(vt_msg)
+        self.vt_setpoint_pub.publish(vt_msg)
         # Publish setpoints laterial Position for a controller
-        lt_setpoint_pub = rospy.Publisher(
-            "lateral_thrust/setpoint", Float64, queue_size=1)
         lt_msg = Float64()
         lt_msg = self.lateral_thrust_setpoint
-        lt_setpoint_pub.publish(lt_msg)
+        self.lt_setpoint_pub.publish(lt_msg)
 
     def desired_Angle_setpoint_callback(self, desiredOrientation):
         print(desiredOrientation)
-        self.yaw_rate = desiredOrientation.x
-        self.pitch_rate = desiredOrientation.y
-        self.roll_rate = desiredOrientation.z
+        self.yaw_setpoint= desiredOrientation.x
+        self.pitch_setpoint = desiredOrientation.y
+        self.roll_setpoint= desiredOrientation.z
 
         # Publish setpoints Yaw Angle for a controller
-        yaw_setpoint_pub = rospy.Publisher(
-            "yaw/setpoint", Float64, queue_size=1)
         yaw_msg = Float64()
         yaw_msg = self.yaw_rate
-        yaw_setpoint_pub.publish(yaw_msg)
+        self.yaw_setpoint_pub.publish(yaw_msg)
         # Publish setpoints Pitch Angle for a controller
-        pitch_setpoint_pub = rospy.Publisher(
-            "pitch/setpoint", Float64, queue_size=1)
+
         pitch_msg = Float64()
         pitch_msg = self.pitch_rate
-        pitch_setpoint_pub.publish(pitch_msg)
+        self.pitch_setpoint_pub.publish(pitch_msg)
 
         # Publish setpoints Roll Angle for a controller
-        roll_setpoint_pub = rospy.Publisher(
-            "roll/setpoint", Float64, queue_size=1)
         roll_msg = Float64()
         roll_msg = self.roll_rate
-        roll_setpoint_pub.publish(roll_msg)
+        self.roll_setpoint_pub.publish(roll_msg)
 
 
 # --- PID Controller required things are done
