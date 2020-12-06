@@ -30,12 +30,12 @@ class setpointsGenerator:
         rospy.set_param('setpointAngleYaw', 90)
 
         # Option to get manually parameters
-        rospy.get_param('setpointPoseX')
-        rospy.get_param('setpointPoseY')
+        # rospy.get_param('setpointPoseX')
+        # rospy.get_param('setpointPoseY')
         # Get Angles
-        rospy.get_param('setpointAngleRoll', 0)
-        rospy.get_param('setpointAnglePitch', 0)
-        rospy.get_param('setpointAngleYaw', 90)
+        # rospy.get_param('setpointAngleRoll')
+        # rospy.get_param('setpointAnglePitch')
+        # rospy.get_param('setpointAngleYaw')
 
         # Upper and lower bound of depth
         rospy.set_param('safezone_upper', -0.15)
@@ -65,21 +65,21 @@ class setpointsGenerator:
         while not rospy.is_shutdown():
 
             # Publish a desired position of robot
-            self.pose = Point()
+            pose = Point()
             self.calculate_setpoint()   # check if the depth setpoint is valid
-            self.pose.x = self.setpointPoseX
-            self.pose.y = self.setpointPoseY
-            self.pose.z = self.setpointPoseZ
+            pose.x = rospy.get_param('setpointPoseX')
+            pose.y = rospy.get_param('setpointPoseY')
+            pose.z = self.setpointPoseZ
             # print("Setpoint Pose", "\n", self.pose)   # worked
-            self.setpointsPose_pub.publish(self.pose)
+            self.setpointsPose_pub.publish(pose)
 
             # Publish a desired orientation of robot
-            self.angels = Point()
-            self.angels.x = self.setpointAngleRoll
-            self.angels.y = self.setpointAnglePitch
-            self.angels.z = self.setpointAngleYaw
+            angels = Point()
+            angels.x = rospy.get_param('setpointAngleRoll')
+            angels.y = rospy.get_param('setpointAnglePitch')
+            angels.z = rospy.get_param('setpointAngleYaw')
             # print("Setpoint Angeles", "\n", self.angels)  # worked
-            self.setpointOrientation_pub.publish(self.angels)
+            self.setpointOrientation_pub.publish(angels)
 
             rate.sleep()
 

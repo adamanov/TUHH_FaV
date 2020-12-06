@@ -33,6 +33,24 @@ class Controller():
         self.depth_setpoint = -0.5
         self.depth = 0.0
 
+        # ground truth
+        self.roll_gt = 0
+        self.pitch_gt = 0
+        self.yaw_gt = 0
+
+        self.gt_thrust = 0           # ground truth thrust
+        self.gt_laterial_thrust = 0  # ground thruth laterial thrust
+        self.gt_vertical_thrust = 0  # ground thruth vertical thrust
+
+        # Recived setpoints
+        self.thrust_setpoint = 0
+        self.lateral_thrust_setpoint = 0
+        self.vertical_thrust_setpoint = 0
+
+        self.roll_setpoint = 0
+        self.pitch_setpoint = 0
+        self.yaw_setpoint = 0
+
         # comming from desired/setpoint topic
         self.thrust_setpoint = 0.0
         # comming from desired/setpoint topic
@@ -181,9 +199,10 @@ class Controller():
 
         orientation_list = [qx, qy, qz, qw]
         # Convert Quaternion to Euler angels
-        (self.roll, self.pitch, self.yaw) = euler_from_quaternion(orientation_list)
+        (self.roll_gt, self.pitch_gt,
+         self.yaw_gt) = euler_from_quaternion(orientation_list)
         #print("GT Euler Angles, radian?")
-        #print(self.roll, self.pitch, self.yaw)
+        #print(self.roll_gt, self.pitch_gt, self.yaw_gt)
 
         self.gt_thrust = msg.pose.pose.position.x           # ground truth thrust
         self.gt_laterial_thrust = msg.pose.pose.position.y  # ground thruth laterial thrust
@@ -268,22 +287,27 @@ class Controller():
     def control_callback_thrust(self, msg):
         # print(msg.data)
         self.control_effort_thrust = msg.data
+        self.set_thrust(self.control_effort_thrust)
 
     def control_callback_lateral_thrust(self, msg):
         # print(msg.data)
         self.control_effort_lateral_thrust = msg.data
+        self.set_lateral_thrust(self.control_effort_lateral_thrust)
 
     def control_callback_yaw(self, msg):
         # print(msg.data)
         self.control_effort_yaw = msg.data
+        self.set_yaw_rate(self.control_effort_yaw)
 
     def control_callback_pitch(self, msg):
         # print(msg.data)
         self.control_effort_pitch = msg.data
+        self.set_pitch_rate(self.control_effort_pitch)
 
     def control_callback_roll(self, msg):
         # print(msg.data)
         self.control_effort_roll = msg.data
+        self.set_roll_rate(self.control_effort_roll)
 
     # Set controller state, and send after that to mixer/actuator_commands, after that
     # that node will re orginize thet data and publsih to motor
@@ -307,67 +331,59 @@ class Controller():
         self.roll_rate = max(-1, min(1, value))
 
     def publish_currentState_separetly(self):
-
         # Publish current Roll Angle
-        self.roll_msg = Float64()
-        self.roll_msg.data = self.roll
-        self.roll_pub.publish(self.roll_msg)
-
+        roll_msg = Float64()
+        roll_msg.data = self.roll_gt
+        self.roll_pub.publish(roll_msg)
         # Publish current Pitch Angle
-        self.pitch_msg = Float64()
-        self.pitch_msg.data = self.pitch
-        self.pitch_pub.publish(self.pitch_msg)
-
+        pitch_msg = Float64()
+        pitch_msg.data = self.pitch_gt
+        self.pitch_pub.publish(pitch_msg)
         # Publish current Yaw Angle
-        self.yaw_msg = Float64()
-        self.yaw_msg = self.yaw
-        self.yaw_pub.publish(self.yaw_msg)
+        yaw_msg = Float64()
+        yaw_msg = self.yaw_gt
+        self.yaw_pub.publish(yaw_msg)
 
         # ---- Temp. will be replaced with localizatio/ground_thruth----
         # Publish current Ground_truth of Thrust
-        self.gt_thrust_msg = Float64()
-        self.gt_thrust_msg.data = self.gt_thrust
-        self.vt_pub.publish(self.gt_thrust_msg)
+        gt_thrust_msg = Float64()
+        gt_thrust_msg.data = self.gt_thrust
+        self.vt_pub.publish(gt_thrust_msg)
         # Publish current Ground_truth of Laterial Thrust
-        self.gt_laterial_thrust_msg = Float64()
-        self.gt_laterial_thrust_msg.data = self.gt_laterial_thrust
-        self.lt_pub.publish(self.gt_laterial_thrust_msg)
+        gt_laterial_thrust_msg = Float64()
+        gt_laterial_thrust_msg.data = self.gt_laterial_thrust
+        self.lt_pub.publish(gt_laterial_thrust_msg)
         # Publsih current Ground_truth of Vertical Thrust
-        self.gt_vertical_thrust_msg = Float64()
-        self.gt_vertical_thrust_msg.data = self.gt_vertical_thrust
-        self.vt_pub.publish(self.gt_vertical_thrust_msg)
+        gt_vertical_thrust_msg = Float64()
+        gt_vertical_thrust_msg.data = self.gt_vertical_thrust
+        self.vt_pub.publish(gt_vertical_thrust_msg)
 
     def publish_desiredState_separatly(self):
-
         # Each Pose Setpoint has to be published individually in order to PID Controller could subscribe
-
         # Publish setpoints Thrust Position for a controller
-        self.s_thrust_msg = Float64()
-        self.s_thrust_msg.data = self.thrust_setpoint
-        self.thrust_setpoint_pub.publish(self.s_thrust_msg)
+        s_thrust_msg = Float64()
+        s_thrust_msg.data = self.thrust_setpoint
+        self.thrust_setpoint_pub.publish(s_thrust_msg)
         # Publish setpoints Vertical Thrust Position for a controller
-        self.s_vt_msg = Float64()
-        self.s_vt_msg = self.vertical_thrust_setpoint
-        self.vt_setpoint_pub.publish(self.s_vt_msg)
+        s_vt_msg = Float64()
+        s_vt_msg = self.vertical_thrust_setpoint
+        self.vt_setpoint_pub.publish(s_vt_msg)
         # Publish setpoints laterial Position for a controller
-        self.s_lt_msg = Float64()
-        self.s_lt_msg = self.lateral_thrust_setpoint
-        self.lt_setpoint_pub.publish(self.s_lt_msg)
-
+        s_lt_msg = Float64()
+        s_lt_msg = self.lateral_thrust_setpoint
+        self.lt_setpoint_pub.publish(s_lt_msg)
         # Publish setpoints Yaw Angle for a controller
-        self.s_yaw_msg = Float64()
-        self.s_yaw_msg = self.yaw_setpoint
-        self.yaw_setpoint_pub.publish(self.s_yaw_msg)
+        s_yaw_msg = Float64()
+        s_yaw_msg = self.yaw_setpoint
+        self.yaw_setpoint_pub.publish(s_yaw_msg)
         # Publish setpoints Pitch Angle for a controller
-
-        self.s_pitch_msg = Float64()
-        self.s_pitch_msg = self.pitch_setpoint
-        self.pitch_setpoint_pub.publish(self.s_pitch_msg)
-
+        s_pitch_msg = Float64()
+        s_pitch_msg = self.pitch_setpoint
+        self.pitch_setpoint_pub.publish(s_pitch_msg)
         # Publish setpoints Roll Angle for a controller
-        self.s_roll_msg = Float64()
-        self.s_roll_msg = self.roll_setpoint
-        self.roll_setpoint_pub.publish(self.s_roll_msg)
+        s_roll_msg = Float64()
+        s_roll_msg = self.roll_setpoint
+        self.roll_setpoint_pub.publish(s_roll_msg)
 
     def publish_message(self):
         msg = ActuatorCommands()
