@@ -28,7 +28,7 @@
         rospy.Subscriber("orientation/euler", Orientation,
                          self.orient_callback,
                          queue_size=1)
-        
+
 # ------------------------control_callback_vertical_thrust-------------------------------------------------------
     def control_callback_vertical_thrust(self, msg):
         print(msg.data)

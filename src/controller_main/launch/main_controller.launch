@@ -3,7 +3,7 @@
     <arg name="vehicle" default="uuv_bluerov2_heavy" />
 
     <!-- start the gazebo simulator and an empty world -->
-    <!--     <include file="$(find depth_controller)/launch/gazebo_base.launch" /> -->
+    <include file="$(find depth_controller)/launch/gazebo_base.launch" />
 
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
     <include file="$(find depth_controller)/launch/spawn_vehicle.launch">
@@ -32,7 +32,7 @@
 
 
     <!-- Launch the Nodes of the Depth Controller? Do we need to launch them? -->
-    <!-- 
+
     <node name="mixer" pkg="depth_controller" type="mixer.py" output="screen" />
 
     <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" />
@@ -45,7 +45,7 @@
 
     <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" />
 
- -->
+
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <!--     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">

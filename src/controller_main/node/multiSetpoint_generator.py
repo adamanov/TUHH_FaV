@@ -17,18 +17,25 @@ class setpointsGenerator:
         self.setpointPoseZ = -0.7
 
         # Set a desired orientation of robot
-        self.setpointRoll = 0
-        self.setpointPitch = 0
-        self.setpointYaw = 90
+        self.setpointAngleRoll = 0
+        self.setpointAnglePitch = 0
+        self.setpointAngleYaw = 90
 
         # Set as a parameter for each
         rospy.set_param('setpointPoseX', 1)
         rospy.set_param('setpointPoseY', 1)
         rospy.set_param('setpointPoseZ', -0.5)
+        rospy.set_param('setpointAngleRoll', 0)
+        rospy.set_param('setpointAnglePitch', 0)
+        rospy.set_param('setpointAngleYaw', 90)
 
         # Option to get manually parameters
         rospy.get_param('setpointPoseX')
         rospy.get_param('setpointPoseY')
+        # Get Angles
+        rospy.get_param('setpointAngleRoll', 0)
+        rospy.get_param('setpointAnglePitch', 0)
+        rospy.get_param('setpointAngleYaw', 90)
 
         # Upper and lower bound of depth
         rospy.set_param('safezone_upper', -0.15)
@@ -63,15 +70,15 @@ class setpointsGenerator:
             self.pose.x = self.setpointPoseX
             self.pose.y = self.setpointPoseY
             self.pose.z = self.setpointPoseZ
-            print("Setpoint Pose", "\n", self.pose)
+            # print("Setpoint Pose", "\n", self.pose)   # worked
             self.setpointsPose_pub.publish(self.pose)
 
             # Publish a desired orientation of robot
             self.angels = Point()
-            self.angels.x = self.setpointRoll
-            self.angels.y = self.setpointPitch
-            self.angels.z = self.setpointYaw
-            print("Setpoint Angeles", "\n", self.angels)
+            self.angels.x = self.setpointAngleRoll
+            self.angels.y = self.setpointAnglePitch
+            self.angels.z = self.setpointAngleYaw
+            # print("Setpoint Angeles", "\n", self.angels)  # worked
             self.setpointOrientation_pub.publish(self.angels)
 
             rate.sleep()
