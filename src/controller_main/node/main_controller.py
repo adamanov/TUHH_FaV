@@ -110,6 +110,36 @@ class Controller():
         self.roll_setpoint_pub = rospy.Publisher(
             "roll/setpoint", Float64, queue_size=1)
 
+        # Subscribe to topics of the controller output
+        rospy.Subscriber("thrust/control_effort",
+                         Float64,
+                         self.control_callback_thrust,
+                         queue_size=1)
+        rospy.Subscriber("vertical_thrust/control_effort",
+                         Float64,
+                         self.control_callback_vertical_thrust,
+                         queue_size=1)
+        rospy.Subscriber("lateral_thrust/control_effort",
+                         Float64,
+                         self.control_callback_lateral_thrust,
+                         queue_size=1)
+        rospy.Subscriber("yaw/control_effort",
+                         Float64,
+                         self.control_callback_yaw,
+                         queue_size=1)
+        rospy.Subscriber("pitch/control_effort",
+                         Float64,
+                         self.control_callback_pitch,
+                         queue_size=1)
+        rospy.Subscriber("roll/control_effort",
+                         Float64,
+                         self.control_callback_roll,
+                         queue_size=1)
+
+        rospy.Subscriber("orientation/euler", Orientation,
+                         self.orient_callback,
+                         queue_size=1)
+
         # ----- Reading and storing the comming msg. e.g ground_truth (yaw,roll,pitch) , localization (x,y,z)
         # ----- and desired setpoint positions of robot, and after that separate each state and send set into PID
         # ----- controller as a state and setpoint
@@ -152,14 +182,14 @@ class Controller():
         orientation_list = [qx, qy, qz, qw]
         # Convert Quaternion to Euler angels
         (self.roll, self.pitch, self.yaw) = euler_from_quaternion(orientation_list)
-        print("GT Euler Angles, radian?")
-        print(self.roll, self.pitch, self.yaw)
+        #print("GT Euler Angles, radian?")
+        #print(self.roll, self.pitch, self.yaw)
 
         self.gt_thrust = msg.pose.pose.position.x           # ground truth thrust
         self.gt_laterial_thrust = msg.pose.pose.position.y  # ground thruth laterial thrust
         self.gt_vertical_thrust = msg.pose.pose.position.z  # ground thruth vertical thrust
-        print("GT Position of robot")
-        print(self.gt_thrust, self.gt_laterial_thrust, self.gt_vertical_thrust)
+        #print("GT Position of robot")
+        #print(self.gt_thrust, self.gt_laterial_thrust, self.gt_vertical_thrust)
 
         # Publish current Roll Angle
         self.roll_msg = Float64()
@@ -251,6 +281,71 @@ class Controller():
         rospy.wait_for_service("mavros/cmd/arming")
         arm = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)
         arm(False) """
+
+    # ------------------------control_callback_vertical_thrust-------------------------------------------------------
+    def control_callback_vertical_thrust(self, msg):
+        # print(msg.data)
+        self.control_effort_vertical_thrust = msg.data
+
+        safezone_upper = rospy.get_param('safezone_upper')
+        safezone_lower = rospy.get_param('safezone_lower')
+        # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort))
+        isNotTimedout = rospy.get_param(
+            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
+        if (isNotTimedout and self.isStable()):
+            if (self.depth < safezone_upper and self.depth > safezone_lower):
+                # Congratulations You passed ALL CHECKS !!!
+                self.set_vertical_thrust(self.control_effort_vertical_thrust)
+            elif self.depth > safezone_upper:
+                self.set_vertical_thrust(
+                    min(self.control_effort_vertical_thrust, 0))
+                rospy.loginfo(
+                    "over safezone_upper!!   (No positive control_effort allowed)")
+            elif self.depth < safezone_lower:
+                self.set_vertical_thrust(max(self.control_effort, 0))
+                rospy.loginfo(
+                    "under safezone_lower!!   (No negative control_effort allowed)")
+            else:
+                self.set_vertical_thrust(0.0)
+                rospy.loginfo(
+                    "WARNING: Numerical Problems??? control_effort is 0!")
+        elif isNotTimedout:
+            self.set_vertical_thrust(0.0)
+            rospy.loginfo("Wet whale is tilted!")
+            rospy.loginfo("(You could change 'euler_threshold')")
+        elif self.isStable():
+            self.set_vertical_thrust(0.0)
+            rospy.loginfo("No depth data recieved in the last sec! ")
+            rospy.loginfo("(You could change 'depth_timeout')")
+        else:
+            self.set_vertical_thrust(0.0)
+            rospy.loginfo(
+                "Wet whale is tilted over and didn't recieved any depth data !")
+            rospy.loginfo(
+                "(You could change 'depth_timeout' and 'euler_threshold')")
+
+    def control_callback_thrust(self, msg):
+        # print(msg.data)
+        self.control_effort_thrust = msg.data
+
+    def control_callback_lateral_thrust(self, msg):
+        # print(msg.data)
+        self.control_effort_lateral_thrust = msg.data
+
+    def control_callback_yaw(self, msg):
+        # print(msg.data)
+        self.control_effort_yaw = msg.data
+
+    def control_callback_pitch(self, msg):
+        # print(msg.data)
+        self.control_effort_pitch = msg.data
+
+    def control_callback_roll(self, msg):
+        # print(msg.data)
+        self.control_effort_roll = msg.data
+
+    # Set controller state, and send after that to mixer/actuator_commands, after that
+    # that node will re orginize thet data and publsih to motor
 
     def set_thrust(self, value):
         self.thrust = max(-1, min(1, value))

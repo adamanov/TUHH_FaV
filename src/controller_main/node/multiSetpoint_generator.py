@@ -14,7 +14,7 @@ class setpointsGenerator:
         # Set a desired position of robot
         self.setpointPoseX = 1
         self.setpointPoseY = 1
-        self.setpointPoseZ = -0.7
+        self.setpointPoseZ = -0.5
 
         # Set a desired orientation of robot
         self.setpointAngleRoll = 0
@@ -39,7 +39,7 @@ class setpointsGenerator:
 
         # Upper and lower bound of depth
         rospy.set_param('safezone_upper', -0.15)
-        rospy.set_param('safezone_lower', -0.6)
+        rospy.set_param('safezone_lower', -1.0)  # -0.6
 
         # Subscribe to a topic to publish a position of robot
         self.setpointsPose_pub = rospy.Publisher("desired_pose/setpoint",
