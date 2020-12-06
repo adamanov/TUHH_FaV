@@ -69,6 +69,14 @@ class Controller():
         self.pitch_rate = 0.0
         self.roll_rate = 0.0
 
+        # Controller
+        self.control_effort_vertical_thrust = 0
+        self.control_effort_thrust = 0
+        self.control_effort_lateral_thrust = 0
+        self.control_effort_yaw = 0
+        self.control_effort_pitch = 0
+        self.control_effort_roll = 0
+
         self.actuator_pub = rospy.Publisher("mixer/actuator_commands",
                                             ActuatorCommands,
                                             queue_size=1)
@@ -104,10 +112,10 @@ class Controller():
         # Publish CURRENT POSE / ANGLES to PID Controller
         self.thrust_pub = rospy.Publisher(
             "thrust/state", Float64, queue_size=1)
-        self.vt_pub = rospy.Publisher(
-            "vertical_thrust/state", Float64, queue_size=1)
         self.lt_pub = rospy.Publisher(
             "lateral_thrust/state", Float64, queue_size=1)
+        self.vt_pub = rospy.Publisher(
+            "vertical_thrust/state", Float64, queue_size=1)
 
         self.roll_pub = rospy.Publisher("roll/state", Float64, queue_size=1)
         self.pitch_pub = rospy.Publisher("pitch/state", Float64, queue_size=1)
@@ -246,22 +254,23 @@ class Controller():
     def control_callback_vertical_thrust(self, msg):
         # print(msg.data)
         self.control_effort_vertical_thrust = msg.data
-
         safezone_upper = rospy.get_param('safezone_upper')
         safezone_lower = rospy.get_param('safezone_lower')
         # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort))
         isNotTimedout = rospy.get_param(
             'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
         if (isNotTimedout and self.isStable()):
-            if (self.depth < safezone_upper and self.depth > safezone_lower):
+            if (self.vertical_thrust_setpoint < safezone_upper and self.vertical_thrust_setpoint > safezone_lower):
                 # Congratulations You passed ALL CHECKS !!!
                 self.set_vertical_thrust(self.control_effort_vertical_thrust)
-            elif self.depth > safezone_upper:
+                rospy.loginfo(
+                    " Congratulations You passed ALL CHECKS in depth!!!")
+            elif self.vertical_thrust_setpoint > safezone_upper:
                 self.set_vertical_thrust(
                     min(self.control_effort_vertical_thrust, 0))
                 rospy.loginfo(
                     "over safezone_upper!!   (No positive control_effort allowed)")
-            elif self.depth < safezone_lower:
+            elif self.vertical_thrust_setpoint < safezone_lower:
                 self.set_vertical_thrust(max(self.control_effort, 0))
                 rospy.loginfo(
                     "under safezone_lower!!   (No negative control_effort allowed)")
@@ -348,7 +357,7 @@ class Controller():
         # Publish current Ground_truth of Thrust
         gt_thrust_msg = Float64()
         gt_thrust_msg.data = self.gt_thrust
-        self.vt_pub.publish(gt_thrust_msg)
+        self.thrust_pub.publish(gt_thrust_msg)
         # Publish current Ground_truth of Laterial Thrust
         gt_laterial_thrust_msg = Float64()
         gt_laterial_thrust_msg.data = self.gt_laterial_thrust

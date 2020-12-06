@@ -1,212 +1,104 @@
+#!/usr/bin/env python
+import rospy
+import numpy as np
+import time
+import math as m
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point
 
-        # Subscribe to topics of the controller output
-        rospy.Subscriber("thrust/control_effort",
-                         Float64,
-                         self.control_callback_thrust,
-                         queue_size=1)
-        rospy.Subscriber("vertical_thrust/control_effort",
-                         Float64,
-                         self.control_callback_vertical_thrust,
-                         queue_size=1)
-        rospy.Subscriber("lateral_thrust/control_effort",
-                         Float64,
-                         self.control_callback_lateral_thrust,
-                         queue_size=1)
-        rospy.Subscriber("yaw/control_effort",
-                         Float64,
-                         self.control_callback_yaw,
-                         queue_size=1)
-        rospy.Subscriber("pitch/control_effort",
-                         Float64,
-                         self.control_callback_pitch,
-                         queue_size=1)
-        rospy.Subscriber("roll/control_effort",
-                         Float64,
-                         self.control_callback_roll,
-                         queue_size=1)
 
-        rospy.Subscriber("orientation/euler", Orientation,
-                         self.orient_callback,
-                         queue_size=1)
+class setpointsGenerator:
+    def __init__(self, name):
+        rospy.init_node(name)
+        # Set a desired position of robot
+        self.setpointPoseX = 1
+        self.setpointPoseY = 1
+        self.setpointPoseZ = -0.7
+        # Set a desired orientation of robot
+        self.setpointAngleRoll = 0
+        self.setpointAnglePitch = 0
+        self.setpointAngleYaw = 90
+        # Set as a parameter for each
+        rospy.set_param('setpointPoseX', 1)
+        rospy.set_param('setpointPoseY', 1)
+        rospy.set_param('setpointPoseZ', -0.5)
+        rospy.set_param('setpointAngleRoll', 0)
+        rospy.set_param('setpointAnglePitch', 0)
+        rospy.set_param('setpointAngleYaw', 90)
 
-# ------------------------control_callback_vertical_thrust-------------------------------------------------------
-    def control_callback_vertical_thrust(self, msg):
-        print(msg.data)
-        self.control_effort_vertical_thrust = msg.data
-        
-        safezone_upper = rospy.get_param('safezone_upper')
-        safezone_lower = rospy.get_param('safezone_lower')
-        # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort))
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            if (self.depth < safezone_upper and self.depth > safezone_lower):
-                # Congratulations You passed ALL CHECKS !!!
-                self.set_vertical_thrust(self.control_effort_vertical_thrust)
-            elif self.depth > safezone_upper:
-                self.set_vertical_thrust(min(self.control_effort_vertical_thrust, 0))
-                rospy.loginfo(
-                    "over safezone_upper!!   (No positive control_effort allowed)")
-            elif self.depth < safezone_lower:
-                self.set_vertical_thrust(max(self.control_effort, 0))
-                rospy.loginfo(
-                    "under safezone_lower!!   (No negative control_effort allowed)")
-            else:
-                self.set_vertical_thrust(0.0)
-                rospy.loginfo(
-                    "WARNING: Numerical Problems??? control_effort is 0!")
-        elif isNotTimedout:
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
+        # Option to get manually parameters
+        # rospy.get_param('setpointPoseX')
+        # rospy.get_param('setpointPoseY')
+        # Get Angles
+        #rospy.get_param('setpointAngleRoll', 0)
+        #rospy.get_param('setpointAnglePitch', 0)
+        #rospy.get_param('setpointAngleYaw', 90)
+        # Bounds of depth
+        rospy.set_param('safezone_upper', -0.15)
+        rospy.set_param('safezone_lower', -0.6)
+        rospy.set_param('safezone_left_x', 0.2)
+        rospy.set_param('safezone_right_x', 1.3)
+        rospy.set_param('safezone_front_y', 1.3)  # direction of where tags are
+        rospy.set_param('safezone_back_y', 0.2)
+        # Subscribe to a topic to publish a position of robot
+        self.setpointsPose_pub = rospy.Publisher("desired_pose/setpoint",
+                                                 Point,
+                                                 queue_size=1)
+        # Subscribe to a topic to publish a orientation of robot
+        self.setpointOrientation_pub = rospy.Publisher(
+            "desired_angle/setpoint", Point, queue_size=1)
+
+    def calculate_setpoint(self):
+        if self.isValidSetpoint():
+            self.setpointPoseX = rospy.get_param("setpointPoseX")
+            self.setpointPoseY = rospy.get_param("setpointPoseY")
+            self.setpointPoseZ = rospy.get_param("setpointPoseZ")
         else:
-            self.set_vertical_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didn't recieved any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        
+            rospy.loginfo("Please set setpointPoseZ to float in safezone!")
+
+        # Marker amount visibility and scanmode for no markers visible
+#    def scanMode(self):
+ #       if self.noMarker():
+  #          rospy.loginfo("Marker scan mode active.")
+   #         self.setpointAngleYaw = self.setpointAngleYaw + 10
+    #    else:
+     #       self.setpointAngleYaw = 90
+    # Check if given depth setpoint is valid
+    def isValidSetpoint(self):
+        return ((rospy.get_param("setpointPoseZ") <
+                 rospy.get_param("safezone_upper")) and
+                (rospy.get_param("setpointPoseZ") >
+                 rospy.get_param("safezone_lower")))
+        return ((rospy.get_param("setpointPoseX") <
+                 rospy.get_param("safezone_right_x")) and
+                (rospy.get_param("setpointPoseX") >
+                 rospy.get_param("safezone_left_x")))
+        return ((rospy.get_param("setpointPoseY") <
+                 rospy.get_param("safezone_front_y")) and
+                (rospy.get_param("setpointPoseY") >
+                 rospy.get_param("safezone_back_y")))
+
+    def run(self):
+        rate = rospy.Rate(50.0)
+        while not rospy.is_shutdown():
+            # Publish a desired position of robot
+            self.pose = Point()
+            self.calculate_setpoint()   # check if the depth setpoint is valid
+            self.pose.x = self.setpointPoseX
+            self.pose.y = self.setpointPoseY
+            self.pose.z = self.setpointPoseZ
+            # print("Setpoint Pose", "\n", self.pose)   # worked
+            self.setpointsPose_pub.publish(self.pose)
+            # Publish a desired orientation of robot
+            self.angels = Point()
+            self.angels.x = self.setpointAngleRoll
+            self.angels.y = self.setpointAnglePitch
+            self.angels.z = self.setpointAngleYaw
+            # print("Setpoint Angeles", "\n", self.angels)  # worked
+            self.setpointOrientation_pub.publish(self.angels)
+            rate.sleep()
 
 
-# ------------------------control_callback_thrust-------------------------------------------------------
-
-    def control_callback_thrust(self, msg):
-        print(msg.data)
-        self.control_effort_thrust = msg.data
-        '''
-        # print("setpoint: " + str(self.depth_setpoint) + "   depth: " + str(self.depth) + "  Control_effort: " + str(self.control_effort_thrust))
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_thrust(self.control_effort_thrust)
-        elif isNotTimedout:
-            self.set_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        '''
-
-# --------------------control_callback_lateral_thrust--------------------------------------------------------------------
-
-    def control_callback_lateral_thrust(self, msg):
-        print(msg.data)
-        self.control_effort_lateral_thrust = msg.data
-        '''
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_lateral_thrust(self.control_effort_lateral_thrust)
-        elif isNotTimedout:
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_lateral_thrust(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        '''
-
-
-# -------------------------control_callback_yaw--------------------------------------------------------
-
-    def control_callback_yaw(self, msg):
-        print(msg.data)
-        self.control_effort_yaw = msg.data
-        '''
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_yaw_rate(self.control_effort_yaw)
-        elif isNotTimedout:
-            self.set_yaw_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_yaw_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_yaw_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        '''
-
-# ---------------------control_callback_pitch--------------------------------------------------------------
-
-    def control_callback_pitch(self, msg):
-        print(msg.data)
-        self.control_effort_pitch = msg.data
-        '''
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            # Congratulations You passed ALL CHECKS !!!
-            self.set_pitch_rate(self.control_effort_pitch)
-        elif isNotTimedout:
-            self.set_pitch_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_pitch_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_pitch_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        '''
-
-# -----------------------control_callback_rol---------------------------------------------------------------
-
-
-    def control_callback_roll(self, msg):
-        print(msg.data)
-        self.control_effort_roll = msg.data
-        '''
-        isNotTimedout = rospy.get_param(
-            'depth_timeout') > rospy.Time.now().nsecs - self.last_depth_time
-        if (isNotTimedout and self.isStable()):
-            self.set_roll_rate(self.control_effort_roll)
-            # rospy.loginfo("No limitations to control_effort_roll")
-        elif isNotTimedout:
-            self.set_roll_rate(0.0)
-            rospy.loginfo("Wet whale is tilted!")
-            rospy.loginfo("(You could change 'euler_threshold')")
-        elif self.isStable():
-            self.set_roll_rate(0.0)
-            rospy.loginfo("No depth data recieved in the last sec! ")
-            rospy.loginfo("(You could change 'depth_timeout')")
-        else:
-            self.set_roll_rate(0.0)
-            rospy.loginfo(
-                "Wet whale is tilted over and didnt recieve any depth data !")
-            rospy.loginfo(
-                "(You could change 'depth_timeout' and 'euler_threshold')")
-        '''
-
+if __name__ == "__main__":
+    node = setpointsGenerator("multiSetpointGenerator")
+    node.run()

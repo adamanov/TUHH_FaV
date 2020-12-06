@@ -24,6 +24,7 @@
 
 
     <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" />
+    <node name="mixer" pkg="controller_main" type="mixer.py" output="screen" />
 
 
     <param name="setpointPoseX" value="1" />
@@ -33,8 +34,7 @@
 
     <!-- Launch the Nodes of the Depth Controller? Do we need to launch them? -->
 
-    <node name="mixer" pkg="depth_controller" type="mixer.py" output="screen" />
-
+    <!-- 
     <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" />
 
     <node name="controller" pkg="depth_controller" type="controller.py" output="screen" />
@@ -43,7 +43,7 @@
 
     <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
 
-    <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" />
+    <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" /> -->
 
 
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
