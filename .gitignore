@@ -3,6 +3,7 @@
 /src/bluerov_sim
 /src/mavlink
 /src/mavros
+/src/rosbasg_to_csv
 .catkin_tools
 .devcontainer
 .vscode

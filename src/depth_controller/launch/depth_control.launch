@@ -3,74 +3,50 @@
     <arg name="vehicle" default="uuv_bluerov2_heavy" />
 
      <!-- start the gazebo simulator and an empty world -->
-    <!-- <include file="$(find depth_controller)/launch/gazebo_base.launch"/> -->
+    <include file="$(find bluerov_sim)/launch/gazebo_base.launch"/>
 
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
-    <!-- <include file="$(find depth_controller)</launch/spawn_vehicle.launch"> -->
+    <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
         <!-- Set the position-->
-        <!-- <arg name="x" value="0.0" />
-        <arg name="y" value="0.0" />
-        <arg name="z" value="-0.5"/> -->
+        <arg name="x" value="1.0" />
+        <arg name="y" value="1.0" />
+        <arg name="z" value="-1.0"/> -->
         <!-- Set roll, pitch, yaw-->
-        <!-- <arg name="R" value="0.0" />
+        <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
-        <arg name="Y" value="0.0" />
+        <arg name="Y" value="1.5708" />
     </include> -->
 
-    <!-- Launch the Nodes -->
-    <node name="mixer" pkg="depth_controller" type="mixer.py" output="screen" />
+    <!-- spawn tank and AprilTags -->
+    <include file="$(find bluerov_sim)/launch/spawn_tank.launch">
+    </include>
 
-    <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" />
+    <!-- launch the range_sensor -->
+    <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+
+    <!-- Launch the Nodes -->
+    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />
     
-    <node name="controller" pkg="depth_controller" type="controller.py" output="screen" /> 
-    
-    <node name="controller" pkg="pid" type="controller" ns="depth" output="screen" >
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit" value="10" />
-        <param name="max_loop_frequency" value="100.0" />
-        <param name="min_loop_frequency" value="100.0" />
-        <!-- <remap from="setpoint" to="/depth/setpoint" /> --> 
-       </node>
-  
+    <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
 
     <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen"/>
+
+    <node name="localization_estimate" pkg="localization" type="localization_estimate.py" output="screen"/>
     
-    <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen"/>
+    <node name="localization_error" pkg="localization" type="localization_error.py" output="screen"/>
+
+    <node name="range_averager" pkg="localization" type="range_averager.py" output="screen"/>
+
+    <!-- <node name="rviz_visualizer" pkg="bluerov_sim" type="rviz_visualizer.py" output="screen"/> -->
 
     <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen"/>
 
+
     <!-- Launch the Plots here -->
-    <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state"/>
+    <!-- <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state"/> -->
 
-    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
-    
-        <!-- Uni task -->
-
-    <arg name="sinusoidal" default="False"/>
-    <arg name="setpoint_1" default="-0.3"/>
-    <arg name="setpoint_2" default="-0.6"/>
-    <arg name="duration" default="30.0"/>
-    <arg name="amplitude" default="0.2"/>
-    <arg name="period" default="15.0"/>
-    <arg name="offset" default="-0.45"/>
-
-    <node name="depth_setpoints_task" pkg="depth_controller" type="depth_setpoint_task.py" output="screen">
-        <param name="sinusoidal" type="bool" value="$(arg sinusoidal)"/>
-        <param name="setpoint_1" type="double" value="$(arg setpoint_1)"/>
-        <param name="setpoint_2" type="double" value="$(arg setpoint_2)"/>
-        <param name="duration" type="double" value="$(arg duration)"/>
-        <param name="amplitude" type="double" value="$(arg amplitude)"/>
-        <param name="period" type="double" value="$(arg period)"/>
-        <param name="offset" type="double" value="$(arg offset)"/>
-    </node>
     <!-- <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="depth/setpoint /depth/state"/> --> 
     
-    <!--  <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
-
 
     <!-- Play back data with rosbag -->
     <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag">
