@@ -41,12 +41,13 @@
 
     <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen"/>
 
+    <node name="kalman_filter" pkg="localization" type="kalman_filter.py" output="screen"/>
 
     <!-- Launch the Plots here -->
     <!-- <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state"/> -->
 
     <!-- <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="depth/setpoint /depth/state"/> --> 
-    
+    <!-- <node name="rqt" pkg="rqt" type="rqt"/> -->
 
     <!-- Play back data with rosbag -->
     <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag">

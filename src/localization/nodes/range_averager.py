@@ -2,7 +2,7 @@
 import rospy
 import numpy as np
 from geometry_msgs.msg import Point
-from std_msgs.msg import Float64
+# from std_msgs.msg import Float64
 from range_sensor.msg import RangeMeasurementArray, RangeMeasurement
 from depth_controller.msg import Orientation
 from tf.transformations import euler_matrix

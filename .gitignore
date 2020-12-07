@@ -9,4 +9,5 @@
 .vscode
 /devel
 /src/range_sensor
+/src/localization/nodes/test_rot.py
 /logs
