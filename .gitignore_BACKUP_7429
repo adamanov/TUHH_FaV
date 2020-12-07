@@ -1,0 +1,22 @@
+/build
+/src/awesome_package
+/src/bluerov_sim
+/src/mavlink
+/src/mavros
+<<<<<<< HEAD
+.catkin_tools
+.devcontainer
+.vscode
+/logs
+/devel
+/src/range_sensor
+/src/pid
+=======
+/src/rosbasg_to_csv
+.catkin_tools
+.devcontainer
+.vscode
+/devel
+/src/range_sensor
+/logs
+>>>>>>> 9f8c1a8140010792ae04e641ce2d74dd3d6d9646

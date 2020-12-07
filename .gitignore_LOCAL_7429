@@ -1,0 +1,12 @@
+/build
+/src/awesome_package
+/src/bluerov_sim
+/src/mavlink
+/src/mavros
+.catkin_tools
+.devcontainer
+.vscode
+/logs
+/devel
+/src/range_sensor
+/src/pid
