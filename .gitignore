@@ -3,6 +3,7 @@
 /src/bluerov_sim
 /src/mavlink
 /src/mavros
+<<<<<<< HEAD
 .catkin_tools
 .devcontainer
 .vscode
@@ -11,3 +12,13 @@
 /src/range_sensor
 /src/pid
 src/range_sensor
+=======
+/src/rosbasg_to_csv
+.catkin_tools
+.devcontainer
+.vscode
+/devel
+/src/range_sensor
+/src/localization/nodes/test_rot.py
+/logs
+>>>>>>> 24567d25b1c0e454d36e778eebcdec50c9152a39
