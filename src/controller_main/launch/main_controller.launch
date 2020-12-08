@@ -12,13 +12,17 @@
         <!-- Set the position-->
         <arg name="x" value="0.0" />
         <arg name="y" value="0.0" />
-        <arg name="z" value="-0.5" />
+        <arg name="z" value="-0.5" /> <!-- -0.5 -->
         -->
         <!-- Set roll, pitch, yaw-->
         <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
         <arg name="Y" value="0.0" />
     </include>
+
+    <param name="setpointPoseX" value="0" />
+    <param name="setpointPoseY" value="0" />
+    <param name="setpointPoseZ" value="-0.5" />
 
     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
     <!-- Launch the Nodes of Controller Main Pkg -->
@@ -85,7 +89,7 @@
     <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                  yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
-        <param name="Kp" value="10" />
+        <param name="Kp" value="0.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="10" />
@@ -98,9 +102,9 @@
     <!-- PID Controller for pitch required to define a input topic as  pitch/setpoint
                                                                       pitch/state-->
     <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
         <param name="upper_limit" value="10" />
         <param name="lower_limit" value="-10" />
         <param name="windup_limit" value="10" />
@@ -110,9 +114,9 @@
     <!-- PID Controller for roll required to define a input topic as  roll/setpoint
                                                                       roll/state-->
     <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
         <param name="upper_limit" value="10" />
         <param name="lower_limit" value="-10" />
         <param name="windup_limit" value="10" />

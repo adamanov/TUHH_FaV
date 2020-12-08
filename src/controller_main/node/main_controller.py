@@ -177,7 +177,6 @@ class Controller():
         # self.gt_thrust = msg.x           # after localization -> thrust
         # self.gt_laterial_thrust = msg.y  # after localization -> laterial thrust
         # self.gt_vertical_thrust = msg.z  # after localization -> vertical thrust
-
         pass
 
         # Each Pose has to be published individually in order to PID Controller could subscribe
