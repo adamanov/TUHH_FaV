@@ -12,51 +12,54 @@
         <!-- Set the position-->
         <arg name="x" value="0.0" />
         <arg name="y" value="0.0" />
-        <arg name="z" value="-0.5" /> <!-- -0.5 -->
-        -->
+        <arg name="z" value="0.0" /> <!-- -0.5 -->
         <!-- Set roll, pitch, yaw-->
         <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
         <arg name="Y" value="0.0" />
     </include>
 
-    <param name="setpointPoseX" value="0" />
-    <param name="setpointPoseY" value="0" />
-    <param name="setpointPoseZ" value="-0.5" />
 
     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
+
+    <!-- launch the range_sensor -->
+    <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+
+    <!-- Launch localization algorithm -->
+    <include file="$(find localization)/launch/launch_localization.launch"></include>
+
+
+
     <!-- Launch the Nodes of Controller Main Pkg -->
     <node name="multiSetpointGenerator" pkg="controller_main" type="multiSetpoint_generator.py" output="screen" />
 
-
     <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" />
+
     <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
+
     <node name="mixer" pkg="controller_main" type="mixer.py" output="screen" />
+>
 
-
-    <!-- Launch the Nodes of the Depth Controller? Do we need to launch them? -->
-
-    <!-- 
-    <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" />
-
-    <node name="controller" pkg="depth_controller" type="controller.py" output="screen" />
 
     <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
 
     <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
 
-    <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" /> -->
+    <!-- <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" /> -->
 
+    <!-- <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" /> -->
+
+    <!-- <node name="controller" pkg="depth_controller" type="controller.py" output="screen" /> -->
 
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">
-        <param name="Kp" value="7.5" />
-        <param name="Ki" value="0.0012" />
-        <param name="Kd" value="0.013" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
-        <param name="windup_limit_t" value="10" />
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
+        <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
     </node>
@@ -64,11 +67,11 @@
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
                                                                                  vertical_thrust/state-->
     <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
-        <param name="Kp" value="3.5" />
+        <param name="Kp" value="35.0" />
         <param name="Ki" value="0.012" />
         <param name="Kd" value="0.5" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
@@ -76,11 +79,11 @@
     <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
                                                                                 lateral_thrust/state-->
     <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen">
-        <param name="Kp" value="13" />
-        <param name="Ki" value="0.012" />
-        <param name="Kd" value="0.005" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
@@ -89,19 +92,19 @@
     <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                  yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="0.14" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
-        <param name="upper_limit" value="10" />
-        <param name="lower_limit" value="-10" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
     </node>
 
-    <!-- PID Controller for pitch required to define a input topic as  pitch/setpoint
+    <!--  PID Controller for pitch required to define a input topic as  pitch/setpoint
                                                                       pitch/state-->
-    <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen">
+    <!-- <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen">
         <param name="Kp" value="0.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
@@ -110,10 +113,10 @@
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
-    </node>
+    </node> -->
     <!-- PID Controller for roll required to define a input topic as  roll/setpoint
                                                                       roll/state-->
-    <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen">
+    <!-- <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen">
         <param name="Kp" value="0.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
@@ -122,23 +125,16 @@
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
-    </node>
+    </node> --> 
 
 
     <!-- Launch the Plots here -->
-    <!--     <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="/vertical_thrust/setpoint /vertical_thrust/state" />
- -->
     <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
 
-    <!--     <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="vertical_thrust/setpoint vertical_thrust/state" />
- -->
-    <!--     <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
-
+    <!-- <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
 
     <!-- Play back data with rosbag -->
     <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag">
     </node> -->
     <!-- for rosbag -> rosbag record -a -->
-
-
 </launch>

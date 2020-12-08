@@ -2,30 +2,19 @@
     <arg name="est" default="ekf2" />
     <arg name="vehicle" default="uuv_bluerov2_heavy" />
 
-<<<<<<< HEAD
      <!-- start the gazebo simulator and an empty world -->
     <include file="$(find bluerov_sim)/launch/gazebo_base.launch"/>
-=======
-    <!-- start the gazebo simulator and an empty world -->
-    <include file="$(find bluerov_sim)/launch/gazebo_base.launch" />
->>>>>>> b4b4f193e9a3175b830c6807f0899317443ea54b
 
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
     <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
         <!-- Set the position-->
         <arg name="x" value="1.0" />
         <arg name="y" value="1.0" />
-<<<<<<< HEAD
         <arg name="z" value="-1.0"/> -->
-=======
-        <arg name="z" value="-1.0" />
-        -->
->>>>>>> b4b4f193e9a3175b830c6807f0899317443ea54b
         <!-- Set roll, pitch, yaw-->
         <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
         <arg name="Y" value="1.5708" />
-<<<<<<< HEAD
     </include> -->
 
     <!-- spawn tank and AprilTags -->
@@ -58,39 +47,6 @@
     <!-- <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state"/> -->
 
     <!-- <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="depth/setpoint /depth/state"/> --> 
-=======
-    </include>
-    -->
-    <!-- spawn tank and AprilTags -->
-    <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
-
-    <!-- launch the range_sensor -->
-    <include file="$(find range_sensor)/launch/range_sensor.launch" />
-
-    <!-- Launch the Nodes -->
-    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />
-
-    <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
-
-    <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
-
-    <node name="localization_estimate" pkg="localization" type="localization_estimate.py" output="screen" />
-
-    <node name="localization_error" pkg="localization" type="localization_error.py" output="screen" />
-
-    <node name="range_averager" pkg="localization" type="range_averager.py" output="screen" />
-
-    <!-- <node name="rviz_visualizer" pkg="bluerov_sim" type="rviz_visualizer.py" output="screen"/> -->
-
-    <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
-
-    <node name="kalman_filter" pkg="localization" type="kalman_filter.py" output="screen" />
-
-    <!-- Launch the Plots here -->
-    <!-- <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" args="depth/setpoint /depth/state"/> -->
-
-    <!-- <node name="rqt_multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="depth/setpoint /depth/state"/> -->
->>>>>>> b4b4f193e9a3175b830c6807f0899317443ea54b
     <!-- <node name="rqt" pkg="rqt" type="rqt"/> -->
 
     <!-- Play back data with rosbag -->

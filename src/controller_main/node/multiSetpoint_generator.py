@@ -28,11 +28,11 @@ class setpointsGenerator:
 
         rospy.set_param('setpointAngleRoll', 0)
         rospy.set_param('setpointAnglePitch', 0)
-        rospy.set_param('setpointAngleYaw', 0)
+        rospy.set_param('setpointAngleYaw', 90*2*m.pi/360)
 
         # Bounds of depth
-        rospy.set_param('safezone_upper', -0.15)
-        rospy.set_param('safezone_lower', -0.6)
+        rospy.set_param('safezone_upper', 0.0)  #, -0.15)
+        rospy.set_param('safezone_lower', -2.0)  #, -0.6)
         # rospy.set_param('safezone_left_x', 0.2)
         # rospy.set_param('safezone_right_x', 1.3)
         # rospy.set_param('safezone_front_y', 1.3)  # direction of where tags are

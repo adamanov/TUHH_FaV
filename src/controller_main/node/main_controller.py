@@ -8,8 +8,6 @@ from bluerov_sim.msg import ActuatorCommands
 from mavros_msgs.srv import CommandBool
 from std_msgs.msg import Float64, Float32
 from depth_controller.msg import Orientation
-
-
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
@@ -18,8 +16,7 @@ from tf.transformations import euler_from_quaternion, quaternion_from_euler
 class Controller():
     def __init__(self, name):
         rospy.init_node(name)
-        self.last_depth_time = 0
-
+        
         rospy.set_param('depth_timeout', 1 * 10**9)
 
         self.rate = 5
@@ -30,6 +27,7 @@ class Controller():
 
         rospy.set_param('euler_threshold', 10 * 2*m.pi/360)
 
+        self.last_depth_time = 0
         self.depth_setpoint = -0.5
         self.depth = 0.0
 
@@ -46,22 +44,11 @@ class Controller():
         self.thrust_setpoint = 0
         self.lateral_thrust_setpoint = 0
         self.vertical_thrust_setpoint = 0
-
         self.roll_setpoint = 0
         self.pitch_setpoint = 0
         self.yaw_setpoint = 0
 
-        # comming from desired/setpoint topic
-        self.thrust_setpoint = 0.0
-        # comming from desired/setpoint topic
-        self.lateral_thrust_setpoint = 0.0
-        # comming from desired/setpoint topic
-        self.vertical_thrust_setpoint = 0.0
-
-        self.yaw_setpoint = 0.0       # Desired is 0
-        self.pitch_setpoint = 0.0     # Desired is 0
-        self.roll_setpoint = 0.0      # Desired is 0
-
+        # calculated actuator commands for mixer
         self.thrust = 0.0
         self.lateral_thrust = 0.0
         self.vertical_thrust = 0.0
@@ -70,12 +57,12 @@ class Controller():
         self.roll_rate = 0.0
 
         # Controller
-        self.control_effort_vertical_thrust = 0
-        self.control_effort_thrust = 0
-        self.control_effort_lateral_thrust = 0
-        self.control_effort_yaw = 0
-        self.control_effort_pitch = 0
-        self.control_effort_roll = 0
+        self.control_effort_vertical_thrust = 0.0
+        self.control_effort_thrust = 0.0
+        self.control_effort_lateral_thrust = 0.0
+        self.control_effort_yaw = 0.0
+        self.control_effort_pitch = 0.0
+        self.control_effort_roll = 0.0
 
         self.actuator_pub = rospy.Publisher("mixer/actuator_commands",
                                             ActuatorCommands,
@@ -83,7 +70,7 @@ class Controller():
 
         # Need create a desired setpoints Publisher (like depth_setpoint.py for all poses
         #  desired orientation can be also Published)
-        print("before Subscriber")
+        # print("before Subscriber")
 
         rospy.Subscriber("depth/state", Float64,
                          self.depth_callback, queue_size=1)
@@ -104,7 +91,7 @@ class Controller():
 
         # For now it commented. We use now a ground truth of state
 
-        rospy.Subscriber("localization/position_estimate",
+        rospy.Subscriber("localization/position_estimate/after_kf",
                          Point, self.locationPose_callback,
                          queue_size=1)
 
@@ -136,22 +123,14 @@ class Controller():
             "roll/setpoint", Float64, queue_size=1)
 
         # Subscribe to topics of the controller output
-        rospy.Subscriber("thrust/control_effort",
-                         Float64,
-                         self.control_callback_thrust,
-                         queue_size=1)
-        rospy.Subscriber("vertical_thrust/control_effort",
-                         Float64,
-                         self.control_callback_vertical_thrust,
-                         queue_size=1)
-        rospy.Subscriber("lateral_thrust/control_effort",
-                         Float64,
-                         self.control_callback_lateral_thrust,
-                         queue_size=1)
-        rospy.Subscriber("yaw/control_effort",
-                         Float64,
-                         self.control_callback_yaw,
-                         queue_size=1)
+        rospy.Subscriber("thrust/control_effort", Float64, self.control_callback_thrust, queue_size=1)
+
+        rospy.Subscriber("vertical_thrust/control_effort", Float64, self.control_callback_vertical_thrust, queue_size=1)
+        
+        rospy.Subscriber("lateral_thrust/control_effort", Float64, self.control_callback_lateral_thrust, queue_size=1)
+
+        rospy.Subscriber("yaw/control_effort", Float64, self.control_callback_yaw, queue_size=1)
+
         rospy.Subscriber("pitch/control_effort",
                          Float64,
                          self.control_callback_pitch,
@@ -173,12 +152,11 @@ class Controller():
         self.depth = msg.data
 
     def locationPose_callback(self, msg):
-        # I am not sure about order x y z to thrust /  later thrust / vertical thrust
+        # # I am not sure about order x y z to thrust /  later thrust / vertical thrust
         # self.gt_thrust = msg.x           # after localization -> thrust
         # self.gt_laterial_thrust = msg.y  # after localization -> laterial thrust
         # self.gt_vertical_thrust = msg.z  # after localization -> vertical thrust
         pass
-
         # Each Pose has to be published individually in order to PID Controller could subscribe
 
     def on_ground_truth(self, msg):
@@ -189,8 +167,7 @@ class Controller():
 
         orientation_list = [qx, qy, qz, qw]
         # Convert Quaternion to Euler angels
-        (self.roll_gt, self.pitch_gt,
-         self.yaw_gt) = euler_from_quaternion(orientation_list)
+        (self.roll_gt, self.pitch_gt, self.yaw_gt) = euler_from_quaternion(orientation_list)
 
         # print("GT Euler Angles, radian?")
         # print(self.roll_gt, self.pitch_gt, self.yaw_gt)
@@ -244,8 +221,8 @@ class Controller():
             if (self.vertical_thrust_setpoint < safezone_upper and self.vertical_thrust_setpoint > safezone_lower):
                 # Congratulations You passed ALL CHECKS !!!
                 self.set_vertical_thrust(self.control_effort_vertical_thrust)
-                rospy.loginfo(
-                    " Congratulations You passed ALL CHECKS in depth!!!")
+                # rospy.loginfo(
+                #     " Congratulations You passed ALL CHECKS in depth!!!")
             elif self.vertical_thrust_setpoint > safezone_upper:
                 self.set_vertical_thrust(
                     min(self.control_effort_vertical_thrust, 0))
@@ -292,12 +269,12 @@ class Controller():
 
     def control_callback_pitch(self, msg):
         # print(msg.data)
-        self.control_effort_pitch = msg.data
+        self.control_effort_pitch = 0 # msg.data
         self.set_pitch_rate(self.control_effort_pitch)
 
     def control_callback_roll(self, msg):
         # print(msg.data)
-        self.control_effort_roll = msg.data
+        self.control_effort_roll = 0 # msg.data
         self.set_roll_rate(self.control_effort_roll)
 
     # Set controller state, and send after that to mixer/actuator_commands, after that
@@ -398,7 +375,7 @@ class Controller():
 
 
 def main():
-    print("ENTER TO THE CONTROLLER CLASS")
+    # print("ENTER TO THE CONTROLLER CLASS")
     node = Controller("main_controller")
     node.run()
 
