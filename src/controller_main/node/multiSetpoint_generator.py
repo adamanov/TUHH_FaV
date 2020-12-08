@@ -14,17 +14,17 @@ class setpointsGenerator:
         self.pose = Point()
         self.angels = Point()
 
-        self.setpointPoseX = 0
-        self.setpointPoseY = 0
-        self.setpointPoseZ = -0.5
+        self.setpointPoseX = 0.0
+        self.setpointPoseY = 0.0
+        self.setpointPoseZ = 0.0
         # Set a desired orientation of robot
         self.setpointAngleRoll = 0
         self.setpointAnglePitch = 0
         self.setpointAngleYaw = 0
         # Set as a parameter for each
-        rospy.set_param('setpointPoseX', 0)
-        rospy.set_param('setpointPoseY', 0)
-        rospy.set_param('setpointPoseZ', -0.5)
+        rospy.set_param('setpointPoseX', 0.0)
+        rospy.set_param('setpointPoseY', 0.0)
+        rospy.set_param('setpointPoseZ', 0.0)
 
         rospy.set_param('setpointAngleRoll', 0)
         rospy.set_param('setpointAnglePitch', 0)
@@ -53,7 +53,7 @@ class setpointsGenerator:
             self.setpointPoseZ = rospy.get_param("setpointPoseZ")
         else:
             rospy.loginfo(
-                "Please set setpointPoseX or setpointPoseY or setpointPoseZ to float in safezone!")
+                "Please set setpointPoseZ to float in safezone!")
 
     # Check if given depth setpoint is valid
     def isValidSetpoint(self):

@@ -103,12 +103,11 @@ class Controller():
                                                  self.on_ground_truth)
 
         # For now it commented. We use now a ground truth of state
-        """         
+
         rospy.Subscriber("localization/position_estimate",
                          Point, self.locationPose_callback,
                          queue_size=1)
 
-        """
         # Publish CURRENT POSE / ANGLES to PID Controller
         self.thrust_pub = rospy.Publisher(
             "thrust/state", Float64, queue_size=1)
@@ -172,32 +171,16 @@ class Controller():
 
     def depth_callback(self, msg):
         self.depth = msg.data
-    ''' 
+
     def locationPose_callback(self, msg):
-        self.Pose = Point()
-        self.Pose.header.stamp = rospy.Time.now()
         # I am not sure about order x y z to thrust /  later thrust / vertical thrust
-        self.Pose.x = msg.x  # Thrust
-        self.Pose.y = msg.y  # Laterial Thrust
-        self.Pose.z = msg.z  # Vertical Thrust
+        # self.gt_thrust = msg.x           # after localization -> thrust
+        # self.gt_laterial_thrust = msg.y  # after localization -> laterial thrust
+        # self.gt_vertical_thrust = msg.z  # after localization -> vertical thrust
+
+        pass
 
         # Each Pose has to be published individually in order to PID Controller could subscribe
-
-        # Publish current Thrust Position
-        self.thrust_msg = Float64()
-        self.thrust_msg.data = self.Pose.x
-        self.thrust_pub.publish(self.thrust_msg)
-
-        # Publish current Laterial Thrust Position
-        self.lt_msg = Float64()
-        self.vt_msg.data = self.Pose.y
-        self.lt_pub.publish(self.lt_msg)
-
-        # Publish current Vertical Thrust Position
-        self.vt_msg = Float64()
-        self.vt_msg.data = self.Pose.z
-        self.vt_pub.publish(self.vt_msg)
-    '''
 
     def on_ground_truth(self, msg):
         qx = msg.pose.pose.orientation.x
@@ -209,14 +192,13 @@ class Controller():
         # Convert Quaternion to Euler angels
         (self.roll_gt, self.pitch_gt,
          self.yaw_gt) = euler_from_quaternion(orientation_list)
-        #print("GT Euler Angles, radian?")
-        #print(self.roll_gt, self.pitch_gt, self.yaw_gt)
+
+        # print("GT Euler Angles, radian?")
+        # print(self.roll_gt, self.pitch_gt, self.yaw_gt)
 
         self.gt_thrust = msg.pose.pose.position.x           # ground truth thrust
         self.gt_laterial_thrust = msg.pose.pose.position.y  # ground thruth laterial thrust
         self.gt_vertical_thrust = msg.pose.pose.position.z  # ground thruth vertical thrust
-        #print("GT Position of robot")
-        #print(self.gt_thrust, self.gt_laterial_thrust, self.gt_vertical_thrust)
 
        # Each Angle has to be published individually in order to PID Controller could subscribe
 
@@ -271,7 +253,8 @@ class Controller():
                 rospy.loginfo(
                     "over safezone_upper!!   (No positive control_effort allowed)")
             elif self.vertical_thrust_setpoint < safezone_lower:
-                self.set_vertical_thrust(max(self.control_effort, 0))
+                self.set_vertical_thrust(
+                    max(self.control_effort_vertical_thrust, 0))
                 rospy.loginfo(
                     "under safezone_lower!!   (No negative control_effort allowed)")
             else:
@@ -353,7 +336,6 @@ class Controller():
         yaw_msg = self.yaw_gt
         self.yaw_pub.publish(yaw_msg)
 
-        # ---- Temp. will be replaced with localizatio/ground_thruth----
         # Publish current Ground_truth of Thrust
         gt_thrust_msg = Float64()
         gt_thrust_msg.data = self.gt_thrust
@@ -365,6 +347,7 @@ class Controller():
         # Publsih current Ground_truth of Vertical Thrust
         gt_vertical_thrust_msg = Float64()
         gt_vertical_thrust_msg.data = self.gt_vertical_thrust
+
         self.vt_pub.publish(gt_vertical_thrust_msg)
 
     def publish_desiredState_separatly(self):
