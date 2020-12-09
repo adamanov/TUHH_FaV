@@ -8,7 +8,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   message_generation
-  rospy
 )
 
 add_compile_options(-std=c++14)
@@ -39,7 +38,6 @@ catkin_package(
   DEPENDS 
       roscpp 
       gazebo_ros
-      rospy
   CATKIN_DEPENDS 
     message_runtime
 )
