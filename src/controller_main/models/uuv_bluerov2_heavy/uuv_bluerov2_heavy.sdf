@@ -418,7 +418,7 @@
             <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
             <buoyancy>
                 <link_name>base_link</link_name>
-                <origin>0 0 0.01</origin>
+                <origin>0 0 -0.2</origin>
                 <compensation>1.001</compensation>
                 <height_scale_limit>0.05</height_scale_limit>
             </buoyancy>
