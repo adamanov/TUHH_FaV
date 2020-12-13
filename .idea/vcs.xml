@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/bluerov_sim" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/mavlink" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/mavros" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/pid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/range_sensor" vcs="Git" />
+  </component>
+</project>

@@ -16,7 +16,7 @@ class setpointsGenerator:
 
         self.setpointPoseX = 0
         self.setpointPoseY = 0
-        self.setpointPoseZ = -0.5
+        self.setpointPoseZ = -0.4
         # Set a desired orientation of robot
         self.setpointAngleRoll = 0
         self.setpointAnglePitch = 0
@@ -24,15 +24,15 @@ class setpointsGenerator:
         # Set as a parameter for each
         rospy.set_param('setpointPoseX', 0)
         rospy.set_param('setpointPoseY', 0)
-        rospy.set_param('setpointPoseZ', -0.5)
+        rospy.set_param('setpointPoseZ', -0.4)
 
         rospy.set_param('setpointAngleRoll', 0)
         rospy.set_param('setpointAnglePitch', 0)
         rospy.set_param('setpointAngleYaw', 90*2*m.pi/360)
 
         # Bounds of depth
-        rospy.set_param('safezone_upper', 0.0)  #, -0.15)
-        rospy.set_param('safezone_lower', -2.0)  #, -0.6)
+        rospy.set_param('safezone_upper', 0.0)  # , -0.15)
+        rospy.set_param('safezone_lower', -2.0)  # , -0.6)
         # rospy.set_param('safezone_left_x', 0.2)
         # rospy.set_param('safezone_right_x', 1.3)
         # rospy.set_param('safezone_front_y', 1.3)  # direction of where tags are

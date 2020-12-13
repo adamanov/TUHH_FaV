@@ -11,12 +11,13 @@ from depth_controller.msg import Orientation
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
+from geometry_msgs.msg import PoseStamped
 
 
 class Controller():
     def __init__(self, name):
         rospy.init_node(name)
-        
+
         rospy.set_param('depth_timeout', 1 * 10**9)
 
         self.rate = 5
@@ -86,7 +87,11 @@ class Controller():
                          queue_size=1)
 
         # Subscribe to topics to get a current Pose and Orientation
-        self.ground_truth_sub = rospy.Subscriber("ground_truth/state", Odometry,
+        # For simulation on gazebo
+        # self.ground_truth_sub = rospy.Subscriber("ground_truth/state", Odometry,
+        #                                         self.on_ground_truth)
+
+        self.ground_truth_sub = rospy.Subscriber("mavros/local_position/pose", PoseStamped,
                                                  self.on_ground_truth)
 
         # For now it commented. We use now a ground truth of state
@@ -123,13 +128,17 @@ class Controller():
             "roll/setpoint", Float64, queue_size=1)
 
         # Subscribe to topics of the controller output
-        rospy.Subscriber("thrust/control_effort", Float64, self.control_callback_thrust, queue_size=1)
+        rospy.Subscriber("thrust/control_effort", Float64,
+                         self.control_callback_thrust, queue_size=1)
 
-        rospy.Subscriber("vertical_thrust/control_effort", Float64, self.control_callback_vertical_thrust, queue_size=1)
-        
-        rospy.Subscriber("lateral_thrust/control_effort", Float64, self.control_callback_lateral_thrust, queue_size=1)
+        rospy.Subscriber("vertical_thrust/control_effort", Float64,
+                         self.control_callback_vertical_thrust, queue_size=1)
 
-        rospy.Subscriber("yaw/control_effort", Float64, self.control_callback_yaw, queue_size=1)
+        rospy.Subscriber("lateral_thrust/control_effort", Float64,
+                         self.control_callback_lateral_thrust, queue_size=1)
+
+        rospy.Subscriber("yaw/control_effort", Float64,
+                         self.control_callback_yaw, queue_size=1)
 
         rospy.Subscriber("pitch/control_effort",
                          Float64,
@@ -149,32 +158,33 @@ class Controller():
         # ----- controller as a state and setpoint
 
     def depth_callback(self, msg):
-        self.depth = msg.data
+        self.gt_vertical_thrust = msg.data
 
     def locationPose_callback(self, msg):
         # # I am not sure about order x y z to thrust /  later thrust / vertical thrust
-        # self.gt_thrust = msg.x           # after localization -> thrust
-        # self.gt_laterial_thrust = msg.y  # after localization -> laterial thrust
-        # self.gt_vertical_thrust = msg.z  # after localization -> vertical thrust
-        pass
+        self.gt_thrust = msg.x           # after localization -> thrust
+        self.gt_laterial_thrust = msg.y  # after localization -> laterial thrust
+        # self.gt_vertical_thrust = msg.z  # after localization -> vertical thrust  ( we get it directly from depth sensor line 161)
+
         # Each Pose has to be published individually in order to PID Controller could subscribe
 
     def on_ground_truth(self, msg):
-        qx = msg.pose.pose.orientation.x
-        qy = msg.pose.pose.orientation.y
-        qz = msg.pose.pose.orientation.z
-        qw = msg.pose.pose.orientation.w
+        qx = msg.pose.orientation.x  # qx = msg.pose.pose.orientation.x
+        qy = msg.pose.orientation.y
+        qz = msg.pose.orientation.z
+        qw = msg.pose.orientation.w
 
         orientation_list = [qx, qy, qz, qw]
         # Convert Quaternion to Euler angels
-        (self.roll_gt, self.pitch_gt, self.yaw_gt) = euler_from_quaternion(orientation_list)
+        (self.roll_gt, self.pitch_gt,
+         self.yaw_gt) = euler_from_quaternion(orientation_list)
 
         # print("GT Euler Angles, radian?")
         # print(self.roll_gt, self.pitch_gt, self.yaw_gt)
-
+        """ 
         self.gt_thrust = msg.pose.pose.position.x           # ground truth thrust
         self.gt_laterial_thrust = msg.pose.pose.position.y  # ground thruth laterial thrust
-        self.gt_vertical_thrust = msg.pose.pose.position.z  # ground thruth vertical thrust
+        self.gt_vertical_thrust = msg.pose.pose.position.z """  # ground thruth vertical thrust
 
        # Each Angle has to be published individually in order to PID Controller could subscribe
 
@@ -269,12 +279,12 @@ class Controller():
 
     def control_callback_pitch(self, msg):
         # print(msg.data)
-        self.control_effort_pitch = 0 # msg.data
+        self.control_effort_pitch = 0  # msg.data
         self.set_pitch_rate(self.control_effort_pitch)
 
     def control_callback_roll(self, msg):
         # print(msg.data)
-        self.control_effort_roll = 0 # msg.data
+        self.control_effort_roll = 0  # msg.data
         self.set_roll_rate(self.control_effort_roll)
 
     # Set controller state, and send after that to mixer/actuator_commands, after that

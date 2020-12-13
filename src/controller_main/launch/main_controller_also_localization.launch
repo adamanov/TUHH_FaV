@@ -3,43 +3,40 @@
     <arg name="vehicle" default="uuv_bluerov2_heavy" />
 
     <!-- start the gazebo simulator and an empty world -->
-    <include file="$(find bluerov_sim)/launch/gazebo_base.launch" />
+     <include file="$(find bluerov_sim)/launch/gazebo_base.launch" />
 
-    <!--     <include file="$(find bluerov_sim)/launch/keyboard_control.launch" /> -->
-
+<!--         <include file="$(find bluerov_sim)/launch/keyboard_control.launch" />
+ -->
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
-    <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
-        <!-- Set the position-->
-        <arg name="x" value="0.0" />
-        <arg name="y" value="0.0" />
-        <arg name="z" value="0.0" /> <!-- -0.5 -->
+      <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
+    <!--  Set the position-->
+       <arg name="x" value="1.0" />
+        <arg name="y" value="1.0" />
+        <arg name="z" value="-1.0"/> -->
         <!-- Set roll, pitch, yaw-->
         <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
-        <arg name="Y" value="0.0" />
+        <arg name="Y" value="1.5708" />
     </include>
 
 
-    <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
+     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
 
     <!-- launch the range_sensor -->
-    <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+        <include file="$(find range_sensor)/launch/range_sensor.launch"/>
 
     <!-- Launch localization algorithm -->
     <include file="$(find localization)/launch/launch_localization.launch"></include>
 
 
-
     <!-- Launch the Nodes of Controller Main Pkg -->
-    <node name="multiSetpointGenerator" pkg="controller_main" type="multiSetpoint_generator.py" output="screen" />
+    <!-- <node name="multiSetpointGenerator" pkg="controller_main" type="multiSetpoint_generator.py" output="screen" /> -->
 
-    <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" />
+    <!-- <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" /> -->
 
     <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
 
     <node name="mixer" pkg="controller_main" type="mixer.py" output="screen" />
->
-
 
     <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
 
@@ -67,9 +64,9 @@
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
                                                                                  vertical_thrust/state-->
     <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
-        <param name="Kp" value="35.0" />
-        <param name="Ki" value="0.012" />
-        <param name="Kd" value="0.5" />
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
         <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
@@ -92,7 +89,7 @@
     <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                  yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
-        <param name="Kp" value="0.14" />
+        <param name="Kp" value="0.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
@@ -125,7 +122,7 @@
         <param name="windup_limit" value="10" />
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
-    </node> --> 
+    </node> -->
 
 
     <!-- Launch the Plots here -->
@@ -134,7 +131,7 @@
     <!-- <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
 
     <!-- Play back data with rosbag -->
-    <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag">
+    <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag"> 
     </node> -->
     <!-- for rosbag -> rosbag record -a -->
 </launch>

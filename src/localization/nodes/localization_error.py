@@ -17,7 +17,7 @@ class LocalizationError():
 
         rospy.Subscriber("/ground_truth/state", Odometry, self.ground_truth_callback)
 
-        rospy.Subscriber("localization/position_estimate", Point, self.global_position_callback)
+        rospy.Subscriber("localization/ekf/baselink_position", Point, self.global_position_callback)
 
         self.pub_error_dis = rospy.Publisher("localization/error/distance", Float64, queue_size=1)
 

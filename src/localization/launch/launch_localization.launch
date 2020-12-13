@@ -8,4 +8,10 @@
     <node name="range_averager" pkg="localization" type="range_averager.py" output="screen"/>
 
     <node name="kalman_filter" pkg="localization" type="kalman_filter.py" output="screen"/>
+
+    <node name="ExtendedKalmanFilter" pkg="localization" type="extended_kalman_filter.py" output="screen"/>
+
+    <node name="TfCameraToBaselink" pkg="localization" type="tf_camera_to_baselink.py" output="screen"/>
+
+
 </launch>
