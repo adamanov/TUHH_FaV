@@ -1,6 +1,6 @@
 # TUHH - Uni Hamburg Project 
 
-<img src="/documents/BlurROV2.jpg" width="1000" height="600" />
+<img src="/documents/BlurROV2.jpg" width="600" height="360" />
 
 #### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
