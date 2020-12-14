@@ -6,12 +6,14 @@
 
 #### Assigment-2
 - [Task Description](documents/FAV20_Assignment_2.pdf)
+
   [Additional Info to Task](https://hippocampusrobotics.github.io/fav_docs/assignment2.html)
 
 - [Report](documentation/report_2.pdf)
 
 #### Assigment-3
 - [Task Description](FAV20_Assignment_3.pdf)
+
   [Additional Info to Task](https://hippocampusrobotics.github.io/fav_docs/assignment3.html)
 
 - [Assigment_3 Report](documentation/report_2.pdf)
