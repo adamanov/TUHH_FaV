@@ -2,15 +2,15 @@
 
 <img src="/documents/BlurROV2.jpg" width="600" height="360" />
 
-#### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
+### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
-#### Assigment-2
+### Assigment-2
   Build a controller algorithm for AUV 
 - [Detailed task description](documents/FAV20_Assignment_2.pdf)
 
 - [Report](documents/Assignment2_Group4.pdf)
 
-#### Assigment-3
+### Assigment-3
 Build a localization algorithm based on a range to tags in the tank.
 
 Developed methods 
