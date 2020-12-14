@@ -15,7 +15,7 @@ class TfCameraToBaselink():
         self.camera_in_inertial = np.array([[0.0, 0.0, 0.0]]).T
         self.baselink_to_camera = np.array([rospy.get_param('baselink_to_camera')]).T
         self.pitch = 0.0
-        self.yaw = 0.0
+        self.yaw = 1.57
         self.roll = 0.0
 
         self.pub_baselink_ekf = rospy.Publisher("localization/ekf/baselink_position", Point,queue_size=1)
@@ -34,6 +34,7 @@ class TfCameraToBaselink():
         self.roll = msg.roll
         self.pitch = msg.pitch
         self.yaw = msg.yaw
+        print(self.yaw)
 
     def ekf_callback(self, msg):
         self.calculate_baselink_in_inertial(msg.x, msg.y, msg.z)
@@ -71,7 +72,7 @@ class TfCameraToBaselink():
         # Rotate baslink to camera vector and substract the resulting vector to get the baslink position in the inertial system
         self.baselink_in_inertial = self.camera_in_inertial - np.dot(rotation_matrix, self.baselink_to_camera)
 
-    def rotation_matrix_from_euler(self,pitch, yaw, roll):
+    def rotation_matrix_from_euler(self, pitch, yaw, roll):
 
         yawMatrix = np.matrix([
             [m.cos(yaw), -m.sin(yaw), 0],
