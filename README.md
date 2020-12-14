@@ -7,16 +7,12 @@
 #### Assigment-2
 - [Task Description](documents/FAV20_Assignment_2.pdf)
 
-  Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment2.html)
-
 - [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
 - [Task Description](documents/FAV20_Assignment_3.pdf)
 
-  Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment3.html)
-
-- [Assigment_3 Report](documents/report_2.pdf)
+- [Report](documents/report_2.pdf)
 
 
 #### References
