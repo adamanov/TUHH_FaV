@@ -11,11 +11,17 @@
 - [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
-Build a localization algorithm
+Build a localization algorithm.
+
 Developed methods based on: 
-    1-  Least Squared Estimation (LSE). 
-    2-  LSE + KF
-    3-  EKF 
+
+1-  Least Squared Estimation (LSE). 
+
+2-  LSE + KF
+
+3-  EKF 
+    
+    
 - [Task Description](documents/FAV20_Assignment_3.pdf)
 
 - [Report](documents/report_2.pdf)
