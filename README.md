@@ -2,7 +2,7 @@
 
 <img src="documentation/BlurROV2.jpg" width="320" height="240" />
 
-[Formulas and Vehicles’s documentation!](https://hippocampusrobotics.github.io/fav_docs/)
+#### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
 #### Assigment-2
 - [Task Description](documents/FAV20_Assignment_2.pdf)
