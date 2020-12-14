@@ -31,3 +31,4 @@ Developed methods
 #### References
 -	[KF / EKF ](https://dsp.stackexchange.com/questions/8860/kalman-filter-for-position-and-velocity-introducing-speed-estimates/8869)
 -	[A* Algorithm](http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html)
+- [HippoCampus](https://hippocampusrobotics.github.io/)
