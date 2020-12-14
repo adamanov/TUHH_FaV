@@ -5,11 +5,17 @@
 #### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
 #### Assigment-2
-- [Task Description](documents/FAV20_Assignment_2.pdf)
+  Build a controller algorithm for AUV 
+- [Detailed task description](documents/FAV20_Assignment_2.pdf)
 
 - [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
+Build a localization algorithm
+Developed methods based on: 
+    1-  Least Squared Estimation (LSE). 
+    2-  LSE + KF
+    3-  EKF 
 - [Task Description](documents/FAV20_Assignment_3.pdf)
 
 - [Report](documents/report_2.pdf)
