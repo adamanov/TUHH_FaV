@@ -1,6 +1,6 @@
 # TUHH - Uni Hamburg Project 
 
-<img src="documentation/BlurROV2.jpg" width="320" height="240" />
+<img src="/documents/BlurROV2.jpg" width="1000" height="600" />
 
 #### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
@@ -9,14 +9,14 @@
 
   Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment2.html)
 
-- [Report](documentation/report_2.pdf)
+- [Report](documents/report_2.pdf)
 
 #### Assigment-3
 - [Task Description](FAV20_Assignment_3.pdf)
 
   Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment3.html)
 
-- [Assigment_3 Report](documentation/report_2.pdf)
+- [Assigment_3 Report](documents/report_2.pdf)
 
 
 #### References
