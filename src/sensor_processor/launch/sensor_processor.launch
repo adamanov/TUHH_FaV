@@ -3,5 +3,5 @@
 
     <node name="pose_reader" pkg="sensor_processor" type="pose_reader.py" output="screen" />
 
-    <!-- <node name="range_averager" pkg="localization" type="range_averager.py" output="screen"/> -->
+    <node name="range_viewer" pkg="sensor_processor" type="range_viewer.py" output="screen"/>
 </launch>

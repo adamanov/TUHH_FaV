@@ -85,9 +85,9 @@ class TfCameraToBaselink():
             ])
         return np.dot(np.dot(yawMatrix, pitchMatrix), rollMatrix)
 
-    def publish_Float64(self, pub, float):
+    def publish_Float64(self, pub, float64):
         msg = Float64()
-        msg.data = float
+        msg.data = float64
         pub.publish(msg)
 
 def main():
