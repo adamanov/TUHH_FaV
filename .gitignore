@@ -1,6 +1,7 @@
 .catkin_tools
 .devcontainer
 .vscode
+.idea
 /build
 /logs
 /devel
