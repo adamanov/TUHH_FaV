@@ -12,7 +12,7 @@
 - [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
-- [Task Description](FAV20_Assignment_3.pdf)
+- [Task Description](documents/FAV20_Assignment_3.pdf)
 
   Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment3.html)
 
