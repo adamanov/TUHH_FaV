@@ -6,18 +6,19 @@ from std_msgs.msg import Float64
 class DepthCalculator():
    def __init__(self, name):
       rospy.init_node(name)
+      
       self.pascal_per_meter = 1.0e4
       self.depth_offset = -0.15
 
       rospy.set_param('atmospheric_pressure', 1.028 * 10**5)  # [pascal]
 
       self.pastDepthValues = [0.0, 0.0, 0.0, 0.0]
-         
+      
+      # PUBLISHER:
       self.depth_pub = rospy.Publisher("depth/state", Float64, queue_size=1)
 
-      rospy.Subscriber("pressure", FluidPressure,
-                                    self.pressure_callback)
-
+      # SUBSCRIBER:
+      rospy.Subscriber("pressure", FluidPressure, self.pressure_callback)
 
    def pressure_callback(self, pressure_msg):
       depth = -(pressure_msg.fluid_pressure - rospy.get_param('atmospheric_pressure')) / self.pascal_per_meter + self.depth_offset

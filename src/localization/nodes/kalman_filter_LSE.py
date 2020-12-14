@@ -14,7 +14,7 @@ class KalmanFilter():
         self.x = np.zeros(6)  # 6x1 state vevtor with [x, y, z, v_x, v_y, v_z]
         self.P = np.eye(6)
 
-        self.last_prediction = 0.0
+        self.prediction_rate = rospy.get_param('prediction_rate')
 
         self.M_1 = np.eye(3, 6)
         rospy.set_param('std_x', 300000)  # from measurement
@@ -35,20 +35,13 @@ class KalmanFilter():
         rospy.set_param('model_std_v_z', 1000)
 
         # SUBSCRIBER:
-        rospy.Subscriber("localization/position_estimate",
-                         Point, self.position_callback)
-
-        # rospy.Subscriber("/mavros/local_position/velocity_body", TwistStamped, self.imu_callback)
-        # rospy.Subscriber("/ground_truth/state", Odometry, self.imu_callback)
-
+        rospy.Subscriber("localization/least_squares/camera_position", Point, self.position_callback)
+        rospy.Subscriber("/mavros/local_position/velocity_body", TwistStamped, self.imu_callback)
         # rospy.Subscriber("/mavros/local_position/velocity_body_cov", TwistWithCovariance, self.imu_callback)
 
         # PUBLISHER:
-        self.pub_position = rospy.Publisher(
-            "localization/position_estimate/after_kf", Point, queue_size=1)
-
-        self.pub_velocity = rospy.Publisher(
-            "localization/velocity/after_kf", Point, queue_size=1)
+        self.pub_position = rospy.Publisher("localization/least_squares_and_kf/camera_position", Point, queue_size=1)
+        self.pub_velocity = rospy.Publisher("localization/least_squares_and_kf/velocity", Point, queue_size=1)
 
     # Input ranges -> predict ranges using vetors, EKF?
     def position_callback(self, msg):
@@ -66,7 +59,6 @@ class KalmanFilter():
     def imu_callback(self, msg):
         z = np.array([-msg.twist.linear.y, msg.twist.linear.x,
                       msg.twist.linear.z])   # for IMU
-        # z = -np.array([msg.twist.twist.linear.x, msg.twist.twist.linear.y, msg.twist.twist.linear.z]) # for ground truth
         # print("z: " + str(z))
         y = z - np.dot(self.M_2, self.x)
         # print("y: " + str(y))
@@ -77,9 +69,7 @@ class KalmanFilter():
         # print("S: " + str(S))
         K = np.dot(np.dot(self.P, np.transpose(self.M_2)),
                    np.linalg.inv(S))  # 6x3
-        # if np.sum(K) > 1:
-        #     print("S: " + str(S))
-        #     print("K: " + str(K))
+        # print("K: " + str(K))
         self.x = self.x + np.dot(K, y)
         # print("x: " + str(self.x))
         self.P = np.dot((np.eye(6) - np.dot(K, self.M_2)), self.P)
@@ -87,10 +77,7 @@ class KalmanFilter():
         self.publish_states()
 
     def prediction_step(self):
-        # dt = float((float(rospy.Time.now().nsecs) - float(self.last_prediction))/(10**9))
-        # print("dt: " + str(dt))
-        # self.last_prediction = float(rospy.Time.now().nsecs)
-        dt = 0.05
+        dt = 1 / self.prediction_rate
         F = np.eye(6)
         F[0:3, 3:6] = np.eye(3)*dt
         # print("F: " + str(F))
@@ -113,7 +100,7 @@ class KalmanFilter():
         self.pub_velocity.publish(msg2)
 
     def run(self):
-        rate = rospy.Rate(20.0)
+        rate = rospy.Rate(self.prediction_rate)
         while not rospy.is_shutdown():
             self.prediction_step()
             rate.sleep()

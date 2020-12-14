@@ -5,6 +5,7 @@ import time
 import math as m
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point
+from std_msgs.msg import Float64
 
 
 class setpointsGenerator:
@@ -21,6 +22,7 @@ class setpointsGenerator:
         self.setpointAngleRoll = 0
         self.setpointAnglePitch = 0
         self.setpointAngleYaw = 0
+
         # Set as a parameter for each
         rospy.set_param('setpointPoseX', 0)
         rospy.set_param('setpointPoseY', 0)
@@ -30,21 +32,21 @@ class setpointsGenerator:
         rospy.set_param('setpointAnglePitch', 0)
         rospy.set_param('setpointAngleYaw', 90*2*m.pi/360)
 
-        # Bounds of depth
+        # Bounds given by tank dimensions
         rospy.set_param('safezone_upper', 0.0)  # , -0.15)
         rospy.set_param('safezone_lower', -2.0)  # , -0.6)
         # rospy.set_param('safezone_left_x', 0.2)
         # rospy.set_param('safezone_right_x', 1.3)
         # rospy.set_param('safezone_front_y', 1.3)  # direction of where tags are
         # rospy.set_param('safezone_back_y', 0.2)
-        # Subscribe to a topic to publish a position of robot
 
-        self.setpointsPose_pub = rospy.Publisher("desired_pose/setpoint",
-                                                 Point,
-                                                 queue_size=1)
-        # Subscribe to a topic to publish a orientation of robot
-        self.setpointOrientation_pub = rospy.Publisher(
-            "desired_angle/setpoint", Point, queue_size=1)
+        # PUBLISHER:
+        self.thrust_setpoint_pub = rospy.Publisher("thrust/setpoint", Float64, queue_size=1)
+        self.vt_setpoint_pub = rospy.Publisher("vertical_thrust/setpoint", Float64, queue_size=1)
+        self.lt_setpoint_pub = rospy.Publisher("lateral_thrust/setpoint", Float64, queue_size=1)
+        self.yaw_setpoint_pub = rospy.Publisher("yaw/setpoint", Float64, queue_size=1)
+        # self.pitch_setpoint_pub = rospy.Publisher("pitch/setpoint", Float64, queue_size=1)
+        # self.roll_setpoint_pub = rospy.Publisher("roll/setpoint", Float64, queue_size=1)
 
     def calculate_setpoint(self):
         if self.isValidSetpoint():
@@ -59,25 +61,28 @@ class setpointsGenerator:
     def isValidSetpoint(self):
         return (rospy.get_param("setpointPoseZ") < rospy.get_param("safezone_upper")) and (rospy.get_param("setpointPoseZ") > rospy.get_param("safezone_lower"))
 
+    def publish_Float64(self, pub, float):
+        msg = Float64()
+        msg.data = float
+        pub.publish(msg)
+
     def run(self):
         rate = rospy.Rate(50.0)
         while not rospy.is_shutdown():
-
             # Publish a desired position of robot
             self.calculate_setpoint()   # check if the depth setpoint is valid
-            self.pose.x = rospy.get_param("setpointPoseX")
-            self.pose.y = rospy.get_param("setpointPoseY")
-            self.pose.z = self.setpointPoseZ
-            # print("Setpoint Pose", "\n", self.pose)   # worked
-            self.setpointsPose_pub.publish(self.pose)
+            self.x = rospy.get_param("setpointPoseX")
+            self.y = rospy.get_param("setpointPoseY")
+            self.z = self.setpointPoseZ
+            self.publish_Float64(self.thrust_setpoint_pub, self.x )
+            self.publish_Float64(self.vt_setpoint_pub, self.y)
+            self.publish_Float64(self.lt_setpoint_pub, self.z)
 
             # Publish a desired orientation of robot
-
-            self.angels.x = rospy.get_param('setpointAngleRoll')
-            self.angels.y = rospy.get_param('setpointAnglePitch')
-            self.angels.z = rospy.get_param('setpointAngleYaw')
-            self.setpointOrientation_pub.publish(self.angels)
-
+            # self.angels.x = rospy.get_param('setpointAngleRoll')
+            # self.angels.y = rospy.get_param('setpointAnglePitch')
+            self.z = rospy.get_param('setpointAngleYaw')
+            self.publish_Float64(self.yaw_setpoint_pub, self.z)
             rate.sleep()
 
 

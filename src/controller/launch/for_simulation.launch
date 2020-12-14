@@ -5,8 +5,7 @@
     <!-- start the gazebo simulator and an empty world -->
      <include file="$(find bluerov_sim)/launch/gazebo_base.launch" />
 
-<!--         <include file="$(find bluerov_sim)/launch/keyboard_control.launch" />
- -->
+
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
       <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
     <!--  Set the position-->
@@ -20,33 +19,33 @@
     </include>
 
 
-     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
+    <!-- launch the tank -->
+    <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
+
 
     <!-- launch the range_sensor -->
-        <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+    <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+
 
     <!-- Launch localization algorithm -->
     <include file="$(find localization)/launch/launch_localization.launch"></include>
 
 
-    <!-- Launch the Nodes of Controller Main Pkg -->
-    <!-- <node name="multiSetpointGenerator" pkg="controller_main" type="multiSetpoint_generator.py" output="screen" /> -->
+    <!-- Launch sensor_processor Pkg -->
+    <include file="$(find sensor_processor)/launch/sensor_processor.launch"></include>
 
-    <!-- <node name="main_controller" pkg="controller_main" type="main_controller.py" output="screen" /> -->
 
+    <!-- Launch the nodes of controller Pkg -->
+    <node name="multiSetpointGenerator" pkg="controller" type="multiSetpoint_generator.py" output="screen" />
+
+    <node name="checkpoint" pkg="controller" type="checkpoint_node.py" output="screen" />
+    
+
+    <!-- launch nodes from bluerov_sim Pkg -->
     <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
 
-    <node name="mixer" pkg="controller_main" type="mixer.py" output="screen" />
+    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />
 
-    <node name="depth_calculator" pkg="depth_controller" type="depth_calculator.py" output="screen" />
-
-    <node name="pose_reader" pkg="depth_controller" type="pose_reader.py" output="screen" />
-
-    <!-- <node name="rviz_visualizer" pkg="depth_controller" type="rviz_visualizer.py" output="screen" /> -->
-
-    <!-- <node name="depth_setpoint" pkg="depth_controller" type="depth_setpoint.py" output="screen" /> -->
-
-    <!-- <node name="controller" pkg="depth_controller" type="controller.py" output="screen" /> -->
 
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
@@ -64,7 +63,7 @@
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
                                                                                  vertical_thrust/state-->
     <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="0.2" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />

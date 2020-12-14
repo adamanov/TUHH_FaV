@@ -1,17 +1,14 @@
 <launch>
-    <arg name="sim" default="True" />
+    <!-- <arg name="sim" default="True" /> -->
 
-    <node name="localization_estimate" pkg="localization" type="localization_estimate.py" output="screen"/>
+    <node name="least_square_error" pkg="localization" type="least_square_error.py" output="screen"/>
     
     <node name="localization_error" pkg="localization" type="localization_error.py" output="screen"/>
 
-    <node name="range_averager" pkg="localization" type="range_averager.py" output="screen"/>
-
-    <node name="kalman_filter" pkg="localization" type="kalman_filter.py" output="screen"/>
+    <node name="kalman_filter_LSE" pkg="localization" type="kalman_filter_LSE.py" output="screen"/>
 
     <node name="ExtendedKalmanFilter" pkg="localization" type="extended_kalman_filter.py" output="screen"/>
 
     <node name="TfCameraToBaselink" pkg="localization" type="tf_camera_to_baselink.py" output="screen"/>
-
 
 </launch>

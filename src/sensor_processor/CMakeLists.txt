@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(controller_main)
-add_compile_options(-std=c++14)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+project(sensor_processor)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -14,13 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
   gazebo_plugins
   roscpp
-  rospy
   std_msgs
   message_generation
-  geometry_msgs
-  nav_msgs
 )
-find_package(gazebo REQUIRED)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -55,15 +49,9 @@ find_package(gazebo REQUIRED)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
 add_message_files(
-    FILES
-    currentPose.msg
+  FILES
+  Orientation.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -81,14 +69,11 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
-   geometry_msgs
-   nav_msgs
- )
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
 
- 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -118,17 +103,12 @@ add_message_files(
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-
 catkin_package(
 #  INCLUDE_DIRS include
-  DEPENDS 
-      roscpp 
-      gazebo_ros
-      rospy
-  CATKIN_DEPENDS 
-      message_runtime
+#  LIBRARIES sensor_processor
+#  CATKIN_DEPENDS other_catkin_pkg
+#  DEPENDS system_lib
 )
-
 
 ###########
 ## Build ##
@@ -136,23 +116,15 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-link_directories(${GAZEBO_LIBRARY_DIRS})
-include_directories(include 
-                            ${catkin_INCLUDE_DIRS}
-                            ${GAZEBO_INCLUDE_DIRS}
-                            ${Boost_INCLUDE_DIR}
-                            ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+# include
+# ${catkin_INCLUDE_DIRS}
+)
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/controlelr_main.cpp
+#   src/${PROJECT_NAME}/sensor_processor.cpp
 # )
-#add_executable(${PROJECT_NAME} node/main.py)
-#target_link_libraries(${PROJECT_NAME}
-#                      ${catkin_LIBRARIES})
-
-add_library(gazebo_pressure_plugin plugins/gazebo_pressure_plugin.cpp)
-add_dependencies(gazebo_pressure_plugin ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gazebo_pressure_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -162,7 +134,7 @@ target_link_libraries(gazebo_pressure_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRAR
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/controlelr_main_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/sensor_processor_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -226,11 +198,10 @@ target_link_libraries(gazebo_pressure_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRAR
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_controlelr_main.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_sensor_processor.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
