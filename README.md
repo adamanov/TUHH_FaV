@@ -5,7 +5,9 @@
 ### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
 ### Assigment-2
-  Build a controller algorithm for AUV 
+Build a controller algorithm for AUV and track desired setpoints.
+Developed PID controller for 4 DoF, which is able to control BluROV for a given setpoints.
+
 - [Detailed task description](documents/FAV20_Assignment_2.pdf)
 
 - [Report](documents/Assignment2_Group4.pdf)
