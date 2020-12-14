@@ -14,9 +14,9 @@
 Build a localization algorithm.
 
 Developed methods based on: 
--  Least Squared Estimation (LSE). 
--  LSE + KF. 
--  EKF 
+1.  Least Squared Estimation (LSE). 
+2.  LSE + KF. 
+3.  EKF 
 
     
 - [Task Description](documents/FAV20_Assignment_3.pdf)
