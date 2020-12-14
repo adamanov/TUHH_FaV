@@ -9,7 +9,7 @@
 
   Additional Info to Task [click](https://hippocampusrobotics.github.io/fav_docs/assignment2.html)
 
-- [Report](documents/report_2.pdf)
+- [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
 - [Task Description](FAV20_Assignment_3.pdf)
