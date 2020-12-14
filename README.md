@@ -11,9 +11,9 @@
 - [Report](documents/Assignment2_Group4.pdf)
 
 #### Assigment-3
-Build a localization algorithm.
+Build a localization algorithm based on a range to tags in the tank.
 
-Developed methods based on: 
+Developed methods 
 1.  Least Squared Estimation (LSE). 
 2.  LSE + KF. 
 3.  EKF
