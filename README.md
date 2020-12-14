@@ -22,6 +22,9 @@ Developed methods
 
 - [Report](documents/report_2.pdf)
 
+**Node Structure**
+
+<img src="documents/node_structure_localization_and_controller.png" width="600" height="360" />
 
 #### References
 -	[KF / EKF ](https://dsp.stackexchange.com/questions/8860/kalman-filter-for-position-and-velocity-introducing-speed-estimates/8869)
