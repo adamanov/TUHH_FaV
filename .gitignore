@@ -6,9 +6,6 @@
 /logs
 /devel
 /src/awesome_package
-/src/bluerov_sim
-/src/mavlink
-/src/mavros
 /src/range_sensor
 /src/pid
 
