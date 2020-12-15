@@ -5,7 +5,7 @@ import math as m
 from geometry_msgs.msg import Point
 from std_msgs.msg import Float64
 from range_sensor.msg import RangeMeasurementArray, RangeMeasurement
-from depth_controller.msg import Orientation
+from sensor_processor.msg import Orientation
 from tf.transformations import euler_matrix
 from scipy.optimize import lsq_linear
 
@@ -20,7 +20,7 @@ class PositionEstimator():
         self.range_sensor_link = np.array([-0.2, 0.0, 0.1])
 
         # Adjust for the experiment!
-        self.tag1_coor = np.array([0.72, 3.35, -0.28])
+        self.tag1_coor = np.array([0.72, 3.35, -0.27])
 
         self.lb = np.array([0.0, 0.0, -1.6])
         self.ub = np.array([2.0, 3.35, 0.2])
@@ -56,9 +56,9 @@ class PositionEstimator():
                     tag_range.id)
                 A[i, :] = [1.0, -tag_x, -tag_y]
                 b[i] = tag_range.range**2 - tag_x**2 - tag_y**2 - \
-                    (self.depth + self.range_sensor_link[2] - tag_z)**2
+                    (self.depth - tag_z)**2  # + self.range_sensor_link[2]
             temp_states = lsq_linear(A, np.array(b), bounds=(self.lb_trans2, self.ub_trans2)).x
-            self.current_pos = np.append(self.transform_into_coor(temp_states), self.depth + self.range_sensor_link[2])
+            self.current_pos = np.append(self.transform_into_coor(temp_states), self.depth ) #+ self.range_sensor_link[2]
             msg = Point()
             msg.x, msg.y, msg.z = np.array(self.current_pos)
             self.pub_position.publish(msg)

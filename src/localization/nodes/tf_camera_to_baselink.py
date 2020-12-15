@@ -3,7 +3,7 @@ import math as m
 import rospy
 import numpy as np
 from geometry_msgs.msg import Point
-from depth_controller.msg import Orientation
+from sensor_processor.msg import Orientation
 from std_msgs.msg import Float64
 
 class TfCameraToBaselink():

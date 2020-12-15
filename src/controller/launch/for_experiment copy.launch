@@ -25,9 +25,9 @@
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="2.6" />
         <param name="Ki" value="0.0" />
-        <param name="Kd" value="0.0" />
+        <param name="Kd" value="0.03" />
         <param name="upper_limit" value="1" />
         <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
@@ -38,9 +38,9 @@
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
                                                                                  vertical_thrust/state-->
     <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
-        <param name="Kp" value="0.0" />
-        <param name="Ki" value="0.00" />
-        <param name="Kd" value="0.00" />
+        <param name="Kp" value="4.0" />
+        <param name="Ki" value="0.018" />
+        <param name="Kd" value="0.006" />
         <param name="upper_limit" value="1" />
         <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
@@ -50,9 +50,9 @@
     <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
                                                                                 lateral_thrust/state-->
     <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="3.0" />
         <param name="Ki" value="0.0" />
-        <param name="Kd" value="0.0" />
+        <param name="Kd" value="0.03" />
         <param name="upper_limit" value="1" />
         <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />
@@ -63,9 +63,9 @@
     <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                  yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
-        <param name="Kp" value="0.0" />
-        <param name="Ki" value="0.0" />
-        <param name="Kd" value="0.0" />
+        <param name="Kp" value="1.4" />
+        <param name="Ki" value="0.022" />
+        <param name="Kd" value="0.008" />
         <param name="upper_limit" value="1" />
         <param name="lower_limit" value="-1" />
         <param name="windup_limit" value="10" />

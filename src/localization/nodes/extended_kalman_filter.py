@@ -16,7 +16,7 @@ class ExtendedKalmanFilter():
         self.prediction_rate = rospy.get_param('prediction_rate')
 
        # rospy.set_param('tag1',[0.5, 3.35,-0.5])
-        self.tag1 = np.array([[0.5, 3.35,-0.5]]).T
+        self.tag1 = np.array([[0.72, 3.35, -0.27]]).T
 
         self.tags = [None]*4
         for i in range(4):
@@ -73,6 +73,8 @@ class ExtendedKalmanFilter():
 
         # Update state vector
         self.state_vector = self.state_vector + np.dot(K,y)
+        if (self.state_vector[1] > 3.35):
+            self.state_vector[1] -= 2*(self.state_vector[1] - 3.35)
         # print('Updated_state vector')
         # print(self.state_vector, np.size(self.state_vector))
         self.P = np.dot((np.eye(6) - np.dot(K,H)), self.P)
@@ -108,7 +110,7 @@ class ExtendedKalmanFilter():
 
     def update_depth(self, msg):
         R = np.matrix(rospy.get_param('std_depth'))
-        z = msg.data + 0.1  # global formulieren
+        z = msg.data # + 0.1  # global formulieren
         y = z - np.dot(self.M_depth, self.state_vector)
         S = np.dot(np.dot(self.M_depth, self.P), np.transpose(self.M_depth)) + R
         K = np.dot(np.dot(self.P, np.transpose(self.M_depth)), np.linalg.inv(S))  # 6x3

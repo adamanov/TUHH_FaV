@@ -15,14 +15,14 @@ class PoseReader():
         self.yaw_pub = rospy.Publisher("yaw/state", Float64, queue_size=1)
 
         # SUBSCRIBER:
-        rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.pose_callback)
-        # rospy.Subscriber("mavros/vision_pose/pose_cov", PoseWithCovarianceStamped, self.pose_callback)
+        #rospy.Subscriber("mavros/local_position/pose", PoseStamped, self.pose_callback)
+        rospy.Subscriber("mavros/vision_pose/pose_cov", PoseWithCovarianceStamped, self.pose_callback)
 
     def pose_callback(self, msg):
         euler = Orientation()
         euler.header.stamp = rospy.Time.now() # aendern zum timestamp vom msg
-        orientation_q = msg.pose.orientation
-        # orientation_q = msg.pose.pose.orientation
+        # orientation_q = msg.pose.orientation
+        orientation_q = msg.pose.pose.orientation
         orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
         (euler.roll, euler.pitch, euler.yaw) = euler_from_quaternion(orientation_list)
         self.euler_pub.publish(euler)

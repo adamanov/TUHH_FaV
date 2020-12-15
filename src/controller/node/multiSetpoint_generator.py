@@ -25,7 +25,7 @@ class setpointsGenerator:
 
         # Set as a parameter for each
         rospy.set_param('setpointPoseX', 1)
-        rospy.set_param('setpointPoseY', 1)
+        rospy.set_param('setpointPoseY', 2.0)
         rospy.set_param('setpointPoseZ', -0.4)
 
         # rospy.set_param('setpointAngleRoll', 0)
@@ -35,8 +35,8 @@ class setpointsGenerator:
         # Bounds given by tank dimensions
         rospy.set_param('safezone_upper', -0.2)  # , -0.15)
         rospy.set_param('safezone_lower', -0.7)  # , -0.6)
-        rospy.set_param('safezone_left_x', 0.3)
-        rospy.set_param('safezone_right_x', 1.4)
+        rospy.set_param('safezone_left_x', 0.49)
+        rospy.set_param('safezone_right_x', 1.21)
         rospy.set_param('safezone_front_y', 2.5)  # direction of where tags are
         rospy.set_param('safezone_back_y', 1.0)
 
