@@ -7,7 +7,7 @@ import math as m
 from bluerov_sim.msg import ActuatorCommands
 from mavros_msgs.srv import CommandBool
 from std_msgs.msg import Float64
-from depth_controller.msg import Orientation
+from sensor_processor.msg import Orientation
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
