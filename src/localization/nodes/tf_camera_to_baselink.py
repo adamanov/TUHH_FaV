@@ -43,8 +43,8 @@ class TfCameraToBaselink():
     def ekf_callback(self, msg):
         msg_pub = self.calculate_baselink_in_inertial(msg.x, msg.y, msg.z)
         self.pub_baselink_ekf.publish(msg_pub)
-        self.publish_Float64(self.thrust_pub, msg_pub.x)
-        self.publish_Float64(self.lt_pub, msg_pub.y)
+        self.publish_Float64(self.thrust_pub, msg_pub.y) # thrust of Rov is y coor
+        self.publish_Float64(self.lt_pub, msg_pub.x)      # lateral_thrust of Rov is x coor
         self.publish_Float64(self.vt_pub, msg_pub.z)
 
     def least_squares_callback(self, msg):

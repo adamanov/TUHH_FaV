@@ -1,3 +1,4 @@
 #!/bin/bash
 
-rosbag record localization/ekf/baselink_position localization/least_squares/baselink_position localization/least_squares_and_kf/baselink_position
+rosbag record localization/ekf/baselink_position localization/least_squares/baselink_position localization/least_squares_and_kf/baselink_position \
+/ranges/plotting /depth/state /mavros/local_position/velocity_body

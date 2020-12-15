@@ -27,26 +27,19 @@ class ExtendedKalmanFilter():
 
         self.last_prediction = 0.0
 
-        rospy.set_param('std_range', 10000) # from measurement
+        rospy.set_param('ekf_std_range', 10000) # from measurement
         
         self.M_Imu = np.zeros((3,6))
         self.M_Imu[:,3:6] = np.eye(3) 
-        rospy.set_param('std_v_x', 1000000) # from measurement
-        rospy.set_param('std_v_y', 1000000)
-        rospy.set_param('std_v_z', 1000000)
+        rospy.set_param('ekf_std_v', 1000000) # from measurement
 
         self.M_depth = np.matrix([0, 0, 1, 0, 0, 0])
         rospy.set_param('std_depth', 1)
 
-        rospy.set_param('model_std_x', 1) # model
-        rospy.set_param('model_std_y', 1)
-        rospy.set_param('model_std_z', 1)
-        rospy.set_param('model_std_v_x', 10000)
-        rospy.set_param('model_std_v_y', 10000)
-        rospy.set_param('model_std_v_z', 10000)
-
-        self.R_ranges = np.eye(4)*rospy.get_param('std_range')
-        self.R_depth = np.matrix(rospy.get_param('std_depth'))
+        rospy.set_param('ekf_model_std_x', 1) # model
+        rospy.set_param('ekf_model_std_y', 1)
+        rospy.set_param('ekf_model_std_z', 1)
+        rospy.set_param('ekf_model_std_v', 1000)  #  (for all 3 directions the same)
 
         # SUBSCRIBER:
         rospy.Subscriber("/mavros/local_position/velocity_body", TwistStamped, self.update_imu)
@@ -59,6 +52,7 @@ class ExtendedKalmanFilter():
 
     def update_ranges(self, msg):
         #self.state_vector, self.P = self.prediction_step(self.state_vector,self.P)
+        R = np.eye(4)*rospy.get_param('ekf_std_range')
         H = self.get_jacobi_matrix(msg)
         z = np.zeros((len(msg.measurements), 1))
         # print('measurement vector')
@@ -70,7 +64,7 @@ class ExtendedKalmanFilter():
         y = z - self.mapping_state_to_range(msg)
         # print('y')
         # print(y,np.size(y))
-        S = np.dot(np.dot(H, self.P), np.transpose(H)) + self.R_ranges[0:len(z), 0:len(z)]
+        S = np.dot(np.dot(H, self.P), np.transpose(H)) + R[0:len(z), 0:len(z)]
         # print('S')
         # print(S,np.size(S))
         K = np.dot(np.dot(self.P, np.transpose(H)), np.linalg.inv(S))  # (6xvariable)
@@ -113,9 +107,10 @@ class ExtendedKalmanFilter():
         return jacobi_matrix
 
     def update_depth(self, msg):
+        R = np.matrix(rospy.get_param('std_depth'))
         z = msg.data + 0.1  # global formulieren
         y = z - np.dot(self.M_depth, self.state_vector)
-        S = np.dot(np.dot(self.M_depth, self.P), np.transpose(self.M_depth)) + self.R_depth
+        S = np.dot(np.dot(self.M_depth, self.P), np.transpose(self.M_depth)) + R
         K = np.dot(np.dot(self.P, np.transpose(self.M_depth)), np.linalg.inv(S))  # 6x3
         self.state_vector = self.state_vector + np.dot(K,y)
         self.P = np.dot((np.eye(6) - np.dot(K, self.M_depth)), self.P)
@@ -130,11 +125,10 @@ class ExtendedKalmanFilter():
 
     def update_imu(self, msg):
         z = np.array([[-msg.twist.linear.y, msg.twist.linear.x, msg.twist.linear.z]]).T   # for IMU
-        # z = -np.array([msg.twist.twist.linear.state_vector, msg.twist.twist.linear.y, msg.twist.twist.linear.z]) # for ground truth
         # print("z: " + str(z))
         y = z - np.dot(self.M_Imu, self.state_vector)
         # print("y: " + str(y))
-        R = np.diag([rospy.get_param('std_v_x'), rospy.get_param('std_v_y'), rospy.get_param('std_v_z')])
+        R =  np.eye(3)*rospy.get_param('ekf_std_v')
         # print("R: " + str(R))
         S = np.dot(np.dot(self.M_Imu, self.P), np.transpose(self.M_Imu)) + R
         # print("S: " + str(S))
@@ -154,12 +148,12 @@ class ExtendedKalmanFilter():
         self.state_vector = np.dot(F, self.state_vector)
         # print('self.state_vector in prediction step ', x_sv)
         Q = np.diag([
-            rospy.get_param('model_std_x'),
-            rospy.get_param('model_std_y'),
-            rospy.get_param('model_std_z'),
-            rospy.get_param('model_std_v_x'),
-            rospy.get_param('model_std_v_y'),
-            rospy.get_param('model_std_v_z')])
+            rospy.get_param('ekf_model_std_x'),
+            rospy.get_param('ekf_model_std_y'),
+            rospy.get_param('ekf_model_std_z'),
+            rospy.get_param('ekf_model_std_v'),
+            rospy.get_param('ekf_model_std_v'),
+            rospy.get_param('ekf_model_std_v')])
         self.P = np.dot(np.dot(F, self.P), np.transpose(F)) + Q
         # print('P in prediction step ',P)
 

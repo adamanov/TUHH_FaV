@@ -84,7 +84,7 @@ class Checkpoint():
         self.set_thrust(self.control_effort_thrust)
 
     def control_callback_lateral_thrust(self, msg):
-        self.control_effort_lateral_thrust = msg.data
+        self.control_effort_lateral_thrust = -msg.data  # - weil y Schub in negativer y Richtung
         self.set_lateral_thrust(self.control_effort_lateral_thrust)
 
     def control_callback_yaw(self, msg):

@@ -24,21 +24,21 @@ class setpointsGenerator:
         self.setpointAngleYaw = 0
 
         # Set as a parameter for each
-        rospy.set_param('setpointPoseX', 0)
-        rospy.set_param('setpointPoseY', 0)
+        rospy.set_param('setpointPoseX', 1)
+        rospy.set_param('setpointPoseY', 1)
         rospy.set_param('setpointPoseZ', -0.4)
 
-        rospy.set_param('setpointAngleRoll', 0)
-        rospy.set_param('setpointAnglePitch', 0)
+        # rospy.set_param('setpointAngleRoll', 0)
+        # rospy.set_param('setpointAnglePitch', 0)
         rospy.set_param('setpointAngleYaw', 90*2*m.pi/360)
 
         # Bounds given by tank dimensions
-        rospy.set_param('safezone_upper', 0.0)  # , -0.15)
-        rospy.set_param('safezone_lower', -2.0)  # , -0.6)
-        # rospy.set_param('safezone_left_x', 0.2)
-        # rospy.set_param('safezone_right_x', 1.3)
-        # rospy.set_param('safezone_front_y', 1.3)  # direction of where tags are
-        # rospy.set_param('safezone_back_y', 0.2)
+        rospy.set_param('safezone_upper', -0.2)  # , -0.15)
+        rospy.set_param('safezone_lower', -0.7)  # , -0.6)
+        # rospy.set_param('safezone_left_x', 0.3)
+        # rospy.set_param('safezone_right_x', 1.4)
+        # rospy.set_param('safezone_front_y', 2.5)  # direction of where tags are
+        # rospy.set_param('safezone_back_y', 1.0)
 
         # PUBLISHER:
         self.thrust_setpoint_pub = rospy.Publisher("thrust/setpoint", Float64, queue_size=1)
