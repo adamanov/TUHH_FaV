@@ -74,9 +74,9 @@ class setpointsGenerator:
             self.x = rospy.get_param("setpointPoseX")
             self.y = rospy.get_param("setpointPoseY")
             self.z = self.setpointPoseZ
-            self.publish_Float64(self.thrust_setpoint_pub, self.x )
-            self.publish_Float64(self.vt_setpoint_pub, self.y)
-            self.publish_Float64(self.lt_setpoint_pub, self.z)
+            self.publish_Float64(self.lt_setpoint_pub, self.x )
+            self.publish_Float64(self.thrust_setpoint_pub, self.y)
+            self.publish_Float64(self.vt_setpoint_pub, self.z)
 
             # Publish a desired orientation of robot
             # self.angels.x = rospy.get_param('setpointAngleRoll')

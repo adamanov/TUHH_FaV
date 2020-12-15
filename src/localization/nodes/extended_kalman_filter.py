@@ -31,9 +31,9 @@ class ExtendedKalmanFilter():
         
         self.M_Imu = np.zeros((3,6))
         self.M_Imu[:,3:6] = np.eye(3) 
-        rospy.set_param('std_v_x', 10000) # from measurement
-        rospy.set_param('std_v_y', 10000)
-        rospy.set_param('std_v_z', 10000)
+        rospy.set_param('std_v_x', 1000000) # from measurement
+        rospy.set_param('std_v_y', 1000000)
+        rospy.set_param('std_v_z', 1000000)
 
         self.M_depth = np.matrix([0, 0, 1, 0, 0, 0])
         rospy.set_param('std_depth', 1)

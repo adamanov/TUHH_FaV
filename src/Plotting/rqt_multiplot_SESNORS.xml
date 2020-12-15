@@ -32,24 +32,24 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/lateral_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>data</field>
+                                    <field>tag1</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>1</absolute_maximum>
-                                        <absolute_minimum>-1</absolute_minimum>
+                                        <absolute_maximum>3</absolute_maximum>
+                                        <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </y_axis>
                             </axes>
                             <color>
@@ -72,7 +72,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>thrust</title>
+                            <title>tag1</title>
                         </curve_0>
                         <curve_1>
                             <axes>
@@ -83,24 +83,24 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/lateral_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>data</field>
+                                    <field>tag2</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>1</absolute_maximum>
-                                        <absolute_minimum>-1</absolute_minimum>
+                                        <absolute_maximum>4</absolute_maximum>
+                                        <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/lateral_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </y_axis>
                             </axes>
                             <color>
@@ -123,7 +123,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>lateral thrust</title>
+                            <title>tag2</title>
                         </curve_1>
                         <curve_2>
                             <axes>
@@ -134,24 +134,24 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/lateral_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>data</field>
+                                    <field>tag3</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>1</absolute_maximum>
-                                        <absolute_minimum>-1</absolute_minimum>
+                                        <absolute_maximum>4</absolute_maximum>
+                                        <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/vertical_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </y_axis>
                             </axes>
                             <color>
@@ -174,7 +174,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>vertical thrust</title>
+                            <title>tag3</title>
                         </curve_2>
                         <curve_3>
                             <axes>
@@ -185,24 +185,24 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/lateral_thrust/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>data</field>
+                                    <field>tag4</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>1</absolute_maximum>
-                                        <absolute_minimum>-1</absolute_minimum>
+                                        <absolute_maximum>4</absolute_maximum>
+                                        <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/yaw/control_effort</topic>
-                                    <type>std_msgs/Float64</type>
+                                    <topic>/ranges/plotting</topic>
+                                    <type>sensor_processor/RangesForPlotting</type>
                                 </y_axis>
                             </axes>
                             <color>
@@ -225,14 +225,14 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>yaw</title>
+                            <title>tag4</title>
                         </curve_3>
                     </curves>
                     <legend>
                         <visible>true</visible>
                     </legend>
                     <plot_rate>30</plot_rate>
-                    <title>control efforts</title>
+                    <title>ranges</title>
                 </column_0>
             </row_0>
             <row_1>
@@ -261,29 +261,29 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/depth/state</topic>
+                                    <type>std_msgs/Float64</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>yaw</field>
+                                    <field>data</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>2</absolute_maximum>
-                                        <absolute_minimum>-2</absolute_minimum>
+                                        <absolute_maximum>0.5</absolute_maximum>
+                                        <absolute_minimum>-3</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/depth/state</topic>
+                                    <type>std_msgs/Float64</type>
                                 </y_axis>
                             </axes>
                             <color>
-                                <custom_color>#5500ff</custom_color>
-                                <type>1</type>
+                                <custom_color>#000000</custom_color>
+                                <type>0</type>
                             </color>
                             <data>
                                 <circular_buffer_capacity>1000</circular_buffer_capacity>
@@ -301,7 +301,83 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>yaw</title>
+                            <title>depth camera</title>
+                        </curve_0>
+                    </curves>
+                    <legend>
+                        <visible>true</visible>
+                    </legend>
+                    <plot_rate>30</plot_rate>
+                    <title>depth</title>
+                </column_0>
+            </row_1>
+            <row_2>
+                <column_0>
+                    <axes>
+                        <axes>
+                            <x_axis>
+                                <custom_title>Untitled Axis</custom_title>
+                                <title_type>0</title_type>
+                                <title_visible>true</title_visible>
+                            </x_axis>
+                            <y_axis>
+                                <custom_title>Untitled Axis</custom_title>
+                                <title_type>0</title_type>
+                                <title_visible>true</title_visible>
+                            </y_axis>
+                        </axes>
+                    </axes>
+                    <curves>
+                        <curve_0>
+                            <axes>
+                                <x_axis>
+                                    <field>header/stamp</field>
+                                    <field_type>1</field_type>
+                                    <scale>
+                                        <absolute_maximum>1000</absolute_maximum>
+                                        <absolute_minimum>0</absolute_minimum>
+                                        <relative_maximum>0</relative_maximum>
+                                        <relative_minimum>-40</relative_minimum>
+                                        <type>2</type>
+                                    </scale>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
+                                </x_axis>
+                                <y_axis>
+                                    <field>twist/linear/x</field>
+                                    <field_type>0</field_type>
+                                    <scale>
+                                        <absolute_maximum>1</absolute_maximum>
+                                        <absolute_minimum>-1</absolute_minimum>
+                                        <relative_maximum>0</relative_maximum>
+                                        <relative_minimum>-1000</relative_minimum>
+                                        <type>1</type>
+                                    </scale>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
+                                </y_axis>
+                            </axes>
+                            <color>
+                                <custom_color>#000000</custom_color>
+                                <type>0</type>
+                            </color>
+                            <data>
+                                <circular_buffer_capacity>1000</circular_buffer_capacity>
+                                <time_frame_length>10</time_frame_length>
+                                <type>0</type>
+                            </data>
+                            <style>
+                                <lines_interpolate>false</lines_interpolate>
+                                <pen_style>1</pen_style>
+                                <pen_width>1</pen_width>
+                                <render_antialias>false</render_antialias>
+                                <steps_invert>false</steps_invert>
+                                <sticks_baseline>0</sticks_baseline>
+                                <sticks_orientation>2</sticks_orientation>
+                                <type>0</type>
+                            </style>
+                            <subscriber_queue_size>100</subscriber_queue_size>
+                            <title>v_x</title>
                         </curve_0>
                         <curve_1>
                             <axes>
@@ -312,29 +388,29 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>thrust</field>
+                                    <field>twist/linear/y</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>2</absolute_maximum>
-                                        <absolute_minimum>-2</absolute_minimum>
+                                        <absolute_maximum>1</absolute_maximum>
+                                        <absolute_minimum>-1</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
                                 </y_axis>
                             </axes>
                             <color>
-                                <custom_color>#ff0000</custom_color>
-                                <type>1</type>
+                                <custom_color>#000000</custom_color>
+                                <type>0</type>
                             </color>
                             <data>
                                 <circular_buffer_capacity>1000</circular_buffer_capacity>
@@ -352,7 +428,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>thrust</title>
+                            <title>v_y</title>
                         </curve_1>
                         <curve_2>
                             <axes>
@@ -363,29 +439,29 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
+                                        <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>lateral_thrust</field>
+                                    <field>twist/linear/z</field>
                                     <field_type>0</field_type>
                                     <scale>
-                                        <absolute_maximum>2</absolute_maximum>
-                                        <absolute_minimum>-2</absolute_minimum>
+                                        <absolute_maximum>1</absolute_maximum>
+                                        <absolute_minimum>-1</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
+                                    <topic>/mavros/local_position/velocity_body</topic>
+                                    <type>geometry_msgs/TwistStamped</type>
                                 </y_axis>
                             </axes>
                             <color>
-                                <custom_color>#55ffff</custom_color>
-                                <type>1</type>
+                                <custom_color>#000000</custom_color>
+                                <type>0</type>
                             </color>
                             <data>
                                 <circular_buffer_capacity>1000</circular_buffer_capacity>
@@ -403,67 +479,16 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>lateral thrust</title>
+                            <title>v_z</title>
                         </curve_2>
-                        <curve_3>
-                            <axes>
-                                <x_axis>
-                                    <field></field>
-                                    <field_type>1</field_type>
-                                    <scale>
-                                        <absolute_maximum>1000</absolute_maximum>
-                                        <absolute_minimum>0</absolute_minimum>
-                                        <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-20</relative_minimum>
-                                        <type>2</type>
-                                    </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
-                                </x_axis>
-                                <y_axis>
-                                    <field>vertical_thrust</field>
-                                    <field_type>0</field_type>
-                                    <scale>
-                                        <absolute_maximum>2</absolute_maximum>
-                                        <absolute_minimum>-2</absolute_minimum>
-                                        <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-1000</relative_minimum>
-                                        <type>1</type>
-                                    </scale>
-                                    <topic>/mixer/actuator_commands</topic>
-                                    <type>bluerov_sim/ActuatorCommands</type>
-                                </y_axis>
-                            </axes>
-                            <color>
-                                <custom_color>#00ff00</custom_color>
-                                <type>1</type>
-                            </color>
-                            <data>
-                                <circular_buffer_capacity>1000</circular_buffer_capacity>
-                                <time_frame_length>10</time_frame_length>
-                                <type>0</type>
-                            </data>
-                            <style>
-                                <lines_interpolate>false</lines_interpolate>
-                                <pen_style>1</pen_style>
-                                <pen_width>1</pen_width>
-                                <render_antialias>false</render_antialias>
-                                <steps_invert>false</steps_invert>
-                                <sticks_baseline>0</sticks_baseline>
-                                <sticks_orientation>2</sticks_orientation>
-                                <type>0</type>
-                            </style>
-                            <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>vertical thrust</title>
-                        </curve_3>
                     </curves>
                     <legend>
                         <visible>true</visible>
                     </legend>
                     <plot_rate>30</plot_rate>
-                    <title>actuator commands</title>
+                    <title>Velocities (IMU)</title>
                 </column_0>
-            </row_1>
+            </row_2>
         </plots>
         <track_points>false</track_points>
     </table>

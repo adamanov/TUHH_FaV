@@ -14,7 +14,7 @@ class LocalizationError():
 
         self.ground_truth_location = Point()
 
-        #SUBSCRIBER:
+        # SUBSCRIBER:
         rospy.Subscriber("/ground_truth/state", Odometry, self.ground_truth_callback)
         rospy.Subscriber("localization/ekf/baselink_position", Point, self.ekf_callback)
         rospy.Subscriber("localization/least_squares/baselink_position", Point, self.ls_callback)

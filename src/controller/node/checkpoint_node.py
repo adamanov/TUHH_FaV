@@ -14,7 +14,7 @@ from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from geometry_msgs.msg import PoseStamped
 
 
-class Controller():
+class Checkpoint():
     def __init__(self, name):
         rospy.init_node(name)
 
@@ -35,8 +35,8 @@ class Controller():
         self.control_effort_thrust = 0.0
         self.control_effort_lateral_thrust = 0.0
         self.control_effort_yaw = 0.0
-        self.control_effort_pitch = 0.0
-        self.control_effort_roll = 0.0
+        # self.control_effort_pitch = 0.0
+        # self.control_effort_roll = 0.0
 
         # PUBLISHER:
         self.actuator_pub = rospy.Publisher("mixer/actuator_commands", ActuatorCommands, queue_size=1)
@@ -136,7 +136,7 @@ class Controller():
 
 
 def main():
-    node = Controller("main_controller")
+    node = Checkpoint("Checkpoint")
     node.run()
 
 
