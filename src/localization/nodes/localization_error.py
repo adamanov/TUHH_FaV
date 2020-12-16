@@ -13,28 +13,40 @@ class LocalizationError():
         rospy.init_node(name)
 
         self.ground_truth_location = Point()
-        self.estimated_global_position = Point()
 
+        # SUBSCRIBER:
         rospy.Subscriber("/ground_truth/state", Odometry, self.ground_truth_callback)
-
-        rospy.Subscriber("localization/position_estimate", Point, self.global_position_callback)
-
-        self.pub_error_dis = rospy.Publisher("localization/error/distance", Float64, queue_size=1)
-
-        self.pub_error_vec = rospy.Publisher("localization/error/vector", Point, queue_size=1)
+        rospy.Subscriber("localization/ekf/baselink_position", Point, self.ekf_callback)
+        rospy.Subscriber("localization/least_squares/baselink_position", Point, self.ls_callback)
+        rospy.Subscriber("localization/least_squares_and_kf/baselink_position", Point, self.lskf_callback)
+        
+        # PUBLISHER:
+        self.pub_ekf_error_dis = rospy.Publisher("localization/ekf/error/distance", Float64, queue_size=1)
+        self.pub_ekf_error_vec = rospy.Publisher("localization/ekf/error/vector", Point, queue_size=1)
+        self.pub_ls_error_dis = rospy.Publisher("localization/least_squares/error/distance", Float64, queue_size=1)
+        self.pub_ls_error_vec = rospy.Publisher("localization/least_squares/error/vector", Point, queue_size=1)
+        self.pub_lskf_error_dis = rospy.Publisher("localization/least_squares_and_kf/error/distance", Float64, queue_size=1)
+        self.pub_lskf_error_vec = rospy.Publisher("localization/least_squares_and_kf/error/vector", Point, queue_size=1)
 
     def ground_truth_callback(self, msg):
-        #self.ground_truth_location = msg.PoseWithCovariance.pose.Point
         self.ground_truth_location = msg.pose.pose.position
-        # print("Actual pos: x " + str(self.ground_truth_location.x) + " y: " + str(self.ground_truth_location.y) + " z: " + str(self.ground_truth_location.z))
     
-    def global_position_callback(self, msg):
-        self.estimated_global_position = msg
+    def ekf_callback(self, msg):
+        self.universal_callback(msg, self.pub_ekf_error_vec, self.pub_ekf_error_dis)
+
+    def ls_callback(self, msg):
+        self.universal_callback(msg, self.pub_ls_error_vec, self.pub_ls_error_dis)
+    
+    def lskf_callback(self, msg):
+        self.universal_callback(msg, self.pub_lskf_error_vec, self.pub_lskf_error_dis)
+
+    def universal_callback(self, msg, pub_vec, pub_dis):
+        estimated_position = msg
         msg1 = Float64()
-        msg1.data = round(self.distance2points_scalar(self.ground_truth_location, self.estimated_global_position), 3)
-        self.pub_error_dis.publish(msg1)
-        msg2 = self.distance2points_vec(self.ground_truth_location, self.estimated_global_position)
-        self.pub_error_vec.publish(msg2)
+        msg1.data = round(self.distance2points_scalar(self.ground_truth_location, estimated_position), 3)
+        pub_dis.publish(msg1)
+        msg2 = self.distance2points_vec(self.ground_truth_location, estimated_position)
+        pub_vec.publish(msg2)
 
     def distance2points_scalar(self, P1, P2):
         return np.sqrt((P1.x - P2.x)**2 + (P1.y - P2.y)**2 + (P1.z - P2.z)**2)

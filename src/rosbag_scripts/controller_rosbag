@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rosbag record /yaw/setpoint /yaw/state /yaw/control_effort \
+/vertical_thrust/setpoint /vertical_thrust/state /vertical_thrust/control_effort \
+/thrust/setpoint /thrust/state /thrust/control_effort \
+/lateral_thrust/setpoint /lateral_thrust/state /lateral_thrust/control_effort

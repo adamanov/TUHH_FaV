@@ -1,0 +1,7 @@
+<launch>
+    <node name="depth_calculator" pkg="sensor_processor" type="depth_calculator.py" output="screen" />
+
+    <node name="pose_reader" pkg="sensor_processor" type="pose_reader.py" output="screen" />
+
+    <node name="range_viewer" pkg="sensor_processor" type="range_viewer.py" output="screen"/>
+</launch>
