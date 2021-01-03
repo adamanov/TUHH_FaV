@@ -3,25 +3,31 @@
     <arg name="vehicle" default="uuv_bluerov2_heavy" />
 
     <!-- start the gazebo simulator and an empty world -->
-     <include file="$(find bluerov_sim)/launch/gazebo_base.launch" />
-
+     <!-- <include file="$(find bluerov_sim)/launch/gazebo_base.launch" /> -->
+     <include file="$(find bluerov_sim)/launch/gazebo_tags.launch" />
 
     <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
       <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
     <!--  Set the position-->
-       <arg name="x" value="1.0" />
+        <arg name="camera" default="false" />
+        <arg name="x" value="1.0" />
         <arg name="y" value="1.0" />
-        <arg name="z" value="-1.0"/> -->
+        <arg name="z" value="-1.0"/>
         <!-- Set roll, pitch, yaw-->
         <arg name="R" value="0.0" />
         <arg name="P" value="0.0" />
         <arg name="Y" value="1.5708" />
     </include>
 
-
     <!-- launch the tank -->
     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
 
+    <!-- Spawn the partition wall -->
+    <node name="partition_wall" pkg="gazebo_ros" type="spawn_model"
+    args="-sdf -file $(find controller)/models/partition_wall_for_tank_1/model.sdf
+            -model partition_wall
+            -x 0.0 -y 0.0 -z -0.0
+            -R 0.0 -P 0.0 -Y 0.0" />
 
     <!-- launch the range_sensor -->
     <include file="$(find range_sensor)/launch/range_sensor.launch"/>
