@@ -466,7 +466,7 @@
                                         <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/lateral_thrust/setpoint</topic>
+                                    <topic>/setpoint/x_inertial</topic>
                                     <type>std_msgs/Float64</type>
                                 </x_axis>
                                 <y_axis>
@@ -479,7 +479,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/lateral_thrust/setpoint</topic>
+                                    <topic>/setpoint/x_inertial</topic>
                                     <type>std_msgs/Float64</type>
                                 </y_axis>
                             </axes>
@@ -1024,7 +1024,7 @@
                                         <relative_minimum>-40</relative_minimum>
                                         <type>2</type>
                                     </scale>
-                                    <topic>/thrust/setpoint</topic>
+                                    <topic>/setpoint/y_inertial</topic>
                                     <type>std_msgs/Float64</type>
                                 </x_axis>
                                 <y_axis>
@@ -1037,7 +1037,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>1</type>
                                     </scale>
-                                    <topic>/thrust/setpoint</topic>
+                                    <topic>/setpoint/y_inertial</topic>
                                     <type>std_msgs/Float64</type>
                                 </y_axis>
                             </axes>

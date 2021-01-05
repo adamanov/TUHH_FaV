@@ -26,8 +26,8 @@ class TfCameraToBaselink():
         self.pub_baselink_least_squares = rospy.Publisher("localization/least_squares/baselink_position", Point,queue_size=1)
         self.pub_baselink_least_squares_and_kf = rospy.Publisher("localization/least_squares_and_kf/baselink_position", Point,queue_size=1)
         #for PID
-        self.thrust_pub = rospy.Publisher("thrust/state", Float64, queue_size=1)
-        self.lt_pub = rospy.Publisher("lateral_thrust/state", Float64, queue_size=1)
+        # self.thrust_pub = rospy.Publisher("thrust/state", Float64, queue_size=1)
+        # self.lt_pub = rospy.Publisher("lateral_thrust/state", Float64, queue_size=1)
         self.vt_pub = rospy.Publisher("vertical_thrust/state", Float64, queue_size=1)
         
         # SUBSCRIBER:
@@ -43,8 +43,8 @@ class TfCameraToBaselink():
     def ekf_callback(self, msg):
         msg_pub = self.calculate_baselink_in_inertial(msg.x, msg.y, msg.z)
         self.pub_baselink_ekf.publish(msg_pub)
-        self.publish_Float64(self.thrust_pub, msg_pub.y) # thrust of Rov is y coor
-        self.publish_Float64(self.lt_pub, msg_pub.x)      # lateral_thrust of Rov is x coor
+        # self.publish_Float64(self.thrust_pub, msg_pub.y) # thrust of Rov is y coor
+        # self.publish_Float64(self.lt_pub, msg_pub.x)      # lateral_thrust of Rov is x coor
         self.publish_Float64(self.vt_pub, msg_pub.z)
 
     def least_squares_callback(self, msg):

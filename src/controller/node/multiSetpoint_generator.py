@@ -42,6 +42,8 @@ class setpointsGenerator:
 
         # PUBLISHER:
         self.thrust_setpoint_pub = rospy.Publisher("thrust/setpoint", Float64, queue_size=1)
+        self.x_setpoint_pub = rospy.Publisher("setpoint/x_inertial", Float64, queue_size=1)
+        self.y_setpoint_pub = rospy.Publisher("setpoint/y_inertial", Float64, queue_size=1)
         self.vt_setpoint_pub = rospy.Publisher("vertical_thrust/setpoint", Float64, queue_size=1)
         self.lt_setpoint_pub = rospy.Publisher("lateral_thrust/setpoint", Float64, queue_size=1)
         self.yaw_setpoint_pub = rospy.Publisher("yaw/setpoint", Float64, queue_size=1)
@@ -82,8 +84,11 @@ class setpointsGenerator:
             self.x = self.setpointPoseX
             self.y = self.setpointPoseY
             self.z = self.setpointPoseZ
-            self.publish_Float64(self.lt_setpoint_pub, self.x )
-            self.publish_Float64(self.thrust_setpoint_pub, self.y)
+            self.publish_Float64(self.x_setpoint_pub, self.x )
+            self.publish_Float64(self.y_setpoint_pub, self.y )
+            self.publish_Float64(self.lt_setpoint_pub, 0.0 )
+            self.publish_Float64(self.thrust_setpoint_pub, 0.0)
+            
             self.publish_Float64(self.vt_setpoint_pub, self.z)
 
             # Publish a desired orientation of robot

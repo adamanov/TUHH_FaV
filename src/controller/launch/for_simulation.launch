@@ -45,6 +45,8 @@
     <node name="multiSetpointGenerator" pkg="controller" type="multiSetpoint_generator.py" output="screen" />
 
     <node name="checkpoint" pkg="controller" type="checkpoint_node.py" output="screen" />
+
+    <node name="OrientAdjustForPID" pkg="controller" type="orientation_adjustment_for_PID.py" output="screen" />
     
 
     <!-- launch nodes from bluerov_sim Pkg -->
@@ -56,7 +58,7 @@
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="0.3" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
@@ -69,7 +71,7 @@
     <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
                                                                                  vertical_thrust/state-->
     <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
-        <param name="Kp" value="0.2" />
+        <param name="Kp" value="0.4" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
@@ -81,7 +83,7 @@
     <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
                                                                                 lateral_thrust/state-->
     <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="0.3" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
