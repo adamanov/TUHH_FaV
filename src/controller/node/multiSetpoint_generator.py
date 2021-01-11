@@ -69,8 +69,6 @@ class setpointsGenerator:
         else:
             rospy.loginfo("Please set setpointPoseZ to float in safezone!")
 
-
-
     def publish_Float64(self, pub, float):
         msg = Float64()
         msg.data = float

@@ -3,10 +3,13 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/PathPlanning/include/PathPlanning/FCND-Motion-Planning" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/apriltag" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/bluerov_sim" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/mavlink" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/mavros" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/object_detection" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/pid" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/range_sensor" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosbag_to_csv" vcs="Git" />
   </component>
 </project>

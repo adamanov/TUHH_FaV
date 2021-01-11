@@ -46,7 +46,7 @@
     </link>
     <static>true</static>
     <include>
-      <uri>model://tag36_11_00063</uri>
+      <uri>model://tag36_11_00001</uri>
       <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
     </include>
   </model>

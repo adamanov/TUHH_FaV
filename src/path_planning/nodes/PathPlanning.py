@@ -53,7 +53,7 @@ class PathPlanning():
         self.Planning()
         self.publishSetpoint()
 
-    def updateMap (self,boxCoordinate):
+    def updateMap(self, boxCoordinate):
         box = 20  # square box
         boxCoordinate = np.array([boxCoordinate[0], boxCoordinate[1]])
         print(boxCoordinate[1])
@@ -107,7 +107,6 @@ class PathPlanning():
 
 
     def Planning(self):
-
         grid_size = 25  # [m]
         robot_radius = 10  # [m]
 

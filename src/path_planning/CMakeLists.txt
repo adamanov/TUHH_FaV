@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(PathPlanning)
+project(path_planning)
 add_compile_options(-std=c++14)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
