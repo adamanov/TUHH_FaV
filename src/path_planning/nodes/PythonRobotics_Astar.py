@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from baziercurve import bezier_curve
 
-show_animation = True
+show_animation = False
 
 
 class AStarPlanner:
@@ -92,7 +92,7 @@ class AStarPlanner:
                     plt.pause(0.001)
 
             if current.x == goal_node.x and current.y == goal_node.y:
-                print("Find goal")
+                # print("Find goal")
                 goal_node.parent_index = current.parent_index
                 goal_node.cost = current.cost
                 break
@@ -188,15 +188,15 @@ class AStarPlanner:
         self.min_y = round(min(oy))
         self.max_x = round(max(ox))
         self.max_y = round(max(oy))
-        print("min_x:", self.min_x)
-        print("min_y:", self.min_y)
-        print("max_x:", self.max_x)
-        print("max_y:", self.max_y)
+        # print("min_x:", self.min_x)
+        # print("min_y:", self.min_y)
+        # print("max_x:", self.max_x)
+        # print("max_y:", self.max_y)
 
         self.x_width = round((self.max_x - self.min_x) / self.resolution)
         self.y_width = round((self.max_y - self.min_y) / self.resolution)
-        print("x_width:", self.x_width)
-        print("y_width:", self.y_width)
+        # print("x_width:", self.x_width)
+        # print("y_width:", self.y_width)
 
         # obstacle map generation
         self.obstacle_map = [[False for _ in range(int(self.y_width))]
@@ -301,35 +301,27 @@ def PathPlanning():
         ox.append(150)
         oy.append(i)
 
-    for i in range(0, 60):
-        ox.append(i)
-        oy.append(200)
-        ox.append(i)
-        oy.append(50)
-    for i in range(0, 60):
-        #ox.append(150 - i)
-        #oy.append(200)
-        ox.append(150 - i)
-        oy.append(225)
+    wall_thickness = 10
+    wall_hole_width = 70
+    # tagCoordinate = np.array([msg.pose.pose.pose.position.x, msg.pose.pose.pose.position.y])
+    tagCoordinate = [50, 130]
+    for i in range(0, 150):
+        for j in range(tagCoordinate[1], tagCoordinate[1] + wall_thickness):
+            if abs(i - tagCoordinate[0] - 0.5*wall_hole_width ) >= wall_hole_width*0.5: 
+                ox.append(i)
+                oy.append(j)
+
 
     box = 20  # square box
-    boxCoordinate = np.array([100, 250])
-    print(boxCoordinate[1])
-    for i in range(0,150):
-        if abs(i- boxCoordinate[0]) < box/2.0:
-            ox.append(i)
-            oy.append(boxCoordinate[1])
-        if abs(i - boxCoordinate[0]) < box / 2.0:
-            ox.append(i)
-            oy.append(box+boxCoordinate[1])
+    radius = math.sqrt(2*box**2)
 
-    for i in range(0,340):
-        if abs(i- boxCoordinate[1]) < box/2.0:
-            ox.append(box/2 + boxCoordinate[0])
-            oy.append(i+box/2)
-        if abs(i- boxCoordinate[1]) < box/2.0:
-            ox.append(-box/2 + boxCoordinate[0])
-            oy.append(i+box/2)
+    boxCoordinate = np.array([100, 250])
+    # print(boxCoordinate[1])
+    for i in range(0,150):
+        for j in range(0, 340):
+            if (i-boxCoordinate[0])**2 + (j-boxCoordinate[1])**2 <= radius**2:
+                ox.append(i)
+                oy.append(j)
 
     if show_animation:  # pragma: no cover
         plt.plot(ox, oy, ".k")

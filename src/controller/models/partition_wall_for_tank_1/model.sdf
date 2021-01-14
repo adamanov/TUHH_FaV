@@ -46,7 +46,43 @@
     </link>
     <static>true</static>
     <include>
-      <uri>model://tag36_11_00001</uri>
+      <name>tag_70</name>
+      <uri>model://tag36_11_00070</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_71</name>
+      <uri>model://tag36_11_00071</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_72</name>
+      <uri>model://tag36_11_00072</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_73</name>
+      <uri>model://tag36_11_00073</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_74</name>
+      <uri>model://tag36_11_00074</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_75</name>
+      <uri>model://tag36_11_00075</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_76</name>
+      <uri>model://tag36_11_00076</uri>
+      <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
+    </include>
+    <include>
+      <name>tag_77</name>
+      <uri>model://tag36_11_00077</uri>
       <pose>0.35 1.64 -0.35 1.57 -0.0 0.0</pose>
     </include>
   </model>

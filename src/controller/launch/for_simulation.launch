@@ -23,14 +23,18 @@
     <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
 
     <!-- Spawn the partition wall -->
-    <node name="partition_wall" pkg="gazebo_ros" type="spawn_model"
-    args="-sdf -file $(find controller)/models/partition_wall_for_tank_1/model.sdf
+    <!-- <node name="partition_wall_for_tank_1" pkg="gazebo_ros" type="spawn_model"
+    args="-sdf -file $(find bluerov_sim)/models/partition_wall_for_tank_1/model.sdf
             -model partition_wall
             -x 0.0 -y 0.0 -z -0.0
-            -R 0.0 -P 0.0 -Y 0.0" />
+            -R 0.0 -P 0.0 -Y 0.0" /> -->
+
 
     <!-- launch the range_sensor -->
     <include file="$(find range_sensor)/launch/range_sensor.launch"/>
+
+    <!-- launch the object_detection -->
+    <include file="$(find object_detection)/launch/object_detection.launch"/>
 
 
     <!-- Launch localization algorithm -->
@@ -40,9 +44,11 @@
     <!-- Launch sensor_processor Pkg -->
     <include file="$(find sensor_processor)/launch/sensor_processor.launch"></include>
 
+    <!-- Launch path_planning PKG -->
+    <include file="$(find path_planning)/launch/path_planning.launch"></include>
 
     <!-- Launch the nodes of controller Pkg -->
-    <node name="multiSetpointGenerator" pkg="controller" type="multiSetpoint_generator.py" output="screen" />
+    <node name="controller_node" pkg="controller" type="controller_node.py" output="screen" />
 
     <node name="checkpoint" pkg="controller" type="checkpoint_node.py" output="screen" />
 
@@ -58,7 +64,7 @@
     <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
                                                                         thrust/state-->
     <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="3.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
@@ -83,7 +89,7 @@
     <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
                                                                                 lateral_thrust/state-->
     <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="3.0" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
@@ -96,7 +102,7 @@
     <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
                                                                                  yaw/state-->
     <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
-        <param name="Kp" value="0.0" />
+        <param name="Kp" value="0.3" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="1" />
