@@ -24,6 +24,8 @@ Developed methods
 
 - [Report](documents/report_2.pdf)
 
+- [Poster for first 2 Assigment](documents/Poster_Group4.pdf)
+
 **Node Structure**
 
 <img src="documents/node_structure_localization_and_controller.png" width="600" height="360" />
