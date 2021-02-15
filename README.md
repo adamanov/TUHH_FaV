@@ -22,13 +22,19 @@ Developed methods
 
 - [Task Description](documents/FAV20_Assignment_3.pdf)
 
-- [Report](documents/report_2.pdf)
+- [Report](documents/FAV_Report_20210127.pdf)
 
 - [Poster for first 2 Assigment](documents/Poster_Group4.pdf)
 
-**Node Structure**
+### Final Project: Wet Whale: Rescue mode engaged
+Developed Algorithms
+- Given: Static Tank (w/o Wall & Obstacle) and final destination
+- Continuously calcualte the path, to pass through the hole and avoid detected obstacle
+- Arrive to final destination, do Person detection
 
-<img src="documents/node_structure_localization_and_controller.png" width="600" height="360" />
+- [Detailed task description and Presentation](documents/Group4_Wet_Whale_final_presentation.pdf)
+- [Poster for first 2 Assigment](documents/Final_project_report_20210201.pdf)
+
 
 #### References
 -	[KF / EKF ](https://dsp.stackexchange.com/questions/8860/kalman-filter-for-position-and-velocity-introducing-speed-estimates/8869)
