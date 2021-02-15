@@ -34,7 +34,7 @@ Build a localization algorithm based on a range to tags in the tank.
 4. Person Recognition with YOLO
 
 
-<img src="/documents/proposal.png" width="400" height="240" />
+<img src="/documents/proposal.png" width="480" height="288" />
 
 - [Detailed task description and Presentation](documents/Group4_Wet_Whale_final_presentation.pdf)
 - [Poster for first 2 Assigment](documents/Final_project_report_20210201.pdf)
