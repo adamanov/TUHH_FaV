@@ -4,9 +4,9 @@
 
 ### TUHH Formulas and Vehicles’s [documentation!](https://hippocampusrobotics.github.io/fav_docs/)
 
-### Assigment-2
+### Assigment-2 -> 
+Performance of a simple PID Controller for controlling the depth of an underwater vehicle. 
 Build a controller algorithm for AUV and track desired setpoints.
-Developed PID controller for 4 DoF, which is able to control BluROV for a given setpoints.
 
 - [Detailed task description](documents/FAV20_Assignment_2.pdf)
 
