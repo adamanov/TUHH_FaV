@@ -1,0 +1,3 @@
+<launch>
+    <node name="person_detection" pkg="face_detection" type="person_detection.py" output="screen" />
+</launch>

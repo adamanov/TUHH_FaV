@@ -1,0 +1,7 @@
+<launch>
+  <!-- Launch the path_planning node -->
+  <node name="path_planning_node" pkg="path_planning" type="path_planning_node.py" output="screen" />
+
+  <!-- Launch the setpoint_publisher node -->
+  <node name="setpoint_publisher" pkg="path_planning" type="setpoint_publisher.py" output="screen" />
+</launch>

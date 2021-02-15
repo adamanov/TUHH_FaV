@@ -1,0 +1,13 @@
+<launch>
+    <arg name="camera_name" default="front_camera" />
+    <arg name="sim" default="True" />
+    <arg name="test_path_planning" default="True" />
+
+    <!-- **Magic** Range Sensor -->
+    <node pkg="object_detection" type="object_detection_node.py" name="object_detection" output="screen">
+        <param name="sim" type="bool" value="$(arg sim)" />
+        <param name="test_path_planning" type="bool" value="$(arg test_path_planning)" />
+        <remap unless="$(arg sim)" from="tag_detections" to="$(arg camera_name)/tag_detections" />
+    </node>
+
+</launch>

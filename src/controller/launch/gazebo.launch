@@ -1,0 +1,21 @@
+<launch>
+     <!-- start the gazebo simulator and an empty world -->
+        <!-- <include file="$(find bluerov_sim)/launch/gazebo_base.launch" /> -->
+        <include file="$(find bluerov_sim)/launch/gazebo_tags.launch" />
+
+        <!-- Spawn the vehicle. You can use the args to set the spawn pose-->
+        <include file="$(find bluerov_sim)/launch/spawn_vehicle.launch">
+        <!--  Set the position-->
+            <arg name="camera" default="false" />
+            <arg name="x" value="1.0" />
+            <arg name="y" value="1.0" />
+            <arg name="z" value="-1.0"/>
+            <!-- Set roll, pitch, yaw-->
+            <arg name="R" value="0.0" />
+            <arg name="P" value="0.0" />
+            <arg name="Y" value="1.5708" />
+        </include>
+
+        <!-- launch the tank -->
+        <include file="$(find bluerov_sim)/launch/spawn_tank.launch"></include>
+</launch>

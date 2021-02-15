@@ -1,0 +1,69 @@
+<launch>
+    <arg name="est" default="ekf2" />
+    <arg name="vehicle" default="uuv_bluerov2_heavy" />
+
+    <arg name="sim" default="False" />
+    <param name="sim" type="bool" value="False" />
+    <param name="test_path_planning" type="bool" value="True" />
+    <param name="PID-xy-ON" type="bool" value="False" />
+
+    <param name="EKF_topic_name" type="str" value="/klopsi/mavros/vision_pose/pose_cov" />
+
+    <group if="$(arg sim)">
+        <include file="$(find controller)/launch/gazebo.launch"></include>
+    </group>
+
+    <!-- Launch sensor_processor Pkg -->
+    <include file="$(find sensor_processor)/launch/sensor_processor.launch"></include>
+
+    <!-- Launch path_planning PKG -->
+    <include file="$(find path_planning)/launch/path_planning.launch"></include>
+
+    <!-- Launch path_planning PKG -->
+    <include file="$(find object_detection)/launch/object_detection.launch"></include>
+
+    <!-- Launch the nodes of controller Pkg -->
+    <include file="$(find controller)/launch/controller.launch"></include>
+
+    <!-- launch nodes from bluerov_sim Pkg -->
+    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />
+
+    <!-- Launch the Plots here -->
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
+
+    <!-- Play back data with rosbag -->
+    <node pkg="rosbag" type="record" name="rosbag_record"
+       args="record -o $(find controller)/launch/bagfiles/01_ 
+       /box/pose
+       /clock
+       /depth/state
+       /destination_point
+       /lateral_thrust/control_effort
+       /lateral_thrust/setpoint
+       /lateral_thrust/state
+       /klopsi/front_camera/tag_detections
+       /klopsi/mavros/local_position/pose
+       /klopsi/mavros/local_position/pose_cov
+       /klopsi/mavros/local_position/velocity_body
+       /klopsi/mavros/local_position/velocity_body_cov  
+       /klopsi/mavros/vision_pose/pose
+       /klopsi/mavros/vision_pose/pose_cov
+       /mixer/actuator_commands
+       /orientation/euler
+       /path/coordinates
+       /pathPlanning/setpoints2goal
+       /pressure
+       /setpoint/x_inertial
+       /setpoint/y_inertial
+       /tag_object_detections_sim
+       /thrust/control_effort
+       /thrust/setpoint
+       /thrust/state
+       /vertical_thrust/control_effort
+       /vertical_thrust/setpoint
+       /vertical_thrust/state
+       /wall/pose
+       /yaw/control_effort
+       /yaw/setpoint
+       /yaw/state"/>
+</launch>

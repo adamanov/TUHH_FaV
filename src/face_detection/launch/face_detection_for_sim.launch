@@ -1,0 +1,12 @@
+<launch>
+
+    <!-- Spawn the partition wall -->
+    <node pkg="rosbag" type="play" name="player" output="screen" args="$(dirname)/2020-12-15-15-39-43.bag"/>
+    <!--param name="use_sim_time" value="true" /-->
+    <!--node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/front_camera/image_raw/compressed raw out:=/front_camera/image_raw" /-->
+    <node name="person_detection" pkg="face_detection" type="person_detection.py" output="screen" />
+    <!--node name="Person_Detection" pkg="Detection" type="Person_Detection_copy.py" output="screen" /-->
+
+    <!-- </node> -->
+    <!-- for rosbag -> rosbag record -a -->
+</launch>

@@ -1,0 +1,111 @@
+<launch>
+    <arg name="est" default="ekf2" />
+    <arg name="vehicle" default="uuv_bluerov2_heavy" />
+
+    <!-- Launch localization algorithm -->
+    <include file="$(find localization)/launch/launch_localization.launch"></include>
+
+
+    <!-- Launch sensor_processor Pkg -->
+    <include file="$(find sensor_processor)/launch/sensor_processor.launch"></include>
+
+
+    <!-- Launch the nodes of controller Pkg -->
+    <node name="multiSetpointGenerator" pkg="controller" type="multiSetpoint_generator.py" output="screen" />
+
+    <node name="checkpoint" pkg="controller" type="checkpoint_node.py" output="screen" />
+    
+
+    <!-- launch nodes from bluerov_sim Pkg -->
+<!--     <node name="keyboard" pkg="bluerov_sim" type="keyboard_control.py" output="screen" />
+ -->
+    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />
+
+
+    <!-- PID Controller for thrust, required to define a input topic as thrust/setpoint
+                                                                        thrust/state-->
+    <node name="controller_thrust" pkg="pid" type="controller" ns="thrust" output="screen">
+        <param name="Kp" value="2.6" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.03" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node>
+
+    <!-- PID Controller for vertical_thrust required to define a input topic as  vertical_thrust/setpoint
+                                                                                 vertical_thrust/state-->
+    <node name="controller_vertical_thrust" pkg="pid" type="controller" ns="vertical_thrust" output="screen">
+        <param name="Kp" value="4.0" />
+        <param name="Ki" value="0.018" />
+        <param name="Kd" value="0.006" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node>
+    <!-- PID Controller for lateral_thrust required to define a input topic as  lateral_thrust/setpoint
+                                                                                lateral_thrust/state-->
+    <node name="controller_lateral_thrust" pkg="pid" type="controller" ns="lateral_thrust" output="screen">
+        <param name="Kp" value="3.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.03" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node>
+
+    <!-- PID Controller for orientation_Yaw required to define a input topic as  yaw/setpoint
+                                                                                 yaw/state-->
+    <node name="controller_yaw" pkg="pid" type="controller" ns="yaw" output="screen">
+        <param name="Kp" value="1.4" />
+        <param name="Ki" value="0.022" />
+        <param name="Kd" value="0.008" />
+        <param name="upper_limit" value="1" />
+        <param name="lower_limit" value="-1" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node>
+
+    <!--  PID Controller for pitch required to define a input topic as  pitch/setpoint
+                                                                      pitch/state-->
+    <!-- <node name="controller_pitch" pkg="pid" type="controller" ns="pitch" output="screen">
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
+        <param name="upper_limit" value="10" />
+        <param name="lower_limit" value="-10" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node> -->
+    <!-- PID Controller for roll required to define a input topic as  roll/setpoint
+                                                                      roll/state-->
+    <!-- <node name="controller_roll" pkg="pid" type="controller" ns="roll" output="screen">
+        <param name="Kp" value="0.0" />
+        <param name="Ki" value="0.0" />
+        <param name="Kd" value="0.0" />
+        <param name="upper_limit" value="10" />
+        <param name="lower_limit" value="-10" />
+        <param name="windup_limit" value="10" />
+        <param name="max_loop_frequency" value="100.0" />
+        <param name="min_loop_frequency" value="100.0" />
+    </node> -->
+
+
+    <!-- Launch the Plots here -->
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
+
+    <!-- <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" /> -->
+
+    <!-- Play back data with rosbag -->
+    <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag">
+    </node> -->
+    <!-- for rosbag -> rosbag record -a -->
+</launch>

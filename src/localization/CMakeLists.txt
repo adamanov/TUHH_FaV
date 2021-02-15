@@ -1,43 +1,43 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(localization)
 
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  gazebo_plugins
+  geometry_msgs
   roscpp
+  rospy
+  sensor_msgs
   std_msgs
+  nav_msgs
   message_generation
 )
 
+## Compile as C++11, supported in ROS Kinetic and newer
+# add_compile_options(-std=c++14)
 
 
-add_compile_options(-std=c++14)
+## Generate messages in the 'msg' folder
+# add_message_files(
+#    FILES
+  
+# )
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
-
-find_package(gazebo REQUIRED)
-
-add_message_files(
-    FILES
-    newMsg.msg
-)
+## Generate added messages and services with any dependencies listed here
 generate_messages(
-    DEPENDENCIES
-    std_msgs
+  DEPENDENCIES
+  std_msgs
 )
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
-include_directories(include ${catkin_INCLUDE_DIRS}
-                            ${GAZEBO_INCLUDE_DIRS}
-                            ${Boost_INCLUDE_DIR})
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 catkin_package(
 #  INCLUDE_DIRS include
-  DEPENDS 
-      roscpp 
-      gazebo_ros
-  CATKIN_DEPENDS 
-    message_runtime
+  CATKIN_DEPENDS message_runtime
 )

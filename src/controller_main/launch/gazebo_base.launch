@@ -6,5 +6,3 @@
         <arg name="gui" value="$(arg gui)" />
     </include>
 </launch>
-
-

@@ -1,0 +1,54 @@
+<launch>
+    <arg name="est" default="ekf2" />
+    <arg name="vehicle" default="uuv_bluerov2_heavy" />
+
+    <arg name="sim" default="True" />
+    <param name="sim" type="bool" value="True" />
+    <param name="PID-xy-ON" type="bool" value="False" />
+    <param name="test_path_planning" type="bool" value="False" />
+
+    <param name="EKF_topic_name" type="str" value="/klopsi/mavros/vision_pose/pose_cov" />
+    <param name="weight_folder" type="str" value="~/fav/for_face_detection" />
+
+    <group if="$(arg sim)">
+        <include file="$(find controller)/launch/gazebo.launch"></include>
+    </group>
+
+    <!-- launch the object_detection -->
+    <include file="$(find object_detection)/launch/object_detection.launch"/>
+
+    <!-- launch the face_detection -->
+    <!-- <group if="$(arg sim)">
+        <include file="$(find face_detection)/launch/face_detection_for_sim.launch"/>
+    </group>
+    <group unless="$(arg sim)">
+        <include file="$(find face_detection)/launch/face_detection.launch"/>
+    </group> -->
+
+    <!-- Launch localization algorithm -->
+    <!-- <include file="$(find localization)/launch/launch_localization.launch"></include> -->
+
+
+    <!-- Launch sensor_processor Pkg -->
+    <include file="$(find sensor_processor)/launch/sensor_processor.launch"></include>
+
+    <!-- Launch path_planning PKG -->
+    <include file="$(find path_planning)/launch/path_planning.launch"></include>
+
+    <!-- Launch the nodes of controller Pkg -->
+    <include file="$(find controller)/launch/controller.launch"></include>
+
+    <node name="mixer" pkg="bluerov_sim" type="mixer.py" output="screen" />    
+
+    <!-- Launch the Plots here -->
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
+
+    <!-- start rosbag -->
+    <!-- <node pkg="rosbag" type="record" name="rosbag_record_hrpsys"
+    args="record -o /tmp/hrp2-hrpsys /imu /joint_states /joint_command /force_0 /force_1 /force_2 /force_3 /base_link"/> -->
+
+    <!-- Play back data with rosbag -->
+    <!-- <node pkg="rosbag" type="play" name="player" args="/home/sven/fav/bagfiles/2020-11-24-12-35-00.bag"> 
+    </node> -->
+    <!-- for rosbag -> rosbag record -a -->
+</launch>
