@@ -28,12 +28,13 @@ Build a localization algorithm based on a range to tags in the tank.
 
 ### Final Project: Wet Whale: Rescue mode engaged
 #### Developed Algorithms
+1. Path Planning - online A* Algorithm 
+2. Controller - 4 dof PID
+3. Airtags Detector in order to map the tank
+4. Person Recognition with YOLO
 
-Given: Static Tank (w/o Wall & Obstacle) and final destination.
 
-Continuously calcualte the path, to pass through the hole and avoid detected obstacle.
-
-Arrive to final destination, do Person detection
+<img src="/documents/proposal.png" width="400" height="240" />
 
 - [Detailed task description and Presentation](documents/Group4_Wet_Whale_final_presentation.pdf)
 - [Poster for first 2 Assigment](documents/Final_project_report_20210201.pdf)
