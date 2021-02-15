@@ -15,7 +15,7 @@ Developed PID controller for 4 DoF, which is able to control BluROV for a given 
 ### Assigment-3
 Build a localization algorithm based on a range to tags in the tank.
 
-Developed methods 
+#### Developed methods 
 1.  Least Squared Estimation (LSE). 
 2.  LSE + KF. 
 3.  EKF
@@ -27,10 +27,12 @@ Developed methods
 - [Poster for first 2 Assigment](documents/Poster_Group4.pdf)
 
 ### Final Project: Wet Whale: Rescue mode engaged
-Developed Algorithms
-- Given: Static Tank (w/o Wall & Obstacle) and final destination
-- Continuously calcualte the path, to pass through the hole and avoid detected obstacle
-- Arrive to final destination, do Person detection
+#### Developed Algorithms
+Given: Static Tank (w/o Wall & Obstacle) and final destination.
+
+Continuously calcualte the path, to pass through the hole and avoid detected obstacle.
+
+Arrive to final destination, do Person detection
 
 - [Detailed task description and Presentation](documents/Group4_Wet_Whale_final_presentation.pdf)
 - [Poster for first 2 Assigment](documents/Final_project_report_20210201.pdf)
