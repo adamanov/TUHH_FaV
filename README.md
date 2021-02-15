@@ -12,7 +12,7 @@ Developed PID controller for 4 DoF, which is able to control BluROV for a given 
 
 - [Report](documents/Assignment2_Group4.pdf)
 
-### Assigment-3
+### Assigment-3 -> Wet Whale: Hey, where am I??
 Build a localization algorithm based on a range to tags in the tank.
 
 #### Developed methods 
@@ -26,7 +26,7 @@ Build a localization algorithm based on a range to tags in the tank.
 
 - [Poster for first 2 Assigment](documents/Poster_Group4.pdf)
 
-### Final Project: Wet Whale: Rescue mode engaged
+### Final Project -> Wet Whale: Rescue mode engaged
 #### Developed Algorithms
 1. Path Planning - online A* Algorithm 
 2. Controller - 4 dof PID
