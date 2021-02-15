@@ -31,7 +31,6 @@ Build a localization algorithm based on a range to tags in the tank.
 Given: Static Tank (w/o Wall & Obstacle) and final destination.
 
 Continuously calcualte the path, to pass through the hole and avoid detected obstacle.
-
 Arrive to final destination, do Person detection
 
 - [Detailed task description and Presentation](documents/Group4_Wet_Whale_final_presentation.pdf)
